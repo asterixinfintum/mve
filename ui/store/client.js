@@ -3,12 +3,16 @@ import requester from './requester';
 const { posttoserver, getfromserver } = requester;
 
 export const state = () => ({
-    clienttransactions: []
+    clienttransactions: [],
+    quickcontacts: []
 });
 
 export const mutations = {
     SET_CLIENTTRANSACTIONS(state, data) {
         state.clienttransactions = data;
+    },
+    SET_QUICKCONTACTS(state, data) {
+        state.quickcontacts = data;
     }
 }
 
@@ -94,5 +98,28 @@ export const actions = {
                 reject('fail')
             }
         })
+    },
+    async createcontact({ commit }, body) {
+        return new Promise(async (resolve, reject) => {
+            const token = localStorage.getItem('873__jh6bdjklkjhghn');
+
+            const data = await posttoserver({ token, body, path: `client/addcontact` });
+
+            if (data.success) {
+
+                resolve('done')
+            }
+        })
+    },
+    async getcontacts({ commit }) {
+        const token = localStorage.getItem('873__jh6bdjklkjhghn');
+
+        const data = await getfromserver({ token, path: `client/getcontacts` });
+
+        if (data.success) {
+            const final = data.success.content;
+            console.log(final)
+            commit('SET_QUICKCONTACTS', final)
+        }
     }
 }

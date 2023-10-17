@@ -1,5 +1,5 @@
 <template>
-    <div class="landingoffers">
+    <div class="landingoffers" id="landingoffers">
         <div class="landingoffers__section">
             <div class="landingoffers__sectionone landingoffers__sectioncontainer">
                 <div class="landingoffers__sectionone--card">
@@ -25,7 +25,7 @@
             </div>
 
             <div class="landingoffers-centerbtn">
-                <button class="button jumbotron-btn">Open a IvcStandard account</button>
+                <button class="button jumbotron-btn" @click="$router.push('/auth/signup')">Open a IvcStandard account</button>
             </div>
         </div>
     </div>

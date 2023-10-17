@@ -1,7 +1,12 @@
 <template>
   <div>
-    <div class="overview">
-      <UserHeader />
+    <div class="overview" @click="closedrops">
+      <UserHeader
+        :notifsbodstate="opennotificationsbody"
+        :opennotifsbod="opennotifications"
+        :openprofilebod="openprofiledrop"
+        :profilebod="profilebody"
+      />
 
       <div class="white-background content-body" v-if="loan">
         <div class="apply">
@@ -9,7 +14,7 @@
             <div class="apply__form">
               <div class="overview__transaction--header">
                 <div class="overview__transaction--h2 header-label bottom-margin">
-                  Apply for {{ loan.name }}
+                  Apply for {{ loan.name }} Minumum balance: <span class="orange">${{ loan.minimumaccountbalance }}</span>
                 </div>
               </div>
               <div class="input-area">

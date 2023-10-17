@@ -16,12 +16,10 @@ const userInvestmentSchema = new Schema({
     },
     profit: {
         type: Number,
-        required: true,
         default: 0
     },
     loss: {
         type: Number,
-        required: true,
         default: 0
     },
     status: {

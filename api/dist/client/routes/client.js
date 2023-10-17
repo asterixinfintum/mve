@@ -10,6 +10,7 @@ var _user = _interopRequireDefault(require("../../models/user"));
 var _account = _interopRequireDefault(require("../../models/account"));
 var _card = _interopRequireDefault(require("../../models/card"));
 var _transaction = _interopRequireDefault(require("../../models/transaction"));
+var _usercontact = _interopRequireDefault(require("../../models/usercontact"));
 var _userloan = _interopRequireDefault(require("../models/userloan"));
 var _authenticateToken = _interopRequireDefault(require("../../utils/authenticateToken"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -117,7 +118,7 @@ client.post('/transaction/transfer', _authenticateToken["default"], /*#__PURE__*
           });
           return _context2.abrupt("return");
         case 7:
-          res.status(405).sconsend({
+          res.status(405).send({
             error: 'not alowed'
           });
         case 8:
@@ -203,57 +204,30 @@ client.post('/loanapply', _authenticateToken["default"], /*#__PURE__*/function (
     return _ref4.apply(this, arguments);
   };
 }());
-client.post('/client/viewnotifications', _authenticateToken["default"], function (req, res) {
-  if (req.user && req.user._id) {
-    Notification.markread(req.user._id).then(function (success) {
-      res.status(200).send({
-        success: success
-      });
-    })["catch"](function (error) {
-      res.status(405).send({
-        error: error
-      });
-    });
-    return;
-  }
-  res.status(405).send({
-    error: 'not alowed'
-  });
-});
-client.post('/client/supportcontact', _authenticateToken["default"], function (req, res) {
-  if (req.user && req.user._id) {
-    _user["default"].createmsg(req.user._id, req.body).then(function (success) {
-      res.status(200).send({
-        success: success
-      });
-    })["catch"](function (error) {
-      res.status(405).send({
-        error: error
-      });
-    });
-    return;
-  }
-  res.status(405).send({
-    error: 'not alowed'
-  });
-});
-client.post('/client/joininvestment', _authenticateToken["default"], /*#__PURE__*/function () {
+client.post('/client/viewnotifications', _authenticateToken["default"], /*#__PURE__*/function () {
   var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(req, res) {
     return _regeneratorRuntime().wrap(function _callee5$(_context5) {
       while (1) switch (_context5.prev = _context5.next) {
         case 0:
-          if (req.user && req.user._id) {
-            _account["default"].addinvestmentplan(req.user._id, req.body).then(function (success) {
-              res.status(200).send({
-                success: success
-              });
-            })["catch"](function (error) {
-              res.status(405).send({
-                error: error
-              });
-            });
+          if (!(req.user && req.user._id)) {
+            _context5.next = 3;
+            break;
           }
-        case 1:
+          Notification.markread(req.user._id).then(function (success) {
+            res.status(200).send({
+              success: success
+            });
+          })["catch"](function (error) {
+            res.status(405).send({
+              error: error
+            });
+          });
+          return _context5.abrupt("return");
+        case 3:
+          res.status(405).send({
+            error: 'not alowed'
+          });
+        case 4:
         case "end":
           return _context5.stop();
       }
@@ -261,6 +235,142 @@ client.post('/client/joininvestment', _authenticateToken["default"], /*#__PURE__
   }));
   return function (_x9, _x10) {
     return _ref5.apply(this, arguments);
+  };
+}());
+client.post('/client/supportcontact', _authenticateToken["default"], /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(req, res) {
+    return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+      while (1) switch (_context6.prev = _context6.next) {
+        case 0:
+          if (!(req.user && req.user._id)) {
+            _context6.next = 3;
+            break;
+          }
+          _user["default"].createmsg(req.user._id, req.body).then(function (success) {
+            res.status(200).send({
+              success: success
+            });
+          })["catch"](function (error) {
+            res.status(405).send({
+              error: error
+            });
+          });
+          return _context6.abrupt("return");
+        case 3:
+          res.status(405).send({
+            error: 'not alowed'
+          });
+        case 4:
+        case "end":
+          return _context6.stop();
+      }
+    }, _callee6);
+  }));
+  return function (_x11, _x12) {
+    return _ref6.apply(this, arguments);
+  };
+}());
+client.post('/client/joininvestment', _authenticateToken["default"], /*#__PURE__*/function () {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(req, res) {
+    return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+      while (1) switch (_context7.prev = _context7.next) {
+        case 0:
+          if (!(req.user && req.user._id)) {
+            _context7.next = 3;
+            break;
+          }
+          _account["default"].addinvestmentplan(req.user._id, req.body).then(function (success) {
+            res.status(200).send({
+              success: success
+            });
+          })["catch"](function (error) {
+            res.status(405).send({
+              error: error
+            });
+          });
+          return _context7.abrupt("return");
+        case 3:
+          res.status(405).send({
+            error: 'not alowed'
+          });
+        case 4:
+        case "end":
+          return _context7.stop();
+      }
+    }, _callee7);
+  }));
+  return function (_x13, _x14) {
+    return _ref7.apply(this, arguments);
+  };
+}());
+client.post('/client/addcontact', _authenticateToken["default"], /*#__PURE__*/function () {
+  var _ref8 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(req, res) {
+    return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+      while (1) switch (_context8.prev = _context8.next) {
+        case 0:
+          if (!(req.user && req.user._id)) {
+            _context8.next = 3;
+            break;
+          }
+          _usercontact["default"].createcontact(_objectSpread({
+            userid: req.user._id
+          }, req.body)).then(function (success) {
+            res.status(200).send({
+              success: success
+            });
+          })["catch"](function (error) {
+            res.status(405).send({
+              error: error
+            });
+          });
+          return _context8.abrupt("return");
+        case 3:
+          res.status(405).send({
+            error: 'not alowed'
+          });
+        case 4:
+        case "end":
+          return _context8.stop();
+      }
+    }, _callee8);
+  }));
+  return function (_x15, _x16) {
+    return _ref8.apply(this, arguments);
+  };
+}());
+client.get('/client/getcontacts', _authenticateToken["default"], /*#__PURE__*/function () {
+  var _ref9 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(req, res) {
+    return _regeneratorRuntime().wrap(function _callee9$(_context9) {
+      while (1) switch (_context9.prev = _context9.next) {
+        case 0:
+          if (!(req.user && req.user._id)) {
+            _context9.next = 3;
+            break;
+          }
+          _usercontact["default"].getusercontacts({
+            userid: req.user._id
+          }).then(function (success) {
+            res.status(200).send({
+              success: success
+            });
+          })["catch"](function (error) {
+            res.status(405).send({
+              error: error
+            });
+          });
+          return _context9.abrupt("return");
+        case 3:
+          res.status(405).send({
+            error: 'not alowed'
+          });
+        case 4:
+        case "end":
+          return _context9.stop();
+      }
+    }, _callee9);
+  }));
+  return function (_x17, _x18) {
+    return _ref9.apply(this, arguments);
   };
 }());
 var _default = exports["default"] = client;

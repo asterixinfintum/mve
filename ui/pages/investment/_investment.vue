@@ -1,7 +1,12 @@
 <template>
   <div>
     <div class="overview">
-      <UserHeader />
+      <UserHeader
+        :notifsbodstate="opennotificationsbody"
+        :opennotifsbod="opennotifications"
+        :openprofilebod="openprofiledrop"
+        :profilebod="profilebody"
+      />
 
       <div class="white-background content-body">
         <div class="apply">
@@ -98,7 +103,9 @@ export default {
         .then(() => {
           this.toggleverbiage(null);
           this.offspinner();
-          this.setdonemsg(`Process completed. You can track your progress in your account over dashboard`);
+          this.setdonemsg(
+            `Process completed. You can track your progress in your account over dashboard`
+          );
         })
         .catch((error) => {});
     },

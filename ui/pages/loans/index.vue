@@ -1,7 +1,12 @@
 <template>
   <div>
-    <div class="overview">
-      <UserHeader />
+    <div class="overview" @click="closedrops">
+      <UserHeader
+        :notifsbodstate="opennotificationsbody"
+        :opennotifsbod="opennotifications"
+        :openprofilebod="openprofiledrop"
+        :profilebod="profilebody"
+      />
 
       <SidePopup
         :header="header"

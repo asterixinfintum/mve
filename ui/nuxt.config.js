@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'ui',
+    title: 'ivcstandard',
     htmlAttrs: {
       lang: 'Berc'
     },

@@ -92,8 +92,18 @@ export const actions = {
             }
         });
     },
-    logout() {
+    logout({ commit }) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                localStorage.removeItem('873__jh6bdjklkjhghn');
+                commit('SET_CLIENT', null);
+                commit('SET_CLIENT_TOKEN', null);
 
+                resolve('');
+            } catch (error) {
+
+            }
+        })
     },
     showautherror({ commit }, autherror) {
         commit('SET_AUTH_ERROR', autherror);
@@ -113,16 +123,16 @@ export const actions = {
                     const { account, user, cards } = content;
                     const { _id, email, firstname, lastname, phonenumber, notifications, tokens } = user;
 
-                    const client = { 
-                        _id, 
-                        email, 
-                        firstname, 
-                        lastname, 
-                        phonenumber, 
-                        notifications, 
-                        token: tokens[0], 
+                    const client = {
+                        _id,
+                        email,
+                        firstname,
+                        lastname,
+                        phonenumber,
+                        notifications,
+                        token: tokens[0],
                     }
-                    
+
                     commit('SET_ACCOUNT', account);
                     commit('SET_CARDS', cards);
                     commit('SET_CLIENT', client);

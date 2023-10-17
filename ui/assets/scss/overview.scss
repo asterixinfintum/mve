@@ -305,6 +305,7 @@ $overview-area-padding: #{scaleValue(30)};
 
     &__quickcontacts {
         display: flex;
+        flex-wrap: wrap;
 
         &--add {
             border-radius: 100%;
@@ -328,6 +329,8 @@ $overview-area-padding: #{scaleValue(30)};
             display: flex;
             flex-direction: column;
             align-items: center;
+            width: #{scaleValue(100)};
+            overflow: hidden;
 
             & figure {
                 margin-bottom: #{scaleValue(10)};

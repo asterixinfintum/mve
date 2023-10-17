@@ -1,11 +1,16 @@
 <template>
   <div>
-    <div class="overview">
-      <UserHeader />
+    <div class="overview" @click="closedrops">
+      <UserHeader
+        :notifsbodstate="opennotificationsbody"
+        :opennotifsbod="opennotifications"
+        :openprofilebod="openprofiledrop"
+        :profilebod="profilebody"
+      />
 
       <div class="side-photo">
         <figure>
-            <img src="@/assets/imgs/savingspagephoto.png"/>
+          <img src="@/assets/imgs/savingspagephoto.png" />
         </figure>
       </div>
 

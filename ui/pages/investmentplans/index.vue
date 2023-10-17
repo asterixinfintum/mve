@@ -1,7 +1,12 @@
 <template>
   <div>
-    <div class="overview">
-      <UserHeader />
+    <div class="overview" @click="closedrops">
+      <UserHeader
+        :notifsbodstate="opennotificationsbody"
+        :opennotifsbod="opennotifications"
+        :openprofilebod="openprofiledrop"
+        :profilebod="profilebody"
+      />
 
       <SidePopup
         :header="header"
@@ -70,7 +75,7 @@ export default {
       header: "",
       text: "",
       buttontext: "",
-      currentinvest: ""
+      currentinvest: "",
     };
   },
   mixins: [global],
@@ -86,7 +91,7 @@ export default {
     setcurrent({ name, requirement, description, _id }) {
       this.header = name;
       this.text = description;
-      this.currentinvest = _id
+      this.currentinvest = _id;
     },
   },
 };

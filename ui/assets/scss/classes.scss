@@ -85,6 +85,12 @@
             }
         }
     }
+
+    &.transparent {
+        background: transparent;
+        padding: none;
+        border: 1px solid $primary-orange;
+    }
 }
 
 a {

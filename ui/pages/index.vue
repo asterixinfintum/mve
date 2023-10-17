@@ -6,7 +6,7 @@
       <Jumbotron />
       <LandingJoin />
       <LandingOffers />
-      <div class="curvedoffer">
+      <div class="curvedoffer" id="save">
         <div class="curvedoffer__body one">
           <div class="curvedoffer__image">
             <figure class="curvedoffer__image--fig">
@@ -28,7 +28,7 @@
               </p>
             </div>
             <div class="curvedoffer__copy--btn">
-              <button class="button">Saving with IvcStandard</button>
+             <!-- <button class="button">Saving with IvcStandard</button>-->
             </div>
           </div>
         </div>
@@ -91,7 +91,7 @@
               </p>
             </div>
             <div class="curvedoffer__copy--btn">
-              <button class="button">Explore IvcStandard Premium</button>
+              <!--<button class="button">Explore IvcStandard Premium</button>-->
             </div>
           </div>
         </div>
@@ -118,7 +118,7 @@
               </p>
             </div>
             <div class="curvedoffer__copy--btn">
-              <button class="button">Explore IvcStandard Plus</button>
+              <!--<button class="button">Explore IvcStandard Plus</button>-->
             </div>
           </div>
         </div>
@@ -140,13 +140,13 @@
               </p>
             </div>
             <div class="curvedoffer__copy--btn">
-              <button class="button">Travelling with IvcStandard</button>
+             <!-- <button class="button">Travelling with IvcStandard</button>-->
             </div>
           </div>
         </div>
       </div>
 
-      <div class="curvedoffer">
+      <div class="curvedoffer" id="investments">
         <div class="curvedoffer__body six top-margin">
           <div class="curvedoffer__image">
             <figure class="curvedoffer__image--fig">
@@ -168,7 +168,7 @@
             </div>
 
             <div class="curvedoffer__copy--btn">
-              <button class="button">Explore IvcStandard Flex</button>
+              <!--<button class="button">Explore IvcStandard Flex</button>-->
             </div>
 
             <div class="curvedoffer__copy--content">
@@ -194,7 +194,7 @@
               <img src="@/assets/imgs/Borrowing.avif" />
             </figure>
           </div>
-          <div class="curvedoffer__copy">
+          <div class="curvedoffer__copy" id="loans">
             <h3 class="curvedoffer__copy--h3">Loans and Overdrafts</h3>
 
             <div class="curvedoffer__copy--content">
@@ -206,7 +206,7 @@
             </div>
 
             <div class="curvedoffer__copy--btn">
-              <button class="button">Borrowing with IvcStandard</button>
+              <!--<button class="button">Borrowing with IvcStandard</button>-->
             </div>
 
             <div class="curvedoffer__copy--content">
@@ -245,7 +245,7 @@
               </p>
 
               <div class="curvedoffer__copy--btn">
-                <button class="button">Protect yourself from fraud</button>
+                <!--<button class="button">Protect yourself from fraud</button>-->
               </div>
             </div>
           </div>
@@ -269,7 +269,7 @@
               </p>
 
               <div class="curvedoffer__copy--btn">
-                <button class="button">Find out more</button>
+                <button class="button" @click="$router.push('/auth/signup')">Sign up</button>
               </div>
             </div>
           </div>
@@ -297,7 +297,7 @@
         </div>
       </div>
 
-      <div class="curvedoffer">
+      <div class="curvedoffer" id="partners">
         <div class="curvedoffer__body six top-margin">
           <div class="curvedoffer__brands">
             <div class="curvedoffer__copy no-flex">
@@ -382,7 +382,7 @@
         </div>
       </div>
 
-      <div class="curvedoffer">
+      <div class="curvedoffer" id="reviews">
         <div class="curvedoffer__body top-margin">
           <div class="curvedoffer__reviews">
             <div class="curvedoffer__copy no-flex">
@@ -436,7 +436,7 @@
       </div>
 
       <footer class="footer">
-        <div class="footer__header">
+       <!-- <div class="footer__header">
           <h4>IvcStandard</h4>
         </div>
         <div class="footer__top">
@@ -468,7 +468,7 @@
               <NuxtLink to="/"> Cookie Notice </NuxtLink>
             </div>
           </div>
-        </div>
+        </div>-->
         <div class="footer__bottom">
           <h3 class="footer__bottom--h3">Existing customers can get help via the app</h3>
           <p class="footer__bottom--p">

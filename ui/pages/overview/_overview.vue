@@ -1,10 +1,19 @@
 <template>
   <div>
-    <div class="overview" @click="closenotifications">
+    <div class="overview" @click="closedrops">
       <UserHeader
         :notifsbodstate="opennotificationsbody"
         :opennotifsbod="opennotifications"
+        :openprofilebod="openprofiledrop"
+        :profilebod="profilebody"
       />
+
+      <div v-if="createcontactformopen">
+        <CreateContactForm
+          :open="opencreatecontactform"
+          :close="closecreatecontactform"
+        />
+      </div>
 
       <div v-if="confirmationmsg">
         <Confirm
@@ -159,13 +168,15 @@
                     </span>
                   </div>
                 </div>
-                <div class="overview__savingbottom--progress">
+                <!--<div class="overview__savingbottom--progress">
                   <div class="overview__savingbottom--progresscolor"></div>
-                </div>
+                </div>-->
                 <div class="overview__savingbottom--spent">
                   <span class="fontweight-5">${{ account.savingsaggregate }}</span>
                   <span class="normblack fontweight-4">saved to</span>
-                  <span class="orange fontweight-5">${{ account.savingsaggregatetarget }}</span>
+                  <span class="orange fontweight-5"
+                    >${{ account.savingsaggregatetarget }}</span
+                  >
                 </div>
               </div>
             </div>
@@ -200,20 +211,18 @@
                   </svg>
                 </span>
                 <label class="tinylabel">Income</label>
-                <span class="normblack fontweight-5"
-                  >${{ account.income }}</span
-                >
+                <span class="normblack fontweight-5">${{ account.income }}</span>
               </div>
             </div>
 
-            <div class="overview__withddep">
+            <!--<div class="overview__withddep">
               <button class="button orange-btn-faint fontweight-3 half-flex-space">
                 Withdraw
               </button>
               <button class="button orange-btn fontweight-3 half-flex-space">
                 Deposit
               </button>
-            </div>
+            </div>-->
           </div>
 
           <div class="overview__right">
@@ -387,27 +396,27 @@
                       Quick contacts
                     </div>
                   </div>
-
-                  <span class="svgspan faint">
-                    <svg class="feature__icon">
-                      <use
-                        xlink:href="@/assets/imgs/sprite.svg#icon-more-horizontal"
-                      ></use>
-                    </svg>
-                  </span>
                 </div>
 
                 <div class="overview__quickcontacts">
-                  <div class="overview__quickcontacts--contact">
+                  <div
+                    class="overview__quickcontacts--contact"
+                    v-for="quickcontact in quickcontacts"
+                  >
                     <figure class="overview__quickcontacts--add">
                       <svg class="feature__icon">
                         <use xlink:href="@/assets/imgs/sprite.svg#icon-user"></use>
                       </svg>
                     </figure>
-                    <label class="smlabel">Mike Dean</label>
+                    <label class="smlabel capitalize">{{
+                      quickcontact.contactname
+                    }}</label>
                   </div>
 
-                  <div class="overview__quickcontacts--add">
+                  <div
+                    class="overview__quickcontacts--add"
+                    @click="opencreatecontactform"
+                  >
                     <svg class="feature__icon">
                       <use xlink:href="@/assets/imgs/sprite.svg#icon-plus"></use>
                     </svg>
@@ -429,7 +438,7 @@
                 </div>
 
                 <div class="overview__savingsplans">
-                  <div class="overview__savingsplan">
+                  <!--<div class="overview__savingsplan">
                     <div class="overview__savingsplan--header">
                       <span class="overview__savingsplan--headersvg">
                         <svg class="feature__icon">
@@ -504,6 +513,11 @@
                       <button class="button orange-btn fontweight-3 half-flex-space">
                         Join
                       </button>
+                    </div>
+                  </div>-->
+                  <div v-if="account">
+                    <div v-if="!account.savings.length">
+                      <Empty :item="'Savings'" />
                     </div>
                   </div>
                 </div>
@@ -531,6 +545,7 @@ export default {
       accountnoerror: false,
       amounttosenderror: false,
       cardview: "visa",
+      createcontactformopen: false,
     };
   },
   mixins: [global],
@@ -557,6 +572,9 @@ export default {
 
       return false;
     },
+  },
+  mounted() {
+    this.getcontacts();
   },
   watch: {
     nameofbnk(newval, oldval) {
@@ -588,17 +606,14 @@ export default {
     },
   },
   methods: {
+    opencreatecontactform() {
+      this.createcontactformopen = true;
+    },
+    closecreatecontactform() {
+      this.createcontactformopen = false;
+    },
     togglecardview(cardview) {
       this.cardview = cardview;
-    },
-    opennotifications() {
-      this.opennotificationsbody = true;
-      this.marknotificationsasread().then(() => {
-        this.getusernotifications(this.user);
-      });
-    },
-    closenotifications() {
-      this.opennotificationsbody = false;
     },
     submittransfer() {
       const { nameofbnk, country, accountno, amounttosend } = this;

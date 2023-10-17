@@ -7,7 +7,8 @@ export default {
             confirmationmsg: null,
             comfimationsbj: null,
             opennotificationsbody: false,
-            msgpopupopen: false
+            msgpopupopen: false,
+            profilebody: false,
         }
     },
     computed: {
@@ -35,7 +36,7 @@ export default {
             generalnotifications: state => state.items.generalnotifications,
             notifications: state => state.items.usernotifications,
             usermsgs: state => state.admin.usermsgs,
-            
+            quickcontacts: state => state.client.quickcontacts
         }),
         user() {
             return this.$route.query.user ? this.$route.query.user : this.$route.params.overview;
@@ -111,22 +112,31 @@ export default {
         ...mapActions('auth', ['checkauthdup', 'register', 'login', 'logout', 'showautherror', 'removeautherror', 'getcurrentclient']),
         ...mapActions('loading', ['triggerloading', 'endloading', 'onspinner', 'offspinner', 'toggleverbiage', 'setdonemsg']),
         ...mapActions('admin', [
-            'adminentry', 
-            'admincreate', 
-            'getusers', 
-            'getuser', 
-            'getusertransactions', 
-            'createnotification', 
-            'updateuserprofile', 
-            'updateusercard', 
-            'updateuseraccount', 
-            'createusertransaction', 
-            'getusermsgs', 
-            'createloanitem', 
+            'adminentry',
+            'admincreate',
+            'getusers',
+            'getuser',
+            'getusertransactions',
+            'createnotification',
+            'updateuserprofile',
+            'updateusercard',
+            'updateuseraccount',
+            'createusertransaction',
+            'getusermsgs',
+            'createloanitem',
             'createinvestmentitem',
             'createsavingsitem'
         ]),
-        ...mapActions('client', ['createtransfer', 'gettransfers', 'applyforloan', 'marknotificationsasread', 'supportcontact', 'joininvestmentprog']),
+        ...mapActions('client', [
+            'createtransfer', 
+            'gettransfers', 
+            'applyforloan', 
+            'marknotificationsasread', 
+            'supportcontact', 
+            'joininvestmentprog',
+            'createcontact',
+            'getcontacts'
+        ]),
         ...mapActions('items', ['getloans', 'getinvestmentplans', 'getsavingsplans', 'getnotifications', 'getusernotifications']),
         toroute(route) {
             const { client } = this;
@@ -217,6 +227,19 @@ export default {
         },
         closemsgform() {
             this.msgpopupopen = false;
-        }
+        },
+        openprofiledrop() {
+            this.profilebody = true;
+        },
+        opennotifications() {
+            this.opennotificationsbody = true;
+            this.marknotificationsasread().then(() => {
+                this.getusernotifications(this.user);
+            });
+        },
+        closedrops() {
+            this.opennotificationsbody = false;
+            this.profilebody = false;
+        },
     }
 }

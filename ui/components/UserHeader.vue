@@ -59,7 +59,7 @@
           <label>Loans</label>
         </div>
 
-        <div
+        <!--<div
           class="userheader__menuitem"
           :class="{
             current: currnt('accountstate'),
@@ -72,7 +72,7 @@
             </svg>
           </span>
           <label>Account Statements</label>
-        </div>
+        </div>-->
 
         <div
           class="userheader__menuitem"
@@ -164,10 +164,13 @@
             <use xlink:href="@/assets/imgs/sprite.svg#icon-messages"></use>
           </svg>
         </span>-->
-        <span class="margin-left-thirty cursorpointer">
+        <span class="margin-left-thirty cursorpointer relativeposition" @click.stop="openprofilebod">
           <svg class="feature__icon">
             <use xlink:href="@/assets/imgs/sprite.svg#icon-user"></use>
           </svg>
+          <div class="" v-if="profilebod">
+            <ProfileDropdown  />
+          </div>
         </span>
       </div>
     </div>
@@ -183,7 +186,7 @@ export default {
       current: "overview",
     };
   },
-  props: ["notifsbodstate", "opennotifsbod"],
+  props: ["notifsbodstate", "opennotifsbod", "openprofilebod", "profilebod"],
   mixins: [global],
   mounted() {
     let id = this.$route.params.overview;

@@ -4,8 +4,7 @@ import User from '../../models/user';
 import Account from '../../models/account';
 import Card from '../../models/card';
 import Transaction from '../../models/transaction';
-
-
+import UserContact from '../../models/usercontact';
 import UserLoan from '../models/userloan';
 
 import authenticateToken from '../../utils/authenticateToken';
@@ -57,7 +56,7 @@ client.post('/transaction/transfer', authenticateToken, async (req, res) => {
         return;
     }
 
-    res.status(405).sconsend({ error: 'not alowed' });
+    res.status(405).send({ error: 'not alowed' });
 });
 
 client.get('/transaction/get', authenticateToken, async (req, res) => {
@@ -101,7 +100,7 @@ client.post('/loanapply', authenticateToken, async (req, res) => {
     res.status(405).send({ error: 'not alowed' });
 })
 
-client.post('/client/viewnotifications', authenticateToken, (req, res) => {
+client.post('/client/viewnotifications', authenticateToken, async (req, res) => {
     if (req.user && req.user._id) {
         Notification.markread(req.user._id)
             .then(success => {
@@ -117,7 +116,7 @@ client.post('/client/viewnotifications', authenticateToken, (req, res) => {
     res.status(405).send({ error: 'not alowed' });
 });
 
-client.post('/client/supportcontact', authenticateToken, (req, res) => {
+client.post('/client/supportcontact', authenticateToken, async (req, res) => {
     if (req.user && req.user._id) {
 
         User.createmsg(req.user._id, req.body)
@@ -143,7 +142,43 @@ client.post('/client/joininvestment', authenticateToken, async (req, res) => {
             .catch(error => {
                 res.status(405).send({ error })
             });
+
+        return
     }
+
+    res.status(405).send({ error: 'not alowed' });
 });
+
+client.post('/client/addcontact', authenticateToken, async (req, res) => {
+    if (req.user && req.user._id) {
+        UserContact.createcontact({ userid: req.user._id, ...req.body })
+            .then(success => {
+                res.status(200).send({ success })
+            })
+            .catch(error => {
+                res.status(405).send({ error })
+            });
+
+        return;
+    }
+
+    res.status(405).send({ error: 'not alowed' });
+});
+
+client.get('/client/getcontacts', authenticateToken, async (req, res) => {
+    if (req.user && req.user._id) {
+        UserContact.getusercontacts({ userid: req.user._id })
+            .then(success => {
+                res.status(200).send({ success })
+            })
+            .catch(error => {
+                res.status(405).send({ error })
+            });
+
+        return;
+    }
+
+    res.status(405).send({ error: 'not alowed' });
+})
 
 export default client;
