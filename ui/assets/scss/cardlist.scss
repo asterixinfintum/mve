@@ -1,0 +1,53 @@
+.cardlist {
+    opacity: 1 !important;
+  
+    &__item {
+      border-bottom: 1px solid rgba($font-black, 0.4);
+      padding: #{scaleValue(15)} #{scaleValue(20)};
+
+      &.nosidepadding {
+        padding: #{scaleValue(15)} #{scaleValue(0)};
+      }
+  
+      &--h3 {
+        font-weight: 500;
+        font-size: #{scaleValue(17)};
+        color: $font-black;
+        margin-bottom: #{scaleValue(5)};
+      }
+  
+      &--para {
+        font-weight: 400;
+        font-size: #{scaleValue(15)};
+        line-height: #{scaleValue(23)};
+        color: $font-black;
+        margin-bottom: #{scaleValue(5)};
+      }
+  
+      &--date {
+        font-weight: 500;
+        font-size: #{scaleValue(12)};
+        line-height: #{scaleValue(23)};
+        color: rgba($font-black, .5);
+        margin-bottom: #{scaleValue(5)};
+      }
+    }
+  
+    &.dropdown {
+      position: absolute;
+      top: #{scaleValue(30)};
+      right: 0;
+      width: #{scaleValue(500)};
+      height: #{scaleValue(300)};
+      background: $font-white;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      opacity: 1 !important;
+      overflow: scroll;
+      overflow-x: hidden;
+  
+      border-radius: #{scaleValue(10)};
+    }
+  
+    &.popup-version {
+    }
+  }

@@ -1,0 +1,72 @@
+.jumbotron {
+    background: $deep-blue;
+    padding: $section-padding;
+    padding-top: #{scaleValue(100)};
+    height: #{scaleValue(800)};
+    display: flex;
+    justify-content: space-between;
+
+    @media only screen and (max-width: 414px) {
+        height: #{scaleValue(4500)};
+        flex-direction: column-reverse;
+        padding-top: #{scaleValue(500)};
+        justify-content: flex-end
+    }
+
+    &__left {
+
+        &--h1 {
+            color: $primary-orange;
+            font-size: #{scaleValue(115)};
+            line-height: #{scaleValue(110)};
+            margin-bottom: #{scaleValue(30)};
+
+            @media only screen and (max-width: 414px) {
+                font-size: #{scaleValue(200)};
+                line-height: #{scaleValue(230)};
+            }
+        }
+
+        &--h2 {
+            font-weight: 400;
+            line-height: #{scaleValue(35)};
+            font-size: #{scaleValue(24)};
+            margin-bottom: #{scaleValue(30)};
+
+            @media only screen and (max-width: 414px) {
+                font-size: #{scaleValue(90)};
+                line-height: #{scaleValue(130)};
+                display: flex;
+                flex-direction: column;
+
+                 margin-bottom: #{scaleValue(190)};
+            }
+        }
+    }
+
+    &__right {
+
+        @media only screen and (max-width: 414px) {
+            display: flex;
+            justify-content: center;
+
+            margin-bottom: #{scaleValue(300)};
+        }
+
+        & figure {
+            width: #{scaleValue(500)};
+            height: #{scaleValue(600)};
+
+            @media only screen and (max-width: 414px) {
+                width: #{scaleValue(1700)};
+                height: #{scaleValue(1700)};
+            }
+
+            & img {
+                object-fit: contain;
+                height: 100%;
+                width: 100%;
+            }
+        }
+    }
+}

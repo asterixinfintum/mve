@@ -1,0 +1,388 @@
+$overview-area-padding: #{scaleValue(30)};
+
+.overview {
+    background: rgba($primary-orange, .1);
+    color: $font-black;
+    padding-top: #{scaleValue(100)};
+    min-height: 110vh;
+
+    &__content {}
+
+    &__body {
+        display: flex;
+        justify-content: center;
+        padding: $overview-padding;
+
+        flex-grow: 0;
+    }
+
+    &__card {
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: column;
+        margin-bottom: #{scaleValue(40)};
+        position: relative;
+
+        &--img {
+            position: relative;
+            height: #{scaleValue(200)};
+            width: 100%;
+            transform: translateX(#{scaleValue(-16)});
+            margin-top: #{scaleValue(20)};
+        }
+
+        &--background {
+            object-fit: cover;
+            height: 100%;
+            position: absolute;
+            width: 100%;
+        }
+
+        &--platformlogo {
+            position: absolute;
+            left:#{scaleValue(21)};
+            top: #{scaleValue(37)};
+            height: #{scaleValue(40)};
+            width: #{scaleValue(40)};
+
+            & img {
+                object-fit: cover;
+                height: 100%;
+                position: absolute;
+                width: 100%;
+            }
+        }
+
+        &--cardlogo {
+            position: absolute;
+            right:#{scaleValue(26)};
+            bottom: #{scaleValue(37)};
+            height: #{scaleValue(40)};
+            width: #{scaleValue(60)};
+
+            & img {
+                object-fit: contain;
+                height: 100%;
+                position: absolute;
+                width: 100%;
+            }
+        }
+
+        &--text {
+            position: absolute;
+            height: 100%;
+            width: 95.5%;
+            left: #{scaleValue(10)};
+            background: rgba($font-black, .4);
+            z-index: 3;
+            border-radius: 1rem;
+            color: $font-white;
+            padding: #{scaleValue(20)};
+            padding-top: #{scaleValue(100)};
+        }
+
+        &--textarea {
+            display: flex;
+            justify-content: space-between;
+
+            &:nth-child(1) {
+                margin-bottom: #{scaleValue(20)};
+            }
+
+            & label {
+
+                &.name {
+                    color: $primary-orange;
+                    font-size: #{scaleValue(15)};
+                }
+
+                &.date {
+                    font-size: #{scaleValue(14)};
+                    opacity: .6;
+                }
+
+                &.cardnum {
+                    font-size: #{scaleValue(16)};
+                    opacity: .6;
+                }
+            }
+        }
+    }
+
+    &__yourfunds {
+        line-height: #{scaleValue(30)};
+        padding-bottom: #{scaleValue(20)};
+
+        &--header {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        &--subject {
+            display: flex;
+            justify-content: space-between;
+
+            & h2 {
+                font-size: #{scaleValue(19)};
+            }
+        }
+    }
+
+    &__left {
+        flex-shrink: 0;
+        padding: $overview-area-padding;
+        border-radius: $border-radius;
+        margin-right: #{scaleValue(19)};
+
+        flex-grow: 0;
+        height: #{scaleValue(920)};
+        background: $font-white;
+    }
+
+    &__savings {
+        border: $faint-black-border;
+        border-radius: $border-radius;
+        width: #{scaleValue(380)};
+        height: #{scaleValue(200)};
+        padding: $overview-padding;
+    }
+
+    &__savingstop {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: #{scaleValue(23)};
+
+        &--card {
+            display: flex;
+            flex-direction: column;
+            line-height: #{scaleValue(23)};
+        }
+    }
+
+    &__savingbottom {
+        line-height: #{scaleValue(40)};
+
+        &--head {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: #{scaleValue(30)};
+
+            & svg {
+                height: #{scaleValue(20)};
+                width: #{scaleValue(20)};
+            }
+        }
+
+        &--headarea {
+            display: flex;
+            align-items: center;
+        }
+
+        &--progress {
+            border-radius: 3rem;
+            width: 100%;
+            border-radius: 3rem;
+            background: rgba($primary-orange, .3);
+        }
+
+        &--progresscolor {
+            width: 0;//80%;
+            height: #{scaleValue(5)};
+            background: $primary-orange;
+            border-radius: 3rem;
+        }
+    }
+
+    &__finsum {
+        display: flex;
+        justify-content: space-between;
+        margin-top: #{scaleValue(20)};
+    }
+
+    &__finsumcard {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        border: $faint-black-border;
+        border-radius: $border-radius;
+        height: #{scaleValue(140)};
+        width: #{scaleValue(115)};
+        padding: #{scaleValue(20)};
+
+        & span {
+
+            &.normblack {
+                font-size: #{scaleValue(13)};
+            }
+
+            & svg {
+                fill: rgba($primary-orange, .5);
+                height: #{scaleValue(15)};
+                width: #{scaleValue(15)};
+            }
+        }
+    }
+
+    &__withddep {
+        display: flex;
+        justify-content: space-between;
+        margin-top: #{scaleValue(30)};
+
+        &.center {
+            justify-content: center;
+        }
+
+        & button {
+            font-size: #{scaleValue(13)};
+
+            &:hover {
+                font-size: #{scaleValue(13)};
+                background: rgba($primary-orange, .4);
+                font-weight: 300;
+            }
+        }
+    }
+
+    &__right {
+        flex-grow: 0;
+    }
+
+    &__transaction {
+        width: #{scaleValue(480)};
+        min-height: #{scaleValue(300)};
+        flex-grow: 0;
+        margin-bottom: #{scaleValue(19)};
+        flex-shrink: 0;
+        padding: $overview-area-padding;
+        border-radius: $border-radius;
+        margin-right: #{scaleValue(19)};
+
+        &.quickcontacts {
+            min-height: #{scaleValue(100)};
+            height: #{scaleValue(200)};
+        }
+
+        &--list {
+            margin-top: #{scaleValue(40)};
+        }
+    }
+
+    &__transaction--list-header,
+    &__transaction--list-item {
+        display: grid;
+        grid-template-columns: 1fr .8fr .5fr .5fr;
+        margin-top: #{scaleValue(20)};
+
+        &.transactions-page {
+            grid-template-columns: .5fr .8fr .5fr .5fr .5fr;
+        }
+
+        &.item-area {
+
+            & span {
+                font-size: #{scaleValue(15)};
+                display: flex;
+                align-items: center;
+
+                &.status {
+
+                    & label {
+                        border-radius: #{scaleValue(7)};
+                        display: inline-block;
+                        padding: #{scaleValue(5)};
+                        font-size: #{scaleValue(13)};
+                    }
+                }
+            }
+        }
+    }
+
+    &__rightbottom {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__quickcontacts {
+        display: flex;
+
+        &--add {
+            border-radius: 100%;
+            height: #{scaleValue(50)};
+            width: #{scaleValue(50)};
+            background: rgba($primary-orange, .1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            margin-right: #{scaleValue(10)};
+
+            & svg {
+                fill: $primary-orange;
+                height: #{scaleValue(30)};
+                width: #{scaleValue(30)};
+            }
+        }
+
+        &--contact {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            & figure {
+                margin-bottom: #{scaleValue(10)};
+
+                & svg {
+                    fill: $primary-orange;
+                    height: #{scaleValue(20)};
+                    width: #{scaleValue(20)};
+                }
+            }
+        }
+    }
+
+    &__savingsplan {
+        margin-bottom: #{scaleValue(19)};
+        border: $faint-black-border;
+        padding: #{scaleValue(20)};
+        border-radius: #{scaleValue(4)};
+        position: relative;
+        z-index: 3;
+
+        &.overlaybackground {
+            background: rgba($font-black, .8);
+            color: $font-white !important;
+        }
+
+        &--header {
+            display: flex;
+            align-items: center;
+
+            &.alignup {
+                align-items: flex-start;
+            }
+
+            & svg {
+                fill: rgba($primary-orange, .5);
+                height: #{scaleValue(20)};
+                width: #{scaleValue(20)};
+            }
+        }
+
+        &--headersvg {
+            background: rgba($font-black, .08);
+            border-radius: #{scaleValue(3)};
+            padding: #{scaleValue(10)};
+        }
+
+        &--headertext {
+            margin-left: #{scaleValue(15)};
+            line-height: #{scaleValue(30)};
+
+            & h3 {
+                font-weight: 400;
+                font-size: #{scaleValue(15)};
+            }
+        }
+    }
+}

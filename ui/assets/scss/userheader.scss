@@ -1,0 +1,84 @@
+.userheader {
+    display: flex;
+    justify-content: space-between;
+    background: $font-white;
+    color: rgba($font-black, .5);
+    padding: #{scaleValue(30)} #{scaleValue(50)};
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+
+    &__logoarea {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        & figure {
+            height: #{scaleValue(50)};
+            width: #{scaleValue(50)};
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            & img {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+
+    &__menu {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__menuitem {
+        font-size: #{scaleValue(15)};
+        margin: 0 #{scaleValue(15)};
+        cursor: pointer;
+        padding: #{scaleValue(7)};
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        & span {
+
+            & svg {
+                fill: rgba($font-black, .5);
+                height: #{scaleValue(15)};
+                width: #{scaleValue(15)};
+            }
+        }
+    }
+
+    &__userarea {
+        display: flex;
+        align-items: center;
+
+        & span {
+            display: flex;
+            align-items: center;
+            border-radius: 100%;
+            justify-content: center;
+            border: 1px solid $primary-orange;
+            height: #{scaleValue(40)};
+            width: #{scaleValue(40)};
+
+            & svg {
+                fill: $primary-orange;
+                height: #{scaleValue(15)};
+                width: #{scaleValue(15)};
+            }
+        }
+
+        & label {
+            color: $primary-orange;
+            font-size: #{scaleValue(15)};
+            margin-left: #{scaleValue(15)};
+            font-weight: 500;
+        }
+    }
+}
