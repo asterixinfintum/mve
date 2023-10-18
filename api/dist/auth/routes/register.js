@@ -45,7 +45,7 @@ register.post('/signup', /*#__PURE__*/function () {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
           _req$body2 = req.body, firstname = _req$body2.firstname, lastname = _req$body2.lastname, email = _req$body2.email, phonenumber = _req$body2.phonenumber, password = _req$body2.password;
-          _user["default"].create({
+          _user["default"].register({
             firstname: firstname,
             lastname: lastname,
             email: email,
@@ -56,6 +56,7 @@ register.post('/signup', /*#__PURE__*/function () {
               success: success
             });
           })["catch"](function (error) {
+            console.log(error);
             res.status(405).send({
               error: error
             });

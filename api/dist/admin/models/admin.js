@@ -31,7 +31,7 @@ var adminSchema = new Schema({
     "enum": ['super', 'master', 'slave']
   }
 });
-adminSchema.statics.create = function (admin) {
+adminSchema.statics.register = function (admin) {
   var _this = this;
   return new Promise( /*#__PURE__*/function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(resolve, reject) {

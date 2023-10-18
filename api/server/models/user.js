@@ -91,7 +91,7 @@ userSchema.statics.checkforduplicates = async function (email, phonenumber) {
     })
 }
 
-userSchema.statics.create = function (user) {
+userSchema.statics.register = function (user) {
     return new Promise(async (resolve, reject) => {
         try {
             const User = this;
@@ -137,6 +137,7 @@ userSchema.statics.create = function (user) {
 
             resolve({ message: 'success', type: 'auth', content: newuser });
         } catch (error) {
+            console.log(error)
             reject({ message: 'error', type: 'auth', reason: error });
         }
     })

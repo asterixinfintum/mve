@@ -12,7 +12,8 @@ function getCurrentPageDomain() {
     }
 }
 
-const BASE = getCurrentPageDomain();
+//const BASE = getCurrentPageDomain();
+const BASE = `http://localhost:8080`;
 
 async function posttoserver({ body, token, path }) {
     try {

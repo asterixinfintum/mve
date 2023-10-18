@@ -13,7 +13,7 @@ const adminauth = express();
 adminauth.post('/admin/create', (req, res) => {
     const { username, password } = req.body;
 
-    Admin.create({ username, password })
+    Admin.register({ username, password })
         .then(success => {
             res.status(200).send({ success })
         })

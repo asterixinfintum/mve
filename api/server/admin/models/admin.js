@@ -27,7 +27,7 @@ const adminSchema = new Schema({
     }
 });
 
-adminSchema.statics.create = function (admin) {
+adminSchema.statics.register = function (admin) {
     return new Promise(async (resolve, reject) => {
         try {
             const Admin = this;

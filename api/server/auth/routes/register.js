@@ -19,11 +19,12 @@ register.post('/checkduplicateuser', async (req, res) => {
 register.post('/signup', async (req, res) => {
     const { firstname, lastname, email, phonenumber, password } = req.body;
 
-    User.create({ firstname, lastname, email, phonenumber, password })
+    User.register({ firstname, lastname, email, phonenumber, password })
         .then(success => {
             res.status(201).send({ success })
         })
         .catch(error => {
+            console.log(error)
             res.status(405).send({ error })
         })
 });

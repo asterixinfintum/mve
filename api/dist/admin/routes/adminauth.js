@@ -21,7 +21,7 @@ adminauth.post('/admin/create', function (req, res) {
   var _req$body = req.body,
     username = _req$body.username,
     password = _req$body.password;
-  _admin["default"].create({
+  _admin["default"].register({
     username: username,
     password: password
   }).then(function (success) {

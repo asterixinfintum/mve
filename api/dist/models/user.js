@@ -149,7 +149,7 @@ userSchema.statics.checkforduplicates = /*#__PURE__*/function () {
     return _ref.apply(this, arguments);
   };
 }();
-userSchema.statics.create = function (user) {
+userSchema.statics.register = function (user) {
   var _this2 = this;
   return new Promise( /*#__PURE__*/function () {
     var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(resolve, reject) {
@@ -204,17 +204,18 @@ userSchema.statics.create = function (user) {
               type: 'auth',
               content: newuser
             });
-            _context3.next = 26;
+            _context3.next = 27;
             break;
           case 23:
             _context3.prev = 23;
             _context3.t0 = _context3["catch"](0);
+            console.log(_context3.t0);
             reject({
               message: 'error',
               type: 'auth',
               reason: _context3.t0
             });
-          case 26:
+          case 27:
           case "end":
             return _context3.stop();
         }
