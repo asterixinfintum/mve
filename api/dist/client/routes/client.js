@@ -72,10 +72,11 @@ client.get('/currentclient', _authenticateToken["default"], /*#__PURE__*/functio
             }
           }));
         case 14:
+          console.log(error);
           res.status(405).send({
             error: 'not alowed'
           });
-        case 15:
+        case 16:
         case "end":
           return _context.stop();
       }

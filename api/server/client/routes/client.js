@@ -27,6 +27,7 @@ client.get('/currentclient', authenticateToken, async (req, res) => {
         return res.status(200).send({ success: { message: 'success', type: 'auth', content: { user, account, cards } } });
     }
 
+    console.log(error)
     res.status(405).send({ error: 'not alowed' });
 });
 

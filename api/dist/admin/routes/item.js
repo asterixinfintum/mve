@@ -123,101 +123,9 @@ item.post('/item/create', _authenticateToken["default"], function (req, res) {
 });
 item.get('/items', _authenticateToken["default"], /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(req, res) {
-    var _req$query, type, userid, loans, investementplans, savingsplans, notifications, _notifications;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
-          if (!(req.user && req.user._id)) {
-            _context.next = 28;
-            break;
-          }
-          _req$query = req.query, type = _req$query.type, userid = _req$query.userid;
-          if (!(type === 'loans')) {
-            _context.next = 7;
-            break;
-          }
-          _context.next = 5;
-          return _itemeditor["default"].getLoans();
-        case 5:
-          loans = _context.sent;
-          res.status(200).send({
-            success: {
-              message: 'success',
-              type: 'admin loans get',
-              content: loans
-            }
-          });
-        case 7:
-          if (!(type === 'investmentplans')) {
-            _context.next = 12;
-            break;
-          }
-          _context.next = 10;
-          return _itemeditor["default"].getInvestmentplans();
-        case 10:
-          investementplans = _context.sent;
-          res.status(200).send({
-            success: {
-              message: 'success',
-              type: 'admin investment plans get',
-              content: investementplans
-            }
-          });
-        case 12:
-          if (!(type === 'savingsplans')) {
-            _context.next = 17;
-            break;
-          }
-          _context.next = 15;
-          return _itemeditor["default"].getSavingsplans();
-        case 15:
-          savingsplans = _context.sent;
-          res.status(200).send({
-            success: {
-              message: 'success',
-              type: 'admin savings plans get',
-              content: savingsplans
-            }
-          });
-        case 17:
-          if (!(type === 'notifications' && userid)) {
-            _context.next = 22;
-            break;
-          }
-          _context.next = 20;
-          return _itemeditor["default"].getNotificationsByUser(userid);
-        case 20:
-          notifications = _context.sent;
-          res.status(200).send({
-            success: {
-              message: 'success',
-              type: 'admin notifications get',
-              content: notifications
-            }
-          });
-        case 22:
-          if (!(type === 'notifications')) {
-            _context.next = 27;
-            break;
-          }
-          _context.next = 25;
-          return _itemeditor["default"].getNotifications();
-        case 25:
-          _notifications = _context.sent;
-          res.status(200).send({
-            success: {
-              message: 'success',
-              type: 'admin notifications get',
-              content: _notifications
-            }
-          });
-        case 27:
-          return _context.abrupt("return");
-        case 28:
-          res.status(405).send({
-            error: 'not alowed'
-          });
-        case 29:
         case "end":
           return _context.stop();
       }
@@ -229,9 +137,9 @@ item.get('/items', _authenticateToken["default"], /*#__PURE__*/function () {
 }());
 item.put('/item/update', _authenticateToken["default"], function (req, res) {
   if (req.user && req.user._id) {
-    var _req$query2 = req.query,
-      id = _req$query2.id,
-      type = _req$query2.type;
+    var _req$query = req.query,
+      id = _req$query.id,
+      type = _req$query.type;
     if (type === 'loan') {
       _itemeditor["default"].updateLoan(id, req.body).then(function (success) {
         res.status(200).send({
@@ -284,9 +192,9 @@ item.put('/item/update', _authenticateToken["default"], function (req, res) {
 });
 item["delete"]('/item/delete', _authenticateToken["default"], function (req, res) {
   if (req.user && req.user._id) {
-    var _req$query3 = req.query,
-      type = _req$query3.type,
-      id = _req$query3.id;
+    var _req$query2 = req.query,
+      type = _req$query2.type,
+      id = _req$query2.id;
     if (type === 'loan') {
       _itemeditor["default"].deleteLoan(id).then(function (success) {
         res.status(200).send({

@@ -1,18 +1,4 @@
-//const BASE = `http://localhost:8080`;
-
-function getCurrentPageDomain() {
-    if (process.client) {
-        // Check if the code is running on the client side
-        const currentURL = window.location.href;
-        const url = new URL(currentURL);
-        return url.protocol + '//' + url.hostname;
-    } else {
-        // Handle server-side rendering (optional)
-        return ''; // You can return a default value or handle it differently for SSR
-    }
-}
-
-const BASE = getCurrentPageDomain();
+const BASE = `https://ivcstandard.com`;
 
 async function posttoserver({ body, token, path }) {
     try {

@@ -116,7 +116,7 @@ item.post('/item/create', authenticateToken, (req, res) => {
 });
 
 item.get('/items', authenticateToken, async (req, res) => {
-    if (req.user && req.user._id) {
+    /*if (req.user && req.user._id) {
         const { type, userid } = req.query;
 
         if (type === 'loans') {
@@ -148,7 +148,7 @@ item.get('/items', authenticateToken, async (req, res) => {
     }
 
 
-    res.status(405).send({ error: 'not alowed' });
+    res.status(405).send({ error: 'not alowed' });*/
 });
 
 item.put('/item/update', authenticateToken, (req, res) => {
