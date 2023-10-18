@@ -454,3 +454,9 @@ a {
 .halfscreen-width {
     width: #{scaleValue(1000)};
 }
+
+a.orange {
+    text-decoration: none;
+    font-size:  #{scaleValue(16)};
+    border: none;
+}

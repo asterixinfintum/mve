@@ -168,7 +168,7 @@
                 </span>
                 <span class="flex-default">
                   <label class="smlabel"
-                    >I agree to <span class="orange">terms</span> of service</label
+                    >I agree to <nuxt-link class="orange" to="/termsofuse" target="_blank">terms</nuxt-link> of service</label
                   >
                 </span>
               </div>
@@ -179,7 +179,7 @@
                 </span>
                 <span class="flex-default">
                   <label class="smlabel"
-                    >I agree to <span class="orange">data privacy</span> terms</label
+                    >I agree to <nuxt-link class="orange" to="/dataprivacy" target="_blank">data privacy</nuxt-link> terms</label
                   >
                 </span>
               </div>
