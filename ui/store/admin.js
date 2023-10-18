@@ -236,6 +236,8 @@ export const actions = {
         return new Promise(async (resolve, reject) => {
             const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
 
+            console.log(body, 'check action')
+
             const data = await posttoserver({ token: admintoken, body, path: `item/createloan` });
 
             if (data.success) {

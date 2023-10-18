@@ -56,7 +56,7 @@
               <use xlink:href="@/assets/imgs/sprite.svg#icon-banknote"></use>
             </svg>
           </span>
-          <label>Loans</label>
+          <label>Apply for Loans</label>
         </div>
 
         <!--<div
@@ -101,7 +101,7 @@
               <use xlink:href="@/assets/imgs/sprite.svg#icon-wallet"></use>
             </svg>
           </span>
-          <label>Savings</label>
+          <label>Savings Plans</label>
         </div>
         <div
           class="userheader__menuitem"

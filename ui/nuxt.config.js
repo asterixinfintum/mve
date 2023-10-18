@@ -102,6 +102,7 @@ export default {
       '~/assets/scss/apply.scss',
       '~/assets/scss/dashboard.scss',
       '~/assets/scss/cardlist.scss',
+      '~/assets/scss/displaycard.scss',
     ],
     hoistUseStatements: true
   },

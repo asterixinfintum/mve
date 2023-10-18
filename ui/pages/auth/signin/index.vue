@@ -39,6 +39,12 @@
             </div>
 
             <div class="overview__withddep">
+                <div class="overview__withddep--haveanaccount">
+                  Don't have an account? <nuxt-link class="orange cursorpointer" to="/auth/signup">Sign up</nuxt-link>
+                </div>
+              </div>
+
+            <div class="overview__withddep">
               <button
                 class="button orange-btn-faint fontweight-3 half-flex-space"
                 v-if="!allowlogin"

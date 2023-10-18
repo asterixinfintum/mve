@@ -6,7 +6,8 @@
       <div class="dashboard__content halfscreen-width">
         <div class="overview__transaction--header bottom-margin">
           <div class="overview__transaction--h2 header-label capitalize">
-            Create a loan item to display to {{ userid && userprofile ? userprofile.details.firstname : 'clients' }}
+            Create a loan item to display to
+            {{ userid && userprofile ? userprofile.details.firstname : "clients" }}
           </div>
         </div>
 
@@ -23,24 +24,59 @@
           </div>
 
           <div class="input-area fullbody">
-            <label class="smlabel">Minimum account balance</label>
+            <label class="smlabel"
+              >Minimum account balance. must be n number please</label
+            >
             <div class="input">
               <input
-                placeholder="Minimum account balance to be elligible"
+                placeholder="Minimum account balance to be elligible for loan"
                 type="text"
-                v-model="minimumaccountbalance"
+                v-model="minimumbalanceallowed"
               />
             </div>
           </div>
         </div>
 
+        <div class="input-area fullbody grid">
+          <div class="input-area fullbody">
+            <label class="smlabel">Duration (eg: 5, 10, 20 )</label>
+            <div class="input">
+              <input
+                placeholder="Choose a term duration"
+                type="text"
+                v-model="termduration"
+              />
+            </div>
+          </div>
+
+          <div class="input-area fullbody">
+            <label class="smlabel">Term unit (eg: Weeks, Days, Months, Years etc)</label>
+            <div class="input">
+              <input placeholder="Choose a term unit" type="text" v-model="termunit" />
+            </div>
+          </div>
+        </div>
+
         <div class="input-area fullbody">
-          <label class="smlabel">Choose a percentage of repayment for this loan</label>
+          <label class="smlabel"
+            >Choose an interest rate for this loan. Number please</label
+          >
           <div class="input">
             <input
               type="text"
-              placeholder="eg 0.4, 0.05, 1, 1.7 etc be accurate or it won't display"
-              v-model="percentagepayment"
+              placeholder="eg 0.4, 0.05, 1, 1.7 etc numbers only"
+              v-model="interestRate"
+            />
+          </div>
+        </div>
+
+        <div class="input-area fullbody">
+          <label class="smlabel">Choose the maximum amount the client can request</label>
+          <div class="input">
+            <input
+              type="text"
+              placeholder="Maximum amount allowed"
+              v-model="maximumamountallowed"
             />
           </div>
         </div>
@@ -56,20 +92,12 @@
         </div>
 
         <div class="input-area fullbody">
-          <label class="smlabel">Requirement</label>
+          <label class="smlabel"
+            >Add comma seperated list eg: passport, property doc, deeds etc</label
+          >
           <div class="input">
             <textarea
-              placeholder="Requirement descriptions"
-              v-model="requirement"
-            ></textarea>
-          </div>
-        </div>
-
-        <div class="input-area fullbody">
-          <label class="smlabel">Requirements</label>
-          <div class="input">
-            <textarea
-              placeholder="Requirements should be comma seperated"
+              placeholder="Add a comma seperated list to this input"
               v-model="requirements"
             ></textarea>
           </div>
@@ -103,12 +131,15 @@ export default {
   data() {
     return {
       name: "",
-      minimumaccountbalance: "",
-      percentagepayment: "",
       description: "",
-      requirement: "",
+      maximumamountallowed: "",
+      minimumbalanceallowed: "",
       requirements: "",
-      foruser: null
+      requirementArray: [],
+      interestRate: "",
+      termduration: "",
+      termunit: "",
+      foruser: null,
     };
   },
   mixins: [global],
@@ -116,28 +147,36 @@ export default {
     submit() {
       const {
         name,
-        minimumaccountbalance,
-        percentagepayment,
         description,
-        requirement,
+        maximumamountallowed,
+        minimumbalanceallowed,
         requirements,
+        interestRate,
+        termduration,
+        termunit,
         foruser,
       } = this;
 
       const requirementsarray = requirements.split(", ");
 
+      const loan = {
+        name,
+        description,
+        maximumamountallowed,
+        minimumbalanceallowed,
+        requirements: requirementsarray,
+        interestRate,
+        term: {
+          duration: termduration,
+          unit: termunit,
+        },
+        foruser,
+      };
+
       this.toggleverbiage(`Adding new loan item`);
       this.onspinner();
 
-      this.createloanitem({
-        name,
-        minimumaccountbalance,
-        percentagepayment,
-        description,
-        requirement,
-        requirements: requirementsarray,
-        foruser
-      }).then(() => {
+      this.createloanitem(loan).then(() => {
         this.toggleverbiage(null);
         this.offspinner();
         this.toadminroute(`admin/dashboard`);
@@ -157,20 +196,28 @@ export default {
     allowsubmit() {
       const {
         name,
-        minimumaccountbalance,
-        percentagepayment,
+        minimumbalanceallowed,
+        termduration,
+        termunit,
+        interestRate,
         description,
-        requirement,
         requirements,
+        maximumamountallowed,
       } = this;
 
       if (
         name.length &&
-        minimumaccountbalance.length &&
-        percentagepayment.length &&
         description.length &&
-        requirement.length &&
-        requirements.length
+        maximumamountallowed.length &&
+        minimumbalanceallowed.length &&
+        requirements.length &&
+        interestRate.length &&
+        termduration.length &&
+        termunit.length &&
+        typeof parseInt(interestRate) === "number" &&
+        typeof parseInt(termduration) === "number" &&
+        typeof parseInt(maximumamountallowed) === "number" &&
+        typeof parseInt(minimumbalanceallowed) === "number"
       ) {
         return true;
       } else {
@@ -180,9 +227,9 @@ export default {
   },
   mounted() {
     if (this.userid) {
-        this.foruser = this.userid;
-        this.getuser(this.userid);
+      this.foruser = this.userid;
+      this.getuser(this.userid);
     }
-  }
+  },
 };
 </script>

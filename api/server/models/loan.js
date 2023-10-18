@@ -11,57 +11,44 @@ const loanSchema = new Schema({
         required: true,
         unique: true
     },
-    requirement: {
-        type: String,
-        required: true
-    },
     description: {
         type: String,
-        required: true
+        required: true,
     },
-    requirements: {
-        type: Array,
-        default: []
+    maximumamountallowed: {
+        type: Number
     },
-    minimumaccountbalance: {
+    minimumbalanceallowed: {
+        type: Number
+    },
+    requirements: [],
+    interestRate: {
         type: Number,
-        default: 5000
+        required: true,
+        default: 0.05
     },
-    percentagepayment: {
-        type: Number,
-        default: 0.5
+    term: {
+        duration: {
+            type: Number,
+            required: true
+        },
+        unit: {
+            type: String
+        }
     },
-    minimumdeposit: {
-        type: Number,
-        default: 1000
-    }
 });
 
-loanSchema.statics.createloanitem = async function ({
-    foruser,
-    name,
-    minimumaccountbalance,
-    percentagepayment,
-    description,
-    requirement,
-    requirements }) {
+loanSchema.statics.createloanitem = async function (loanbody) {
 
     return new Promise(async (resolve, reject) => {
         try {
             const LoanItem = this;
-            const newloan = new LoanItem({
-                foruser,
-                name,
-                minimumaccountbalance,
-                percentagepayment,
-                description,
-                requirement,
-                requirements
-            });
+            const newloanitem = new LoanItem(loanbody);
 
-            await newloan.save();
-            resolve({ message: 'success', type: 'item created', content: newloan });
+            await newloanitem.save();
+            resolve({ message: 'success', type: 'item created', content: newloanitem });
         } catch (error) {
+            console.log(error)
             reject({ message: 'error', type: 'item creation', reason: error });
         }
     })
@@ -69,7 +56,7 @@ loanSchema.statics.createloanitem = async function ({
 
 loanSchema.statics.getloans = async function () {
     return new Promise(async (resolve, reject) => {
-        try {  
+        try {
             const LoanItems = this;
             const loans = await LoanItems.find();
 

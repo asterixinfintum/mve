@@ -17,92 +17,84 @@ var loanSchema = new Schema({
     required: true,
     unique: true
   },
-  requirement: {
-    type: String,
-    required: true
-  },
   description: {
     type: String,
     required: true
   },
-  requirements: {
-    type: Array,
-    "default": []
+  maximumamountallowed: {
+    type: Number
   },
-  minimumaccountbalance: {
-    type: Number,
-    "default": 5000
+  minimumbalanceallowed: {
+    type: Number
   },
-  percentagepayment: {
+  requirements: [],
+  interestRate: {
     type: Number,
-    "default": 0.5
+    required: true,
+    "default": 0.05
   },
-  minimumdeposit: {
-    type: Number,
-    "default": 1000
+  term: {
+    duration: {
+      type: Number,
+      required: true
+    },
+    unit: {
+      type: String
+    }
   }
 });
 loanSchema.statics.createloanitem = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(_ref) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(loanbody) {
     var _this = this;
-    var foruser, name, minimumaccountbalance, percentagepayment, description, requirement, requirements;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
-          foruser = _ref.foruser, name = _ref.name, minimumaccountbalance = _ref.minimumaccountbalance, percentagepayment = _ref.percentagepayment, description = _ref.description, requirement = _ref.requirement, requirements = _ref.requirements;
           return _context2.abrupt("return", new Promise( /*#__PURE__*/function () {
-            var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(resolve, reject) {
-              var LoanItem, newloan;
+            var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(resolve, reject) {
+              var LoanItem, newloanitem;
               return _regeneratorRuntime().wrap(function _callee$(_context) {
                 while (1) switch (_context.prev = _context.next) {
                   case 0:
                     _context.prev = 0;
                     LoanItem = _this;
-                    newloan = new LoanItem({
-                      foruser: foruser,
-                      name: name,
-                      minimumaccountbalance: minimumaccountbalance,
-                      percentagepayment: percentagepayment,
-                      description: description,
-                      requirement: requirement,
-                      requirements: requirements
-                    });
+                    newloanitem = new LoanItem(loanbody);
                     _context.next = 5;
-                    return newloan.save();
+                    return newloanitem.save();
                   case 5:
                     resolve({
                       message: 'success',
                       type: 'item created',
-                      content: newloan
+                      content: newloanitem
                     });
-                    _context.next = 11;
+                    _context.next = 12;
                     break;
                   case 8:
                     _context.prev = 8;
                     _context.t0 = _context["catch"](0);
+                    console.log(_context.t0);
                     reject({
                       message: 'error',
                       type: 'item creation',
                       reason: _context.t0
                     });
-                  case 11:
+                  case 12:
                   case "end":
                     return _context.stop();
                 }
               }, _callee, null, [[0, 8]]);
             }));
             return function (_x2, _x3) {
-              return _ref3.apply(this, arguments);
+              return _ref2.apply(this, arguments);
             };
           }()));
-        case 2:
+        case 1:
         case "end":
           return _context2.stop();
       }
     }, _callee2);
   }));
   return function (_x) {
-    return _ref2.apply(this, arguments);
+    return _ref.apply(this, arguments);
   };
 }();
 loanSchema.statics.getloans = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
@@ -111,7 +103,7 @@ loanSchema.statics.getloans = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_rege
     while (1) switch (_context4.prev = _context4.next) {
       case 0:
         return _context4.abrupt("return", new Promise( /*#__PURE__*/function () {
-          var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(resolve, reject) {
+          var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(resolve, reject) {
             var LoanItems, loans;
             return _regeneratorRuntime().wrap(function _callee3$(_context3) {
               while (1) switch (_context3.prev = _context3.next) {
@@ -144,7 +136,7 @@ loanSchema.statics.getloans = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_rege
             }, _callee3, null, [[0, 8]]);
           }));
           return function (_x4, _x5) {
-            return _ref5.apply(this, arguments);
+            return _ref4.apply(this, arguments);
           };
         }()));
       case 1:

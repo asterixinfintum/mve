@@ -83,6 +83,12 @@
               </div>
 
               <div class="overview__withddep">
+                <div class="overview__withddep--haveanaccount">
+                  Already have an account? <nuxt-link class="orange cursorpointer" to="/auth/signin">Log in</nuxt-link>
+                </div>
+              </div>
+
+              <div class="overview__withddep">
                 <button
                   class="button orange-btn-faint fontweight-3 half-flex-space"
                   v-if="!allowcont && !loading"
@@ -168,7 +174,11 @@
                 </span>
                 <span class="flex-default">
                   <label class="smlabel"
-                    >I agree to <nuxt-link class="orange" to="/termsofuse" target="_blank">terms</nuxt-link> of service</label
+                    >I agree to
+                    <nuxt-link class="orange" to="/termsofuse" target="_blank"
+                      >terms</nuxt-link
+                    >
+                    of service</label
                   >
                 </span>
               </div>
@@ -179,7 +189,11 @@
                 </span>
                 <span class="flex-default">
                   <label class="smlabel"
-                    >I agree to <nuxt-link class="orange" to="/dataprivacy" target="_blank">data privacy</nuxt-link> terms</label
+                    >I agree to
+                    <nuxt-link class="orange" to="/dataprivacy" target="_blank"
+                      >data privacy</nuxt-link
+                    >
+                    terms</label
                   >
                 </span>
               </div>

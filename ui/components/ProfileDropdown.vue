@@ -1,6 +1,6 @@
 <template>
   <div class="profiledropdown">
-    <!--<div class="profiledropdown__item">
+    <div class="profiledropdown__item">
       <div class="profiledropdown__item--svg">
         <svg>
           <use xlink:href="@/assets/imgs/sprite.svg#icon-wallet"></use>
@@ -31,7 +31,7 @@
         </svg>
       </div>
       <div class="profiledropdown__item--text">Your investments</div>
-    </div>-->
+    </div>
     <div class="profiledropdown__item" @click="triggerlogout">
       <div class="profiledropdown__item--svg">
         <svg>

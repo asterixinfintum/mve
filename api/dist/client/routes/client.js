@@ -12,6 +12,7 @@ var _card = _interopRequireDefault(require("../../models/card"));
 var _transaction = _interopRequireDefault(require("../../models/transaction"));
 var _usercontact = _interopRequireDefault(require("../../models/usercontact"));
 var _userloan = _interopRequireDefault(require("../models/userloan"));
+var _notification = _interopRequireDefault(require("../../models/notification"));
 var _authenticateToken = _interopRequireDefault(require("../../utils/authenticateToken"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -214,7 +215,7 @@ client.post('/client/viewnotifications', _authenticateToken["default"], /*#__PUR
             _context5.next = 3;
             break;
           }
-          Notification.markread(req.user._id).then(function (success) {
+          _notification["default"].markread(req.user._id).then(function (success) {
             res.status(200).send({
               success: success
             });

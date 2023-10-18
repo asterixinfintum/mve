@@ -6,6 +6,7 @@ import Card from '../../models/card';
 import Transaction from '../../models/transaction';
 import UserContact from '../../models/usercontact';
 import UserLoan from '../models/userloan';
+import Notification from '../../models/notification';
 
 import authenticateToken from '../../utils/authenticateToken';
 

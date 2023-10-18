@@ -6,26 +6,16 @@ const userLoanSchema = new Schema({
         type: String,
         required: true,
     },
-    type: {
+    loanid: {
         type: String,
-        required: true, //id of loan item
-    },
-    amount: {
-        type: Number,
         required: true,
     },
-    paybackamount: {
-        type: Number,
+    amount: {
+        type: Number
     },
-    reason: {
-        type: String,
-        required: true
-    },
-    status: {
-        type: String,
-        default: 'pending' //accepted
-    },
-    additionaldata: { type: Schema.Types.Mixed, default: {} }
+    totalrepayment: {
+        type: Number
+    }
 });
 
 const UserLoan = mongoose.model('UserLoan', userLoanSchema);
