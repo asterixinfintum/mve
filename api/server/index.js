@@ -1,5 +1,5 @@
 if (process.env.NODE_ENV !== 'production') {
-    require("dotenv").config();
+  require("dotenv").config();
 }
 
 import "regenerator-runtime/runtime.js";
@@ -23,9 +23,9 @@ const server = http.createServer(app);
 
 import mongoose from 'mongoose';
 
-app.use(express.static('public'));
-app.use('/', express.static('public/ui'))
+app.use(express.static(path.join(__dirname, '../public/ui')));
 //app.use(express.static('uploads'));
+const staticPath = path.join(__dirname, '../public/ui');
 app.use(express.urlencoded({
   extended: false
 }));
@@ -42,22 +42,27 @@ app.use(adminauth);
 app.use(item);
 app.use(client);
 app.use(clientedit);
-const PORT = process.env.PORT || 8080;
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(staticPath, 'index.html'));
+});
+
+const PORT = process.env.PORT || 8081;
 
 mongoose.connect(`${process.env.DB}`, {
-    //mongodb://db:27017/traderapiv2 =====> production
-    //mongodb://127.0.0.1:27017/traderapiv2 ===> development
-  
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  }).then(async () => {
-    console.log('connected to database');
-  
-    server.listen(PORT, async (error) => {
-      if (error) {
-        return error;
-      }
-  
-      return console.log(`server started on port here now ${PORT}`);
-    });
+  //mongodb://db:27017/traderapiv2 =====> production
+  //mongodb://127.0.0.1:27017/traderapiv2 ===> development
+
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(async () => {
+  console.log('connected to database');
+
+  server.listen(PORT, async (error) => {
+    if (error) {
+      return error;
+    }
+
+    return console.log(`server started on port here now ${PORT}`);
   });
+});

@@ -29,8 +29,30 @@
               <input
                 placeholder="Minimum account balance to be elligible"
                 type="text"
-                v-model="minimumaccountbalance"
+                v-model="minimumbalanceallowed"
               />
+            </div>
+          </div>
+        </div>
+
+        <div class="input-area fullbody grid">
+          <div class="input-area fullbody">
+            <label class="smlabel">Duration of investment eg: (5, 6, 7)</label>
+            <div class="input">
+              <input
+                placeholder="Duration of investment"
+                type="text"
+                v-model="duration"
+              />
+            </div>
+          </div>
+
+          <div class="input-area fullbody">
+            <label class="smlabel"
+              >Unit of duration of investment eg: (days, months, years)</label
+            >
+            <div class="input">
+              <input placeholder="Unit of duration" type="text" v-model="unit" />
             </div>
           </div>
         </div>
@@ -66,17 +88,10 @@
         </div>
 
         <div class="input-area fullbody">
-          <label class="smlabel">Requirement</label>
-          <div class="input">
-            <textarea
-              placeholder="Requirement descriptions"
-              v-model="requirement"
-            ></textarea>
-          </div>
-        </div>
-
-        <div class="input-area fullbody">
-          <label class="smlabel">Requirements</label>
+          <label class="smlabel"
+            >Requirements. Add comma seperated list eg: passport, property doc, deeds
+            etc</label
+          >
           <div class="input">
             <textarea
               placeholder="Requirements should be comma seperated"
@@ -113,13 +128,14 @@ export default {
   data() {
     return {
       name: "",
-      minimumaccountbalance: "",
+      foruser: null,
+      minimumbalanceallowed: "",
+      description: "",
+      requirements: "",
       returnpercentage: "",
       minimumdeposit: "",
-      description: "",
-      requirement: "",
-      requirements: "",
-      foruser: null,
+      duration: "",
+      unit: "",
     };
   },
   mixins: [global],
@@ -127,30 +143,36 @@ export default {
     submit() {
       const {
         name,
-        minimumaccountbalance,
-        minimumdeposit,
-        returnpercentage,
-        description,
-        requirement,
-        requirements,
         foruser,
+        minimumbalanceallowed,
+        description,
+        requirements,
+        returnpercentage,
+        minimumdeposit,
+        duration,
+        unit,
       } = this;
 
       const requirementsarray = requirements.split(", ");
 
+      const investment = {
+        name,
+        foruser,
+        minimumbalanceallowed: parseFloat(minimumbalanceallowed),
+        description,
+        requirements,
+        returnpercentage: parseFloat(returnpercentage),
+        minimumdeposit: parseFloat(minimumdeposit),
+        durationofinvestment: {
+          duration,
+          unit,
+        },
+      };
+
       this.toggleverbiage(`Adding new investment item`);
       this.onspinner();
 
-      this.createinvestmentitem({
-        name,
-        minimumaccountbalance,
-        minimumdeposit,
-        returnpercentage,
-        description,
-        requirement,
-        requirements: requirementsarray,
-        foruser,
-      }).then(() => {
+      this.createinvestmentitem(investment).then(() => {
         this.toggleverbiage(null);
         this.offspinner();
         this.toadminroute(`admin/dashboard`);
@@ -176,20 +198,24 @@ export default {
     allowsubmit() {
       const {
         name,
-        minimumaccountbalance,
-        returnpercentage,
+        minimumbalanceallowed,
         description,
-        requirement,
         requirements,
+        returnpercentage,
+        minimumdeposit,
+        duration,
+        unit,
       } = this;
 
       if (
         name.length &&
-        minimumaccountbalance.length &&
-        returnpercentage.length &&
+        minimumbalanceallowed.length &&
         description.length &&
-        requirement.length &&
-        requirements.length
+        requirements.length &&
+        returnpercentage.length &&
+        minimumdeposit.length &&
+        duration.length &&
+        unit.length
       ) {
         return true;
       } else {

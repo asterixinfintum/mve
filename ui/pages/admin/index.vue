@@ -39,7 +39,7 @@
                 v-if="allowentry"
                 @click="calladminentry"
               >
-                Register
+                Login
               </button>
             </div>
           </div>

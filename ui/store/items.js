@@ -8,9 +8,6 @@ export const state = () => ({
     savingsplans: [],
     generalnotifications: [],
     usernotifications: [],
-    userloans: [],
-    usersavings: [],
-    usersavingsplans: []
 });
 
 export const mutations = {
@@ -29,15 +26,6 @@ export const mutations = {
     SET_USERNOTIFICATIONS(state, data) {
         state.usernotifications = data;
     },
-    SET_USERLOANS(state, data) {
-        state.userloans = data;
-    },
-    SET_USERSAVINGSPLANS(state, data) {
-        state.usersavings = data;
-    },
-    SET_USERINVESTMENTPLANS(state, data) {
-        state.usersavingsplans = data;
-    }
 }
 
 export const actions = {
@@ -49,7 +37,6 @@ export const actions = {
 
             if (data.success) {
                 const { content } = data.success;
-                console.log(content)
                 commit('SET_LOANS', content);
             } else {
                 reject('fail')
@@ -64,7 +51,6 @@ export const actions = {
 
             if (data.success) {
                 const { content } = data.success;
-                console.log(content)
                 commit('SET_INVESTMENTPLANS', content);
             } else {
                 reject('fail')
@@ -75,10 +61,11 @@ export const actions = {
         return new Promise(async (resolve, reject) => {
             const token = localStorage.getItem('873__jh6bdjklkjhghn');
 
-            const data = await getfromserver({ token, path: `items?type=savingsplans` });
+            const data = await getfromserver({ token, path: `item/savingsplans` });
 
             if (data.success) {
                 const { content } = data.success;
+                console.log(content)
                 commit('SET_SAVINGSPLANS', content);
             } else {
                 reject('fail')
@@ -112,13 +99,4 @@ export const actions = {
             }
         })
     },
-    getuserloans({ commit }, userid) {
-        return new Promise(async (resolve, reject) => {})
-    },
-    getusersavings({ commit }, userid) {
-        return new Promise(async (resolve, reject) => {})
-    },
-    getusersavingsplans({ commit }, userid) {
-        return new Promise(async (resolve, reject) => {})
-    }
 }

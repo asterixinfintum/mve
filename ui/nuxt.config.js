@@ -27,33 +27,6 @@ export default {
         href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap'
       },
     ],
-    script: [
-      {
-        src: 'https://unpkg.com/lightweight-charts@4.0/dist/lightweight-charts.standalone.production.js',
-        type: 'text/javascript',
-        body: true // Include the script just before the closing </body> tag
-      }
-    ],
-    script: [
-      {
-        src: 'https://s3.tradingview.com/tv.js',
-        type: 'text/javascript',
-        body: true // Include the script just before the closing </body> tag
-      },
-      {
-        src: 'https://unpkg.com/lightweight-charts@4.0/dist/lightweight-charts.standalone.production.js',
-        type: 'text/javascript',
-        body: true // Include the script just before the closing </body> tag
-      },
-      {
-        src: 'https://unpkg.com/bsv@1.5.6/bsv.min.js',
-        type: 'text/javascript'
-      },
-      {
-        src: 'https://cdn.jsdelivr.net/gh/centrifugal/centrifuge-js@latest/dist/centrifuge.min.js',
-        type: 'text/javascript'
-      }
-    ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css

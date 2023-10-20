@@ -48,7 +48,6 @@ loanSchema.statics.createloanitem = async function (loanbody) {
             await newloanitem.save();
             resolve({ message: 'success', type: 'item created', content: newloanitem });
         } catch (error) {
-            console.log(error)
             reject({ message: 'error', type: 'item creation', reason: error });
         }
     })

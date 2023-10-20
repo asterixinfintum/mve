@@ -16,17 +16,14 @@ var savingsplanSchema = new Schema({
     type: String,
     required: true
   },
-  requirement: {
-    type: String,
-    required: true
-  },
   description: {
     type: String,
     required: true
   },
-  requirements: {
-    type: Array,
-    "default": []
+  requirements: [],
+  compoundingfrequency: {
+    type: Number,
+    required: true
   },
   minimumaccountbalance: {
     type: Number,
@@ -35,71 +32,90 @@ var savingsplanSchema = new Schema({
   minimumdeposit: {
     type: Number,
     "default": 1000
+  },
+  contributionplan: {
+    frequency: {
+      type: Number,
+      "default": 500
+    },
+    frequencyunit: {
+      type: String
+    }
+  },
+  term: {
+    duration: {
+      type: Number,
+      required: true
+    },
+    unit: {
+      type: String
+    }
   }
 });
 savingsplanSchema.statics.createsavingsitem = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(_ref) {
-    var _this = this;
-    var foruser, name, minimumaccountbalance, minimumdeposit, description, requirement, requirements;
-    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-      while (1) switch (_context2.prev = _context2.next) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(savingsplan) {
+    var SavingsPln, newsavingsitem;
+    return _regeneratorRuntime().wrap(function _callee$(_context) {
+      while (1) switch (_context.prev = _context.next) {
         case 0:
-          foruser = _ref.foruser, name = _ref.name, minimumaccountbalance = _ref.minimumaccountbalance, minimumdeposit = _ref.minimumdeposit, description = _ref.description, requirement = _ref.requirement, requirements = _ref.requirements;
-          return _context2.abrupt("return", new Promise( /*#__PURE__*/function () {
-            var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(resolve, reject) {
-              var Savingsplan, newsavingsitem;
-              return _regeneratorRuntime().wrap(function _callee$(_context) {
-                while (1) switch (_context.prev = _context.next) {
-                  case 0:
-                    _context.prev = 0;
-                    Savingsplan = _this;
-                    newsavingsitem = new Savingsplan({
-                      foruser: foruser,
-                      name: name,
-                      minimumaccountbalance: minimumaccountbalance,
-                      minimumdeposit: minimumdeposit,
-                      description: description,
-                      requirement: requirement,
-                      requirements: requirements
-                    });
-                    _context.next = 5;
-                    return newsavingsitem.save();
-                  case 5:
-                    resolve({
-                      message: 'success',
-                      type: 'item created',
-                      content: newsavingsitem
-                    });
-                    _context.next = 12;
-                    break;
-                  case 8:
-                    _context.prev = 8;
-                    _context.t0 = _context["catch"](0);
-                    console.log(_context.t0);
-                    reject({
-                      message: 'error',
-                      type: 'item creation',
-                      reason: _context.t0
-                    });
-                  case 12:
-                  case "end":
-                    return _context.stop();
-                }
-              }, _callee, null, [[0, 8]]);
-            }));
-            return function (_x2, _x3) {
-              return _ref3.apply(this, arguments);
-            };
-          }()));
-        case 2:
+          _context.prev = 0;
+          SavingsPln = this;
+          newsavingsitem = new SavingsPln(savingsplan);
+          _context.next = 5;
+          return newsavingsitem.save();
+        case 5:
+          return _context.abrupt("return", {
+            message: 'success',
+            type: 'item created',
+            content: newsavingsitem
+          });
+        case 8:
+          _context.prev = 8;
+          _context.t0 = _context["catch"](0);
+          return _context.abrupt("return", {
+            message: 'error',
+            type: 'item creation',
+            reason: _context.t0
+          });
+        case 11:
         case "end":
-          return _context2.stop();
+          return _context.stop();
       }
-    }, _callee2);
+    }, _callee, this, [[0, 8]]);
   }));
   return function (_x) {
-    return _ref2.apply(this, arguments);
+    return _ref.apply(this, arguments);
   };
 }();
+savingsplanSchema.statics.getsavingsitems = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+  var SavingsPln, savingsplans;
+  return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+    while (1) switch (_context2.prev = _context2.next) {
+      case 0:
+        _context2.prev = 0;
+        SavingsPln = this;
+        _context2.next = 4;
+        return SavingsPln.find();
+      case 4:
+        savingsplans = _context2.sent;
+        return _context2.abrupt("return", {
+          message: 'success',
+          type: 'savings items get',
+          content: savingsplans
+        });
+      case 8:
+        _context2.prev = 8;
+        _context2.t0 = _context2["catch"](0);
+        return _context2.abrupt("return", {
+          message: 'error',
+          type: 'savings items get',
+          reason: _context2.t0
+        });
+      case 11:
+      case "end":
+        return _context2.stop();
+    }
+  }, _callee2, this, [[0, 8]]);
+}));
 var SavingsPlan = mongoose.model('SavingsPlan', savingsplanSchema);
 module.exports = SavingsPlan;

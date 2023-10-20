@@ -35,10 +35,57 @@
           </div>
         </div>
 
-        <div class="input-area fullbody">
-          <label class="smlabel">Minimum deposit allowed</label>
-          <div class="input">
-            <input type="text" placeholder="eg 1000" v-model="minimumdeposit" />
+        <div class="input-area fullbody grid">
+          <div class="input-area fullbody">
+            <label class="smlabel">Minimum deposit allowed</label>
+            <div class="input">
+              <input type="text" placeholder="" v-model="minimumdeposit" />
+            </div>
+          </div>
+
+          <div class="input-area fullbody">
+            <label class="smlabel"
+              >Compounding frequency (savings growth rate eg 0.6)</label
+            >
+            <div class="input">
+              <input type="text" placeholder="" v-model="compoundingfrequency" />
+            </div>
+          </div>
+        </div>
+
+        <div class="input-area fullbody grid">
+          <div class="input-area fullbody">
+            <label class="smlabel">Duration of savings eg (20)</label>
+            <div class="input">
+              <input type="text" placeholder="" v-model="duration" />
+            </div>
+          </div>
+
+          <div class="input-area fullbody">
+            <label class="smlabel"
+              >Unit of Duration of savings eg (months, days, years etc)</label
+            >
+            <div class="input">
+              <input type="text" placeholder="" v-model="unit" />
+            </div>
+          </div>
+        </div>
+
+        <div class="input-area fullbody grid">
+          <div class="input-area fullbody">
+            <label class="smlabel">Frequency of deposits required eg (5)</label>
+            <div class="input">
+              <input type="text" placeholder="" v-model="frequency" />
+            </div>
+          </div>
+
+          <div class="input-area fullbody">
+            <label class="smlabel"
+              >Unit of Frequency of depositseg (months, days, years etc)</label
+            >
+            <div class="input">
+              <input type="text" placeholder="" v-model="frequencyunit" />
+            </div>
           </div>
         </div>
 
@@ -48,16 +95,6 @@
             <textarea
               placeholder="description for this savings plan"
               v-model="description"
-            ></textarea>
-          </div>
-        </div>
-
-        <div class="input-area fullbody">
-          <label class="smlabel">Requirement</label>
-          <div class="input">
-            <textarea
-              placeholder="Requirement descriptions"
-              v-model="requirement"
             ></textarea>
           </div>
         </div>
@@ -103,9 +140,13 @@ export default {
       minimumaccountbalance: "",
       minimumdeposit: "",
       description: "",
-      requirement: "",
       requirements: "",
+      compoundingfrequency: "",
+      frequency: "",
       foruser: null,
+      frequencyunit: "",
+      duration: "",
+      unit: "",
     };
   },
   mixins: [global],
@@ -116,25 +157,39 @@ export default {
         minimumaccountbalance,
         minimumdeposit,
         description,
-        requirement,
         requirements,
         foruser,
+        compoundingfrequency,
+        frequency,
+        frequencyunit,
+        duration,
+        unit,
       } = this;
 
-      const requirementsarray = requirements.split(", ");
+      const requirementsarray = requirements.split(",");
 
-      this.toggleverbiage(`Adding new savingsplan item`);
-      this.onspinner();
-
-      this.createsavingsitem({
+      const savingsplan = {
         name,
         minimumaccountbalance,
         minimumdeposit,
         description,
-        requirement,
         requirements: requirementsarray,
         foruser,
-      }).then(() => {
+        compoundingfrequency,
+        contributionplan: {
+          frequency,
+          frequencyunit,
+        },
+        term: {
+          duration,
+          unit,
+        },
+      };
+
+      this.toggleverbiage(`Adding new savingsplan item`);
+      this.onspinner();
+
+      this.createsavingsitem(savingsplan).then(() => {
         this.toggleverbiage(null);
         this.offspinner();
         this.toadminroute(`admin/dashboard`);
@@ -157,8 +212,12 @@ export default {
         minimumaccountbalance,
         minimumdeposit,
         description,
-        requirement,
         requirements,
+        compoundingfrequency,
+        frequency,
+        frequencyunit,
+        duration,
+        unit,
       } = this;
 
       if (
@@ -166,8 +225,12 @@ export default {
         minimumaccountbalance.length &&
         minimumdeposit.length &&
         description.length &&
-        requirement.length &&
-        requirements.length
+        compoundingfrequency.length &&
+        requirements.length &&
+        frequency.length &&
+        frequencyunit.length &&
+        duration.length &&
+        unit.length
       ) {
         return true;
       } else {

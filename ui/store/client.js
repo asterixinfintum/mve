@@ -1,10 +1,16 @@
+import { rejects } from 'assert';
 import requester from './requester';
+import { resolve } from 'path';
 
 const { posttoserver, getfromserver } = requester;
 
 export const state = () => ({
     clienttransactions: [],
-    quickcontacts: []
+    quickcontacts: [],
+    userloans: [],
+    usersavings: [],
+    usersavingsplans: [],
+    userinvestments: []
 });
 
 export const mutations = {
@@ -13,6 +19,15 @@ export const mutations = {
     },
     SET_QUICKCONTACTS(state, data) {
         state.quickcontacts = data;
+    },
+    SET_USERLOANS(state, data) {
+        state.userloans = data;
+    },
+    SET_USERSAVINGSPLANS(state, data) {
+        state.usersavings = data;
+    },
+    SET_USERINVESTMENTPLANS(state, data) {
+        state.userinvestments = data;
     }
 }
 
@@ -41,21 +56,6 @@ export const actions = {
             const { content } = data.success;
             commit('SET_CLIENTTRANSACTIONS', content);
         }
-    },
-    async applyforloan({ commit }, loanbody) {
-        return new Promise(async (resolve, reject) => {
-            const token = localStorage.getItem('873__jh6bdjklkjhghn');
-
-            const data = await posttoserver({ token, body: loanbody, path: `loanapply` });
-
-            if (data.success) {
-                console.log(data.success.content.user)
-                const _id = data.success.content.user;
-                resolve(_id)
-            } else {
-                reject('fail')
-            }
-        })
     },
     async marknotificationsasread() {
         return new Promise(async (resolve, reject) => {
@@ -86,18 +86,18 @@ export const actions = {
         })
     },
     async joininvestmentprog({ commit }, body) {
-        return new Promise(async (resolve, reject) => {
+        try {
             const token = localStorage.getItem('873__jh6bdjklkjhghn');
 
             const data = await posttoserver({ token, body, path: `client/joininvestment` });
 
             if (data.success) {
 
-                resolve('done')
-            } else {
-                reject('fail')
+                return data.success
             }
-        })
+        } catch (error) {
+            return error;
+        }
     },
     async createcontact({ commit }, body) {
         return new Promise(async (resolve, reject) => {
@@ -121,5 +121,51 @@ export const actions = {
             console.log(final)
             commit('SET_QUICKCONTACTS', final)
         }
+    },
+    async submitloanrequest({ commit }, body) {
+        return new Promise(async (resolve, reject) => {
+            const token = localStorage.getItem('873__jh6bdjklkjhghn');
+
+            const data = await posttoserver({ token, body, path: `client/loanrequest` });
+
+            if (data.success) {
+                const final = data.success.content;
+                resolve(final)
+            }
+        })
+    },
+    async getuserloans({ commit }, userid) {
+        return new Promise(async (resolve, reject) => {
+            const token = localStorage.getItem('873__jh6bdjklkjhghn');
+
+            const data = await getfromserver({ token, path: `client/getuserloans?user=${userid}` });
+
+            if (data.success) {
+                const final = data.success.content;
+
+                commit('SET_USERLOANS', final);
+            }
+        })
+    },
+    async getuserinvestments({ commit }, userid) {
+        try {
+            const token = localStorage.getItem('873__jh6bdjklkjhghn');
+
+            const data = await getfromserver({ token, path: `client/getinvestments?user=${userid}` });
+
+            if (data.success) {
+                const final = data.success.content;
+
+                commit('SET_USERINVESTMENTPLANS', final);
+            }
+        } catch (error) {
+            return error;
+        }
+    },
+    getusersavings({ commit }, userid) {
+        return new Promise(async (resolve, reject) => { })
+    },
+    getusersavingsplans({ commit }, userid) {
+        return new Promise(async (resolve, reject) => { })
     }
 }

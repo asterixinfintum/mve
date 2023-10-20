@@ -68,6 +68,7 @@ item.post('/item/createinvestmentplan', authenticateToken, (req, res) => {
                 res.status(200).send({ success })
             })
             .catch(error => {
+                console.log(error)
                 res.status(405).send({ error })
             });
 
@@ -81,6 +82,23 @@ item.post('/item/createsavingsplanitem', authenticateToken, (req, res) => {
     if (req.user && req.user._id) {
 
         SavingsPlan.createsavingsitem(req.body)
+            .then(success => {
+                res.status(200).send({ success })
+            })
+            .catch(error => {
+                res.status(405).send({ error })
+            });
+
+        return;
+    }
+
+    res.status(405).send({ error: 'not alowed' });
+});
+
+item.get('/item/savingsplans', authenticateToken, (req, res) => {
+    if (req.user && req.user._id) {
+        
+       SavingsPlan.getsavingsitems()
             .then(success => {
                 res.status(200).send({ success })
             })

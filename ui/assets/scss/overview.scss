@@ -5,6 +5,25 @@ $overview-area-padding: #{scaleValue(30)};
     color: $font-black;
     padding-top: #{scaleValue(100)};
     min-height: 110vh;
+    position: relative;
+
+    &.dasboard {
+        &::before {
+            content: '';
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+    }
 
     &__content {}
 
@@ -12,8 +31,9 @@ $overview-area-padding: #{scaleValue(30)};
         display: flex;
         justify-content: center;
         padding: $overview-padding;
-
+        position: relative;
         flex-grow: 0;
+        z-index: 3;
     }
 
     &__card {
@@ -186,7 +206,7 @@ $overview-area-padding: #{scaleValue(30)};
         }
 
         &--progresscolor {
-            width: 0;//80%;
+            width: 0; //80%;
             height: #{scaleValue(5)};
             background: $primary-orange;
             border-radius: 3rem;

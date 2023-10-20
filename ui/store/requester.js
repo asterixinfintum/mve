@@ -1,4 +1,24 @@
-const BASE = `http://localhost:8080`;
+let BASE;
+const DEVELOPMENT = false;
+
+function getCurrentPageDomain() {
+    if (process.client) {
+        // Check if the code is running on the client side
+        const currentURL = window.location.href;
+        const url = new URL(currentURL);
+        return url.protocol + '//' + url.hostname;
+    } else {
+        // Handle server-side rendering (optional)
+        return ''; // You can return a default value or handle it differently for SSR
+    }
+}
+
+
+if (!DEVELOPMENT) {
+    BASE = getCurrentPageDomain();
+} else {
+    BASE = `http://localhost:8081`;
+}
 
 async function posttoserver({ body, token, path }) {
     try {
@@ -20,6 +40,7 @@ async function posttoserver({ body, token, path }) {
 
         return data;
     } catch (error) {
+        console.log(error, 'error here')
         return error;
     }
 }

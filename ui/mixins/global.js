@@ -1,4 +1,5 @@
 import { mapActions, mapState, mapMutations } from 'vuex';
+import { state } from '../store/client';
 
 export default {
     extends: 'layouts/default',
@@ -15,6 +16,8 @@ export default {
         ...mapState({
             client: state => state.auth.client,
             clientToken: state => state.auth.clientToken,
+            currentadmin: state => state.admin.currentadmin,
+            admintoken: state => state.admin.admintoken,
             account: state => state.auth.account,
             cards: state => state.auth.cards,
             authError: state => state.auth.authError,
@@ -23,8 +26,6 @@ export default {
             spinneron: state => state.loading.showspinner,
             spinnerverbiage: state => state.loading.spinnerverbiage,
             donemsg: state => state.loading.donemsg,
-            currentadmin: state => state.admin.currentadmin,
-            admintoken: state => state.admin.admintoken,
             users: state => state.admin.users,
             userprofile: state => state.admin.user,
             showconfirmpopup: state => state.loading.showconfirmpopup,
@@ -36,7 +37,9 @@ export default {
             generalnotifications: state => state.items.generalnotifications,
             notifications: state => state.items.usernotifications,
             usermsgs: state => state.admin.usermsgs,
-            quickcontacts: state => state.client.quickcontacts
+            quickcontacts: state => state.client.quickcontacts,
+            userloans: state => state.client.userloans,
+            userinvestments: state => state.client.userinvestments
         }),
         user() {
             return this.$route.query.user ? this.$route.query.user : this.$route.params.overview;
@@ -123,19 +126,24 @@ export default {
             'updateuseraccount',
             'createusertransaction',
             'getusermsgs',
+            'getcurrentadmin',
             'createloanitem',
             'createinvestmentitem',
             'createsavingsitem'
         ]),
         ...mapActions('client', [
-            'createtransfer', 
-            'gettransfers', 
-            'applyforloan', 
-            'marknotificationsasread', 
-            'supportcontact', 
+            'createtransfer',
+            'gettransfers',
+            'marknotificationsasread',
+            'supportcontact',
             'joininvestmentprog',
             'createcontact',
-            'getcontacts'
+            'getcontacts',
+            'submitloanrequest',
+            'getuserloans',
+            'getusersavings',
+            'getusersavingsplans',
+            'getuserinvestments'
         ]),
         ...mapActions('items', ['getloans', 'getinvestmentplans', 'getsavingsplans', 'getnotifications', 'getusernotifications']),
         toroute(route) {
@@ -146,7 +154,11 @@ export default {
             }
         },
         toadminroute(route) {
-            return this.$router.push(`/${route}`)
+            const { currentadmin } = this;
+
+            if (currentadmin) {
+                return this.$router.push(`/${route}?admin=${currentadmin._id}`)
+            }
         },
         limitTextLength(text, maxLength) {
             if (text.length <= maxLength) {
@@ -166,6 +178,13 @@ export default {
             }
 
             return arr;
+        },
+        toPercentage(decimal) {
+            return decimal * 100 + "%";
+        },
+        roundUpToNearestDecimal(numStr) {
+            const num = parseFloat(numStr);
+            return Math.ceil(num);
         },
         formatNumber(num, maxLength) {
             // Convert number to string with commas as thousands separators
@@ -240,6 +259,38 @@ export default {
         closedrops() {
             this.opennotificationsbody = false;
             this.profilebody = false;
+        },
+        returnFloat(value) {
+            if (value) {
+                return parseFloat(value.replace(/,/g, ""));
+            }
+        },
+        removeCommasAfterDot(inputString) {
+            const withoutCommasAfterDot = inputString.replace(/(\.\d*)/g, (match) =>
+                match.replace(/,/g, "")
+            );
+            return withoutCommasAfterDot;
+        },
+        customSplitByDot(inputString) {
+            const dotIndex = inputString.indexOf(".");
+            if (dotIndex !== -1) {
+                const firstPart = inputString.slice(0, dotIndex + 1);
+                const secondPart = inputString.slice(dotIndex + 1);
+                return [firstPart, secondPart];
+            } else {
+                return [inputString, ""];
+            }
+        },
+        removePeriodAndCommas(array) {
+            const withoutPeriodAndCommas = array.map((str, index) => {
+                if (index === 1) {
+                    return str.replace(/[.,]/g, "");
+                }
+
+                return str;
+            });
+
+            return withoutPeriodAndCommas.join("");
         },
     }
 }

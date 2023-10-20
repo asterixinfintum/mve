@@ -10,6 +10,21 @@ import authenticateToken from '../../utils/authenticateToken';
 
 const adminauth = express();
 
+adminauth.get('/currentadmin', authenticateToken, async (req, res) => {
+    if (req.user && req.user._id) {
+        const { id } = req.query;
+        const admin = await Admin.findOne({ _id: id });
+
+        if (!admin) {
+            return res.status(405).send({ error: 'not alowed' })
+        }
+
+        return res.status(200).send({ success: { message: 'success', type: 'admin auth', content: admin } });
+    }
+
+    res.status(405).send({ error: 'not alowed' });
+});
+
 adminauth.post('/admin/create', (req, res) => {
     const { username, password } = req.body;
 

@@ -10,17 +10,14 @@ const savingsplanSchema = new Schema({
         type: String,
         required: true
     },
-    requirement: {
-        type: String,
-        required: true
-    },
     description: {
         type: String,
         required: true
     },
-    requirements: {
-        type: Array,
-        default: []
+    requirements: [],
+    compoundingfrequency: {
+        type: Number,
+        required: true,
     },
     minimumaccountbalance: {
         type: Number,
@@ -29,40 +26,51 @@ const savingsplanSchema = new Schema({
     minimumdeposit: {
         type: Number,
         default: 1000
-    }
+    },
+    contributionplan: {
+        frequency: {
+            type: Number,
+            default: 500
+        },
+        frequencyunit: {
+            type: String
+        }
+    },
+    term: {
+        duration: {
+            type: Number,
+            required: true
+        },
+        unit: {
+            type: String
+        },
+    },
 });
 
-savingsplanSchema.statics.createsavingsitem = async function ({
-    foruser,
-    name,
-    minimumaccountbalance,
-    minimumdeposit,
-    description,
-    requirement,
-    requirements
-}) {
+savingsplanSchema.statics.createsavingsitem = async function (savingsplan) {
+    try {
+        const SavingsPln = this;
 
-    return new Promise(async (resolve, reject) => {
-        try {
-            const Savingsplan = this;
-            const newsavingsitem = new Savingsplan({
-                foruser,
-                name,
-                minimumaccountbalance,
-                minimumdeposit,
-                description,
-                requirement,
-                requirements
-            });
+        const newsavingsitem = new SavingsPln(savingsplan);
 
-            await newsavingsitem.save();
-            resolve({ message: 'success', type: 'item created', content: newsavingsitem });
+        await newsavingsitem.save();
 
-        } catch (error) {
-            console.log(error)
-            reject({ message: 'error', type: 'item creation', reason: error });
-        }
-    })
+        return { message: 'success', type: 'item created', content: newsavingsitem }
+    } catch (error) {
+        return { message: 'error', type: 'item creation', reason: error }
+    }
+}
+
+savingsplanSchema.statics.getsavingsitems = async function () {
+    try {
+        const SavingsPln = this;
+
+        const savingsplans = await SavingsPln.find();
+
+        return { message: 'success', type: 'savings items get', content: savingsplans }
+    } catch (error) {
+        return { message: 'error', type: 'savings items get', reason: error }
+    }
 }
 
 const SavingsPlan = mongoose.model('SavingsPlan', savingsplanSchema);

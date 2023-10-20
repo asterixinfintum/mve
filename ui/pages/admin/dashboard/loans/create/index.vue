@@ -93,7 +93,7 @@
 
         <div class="input-area fullbody">
           <label class="smlabel"
-            >Add comma seperated list eg: passport, property doc, deeds etc</label
+            >Requirements. Add comma seperated list eg: passport, property doc, deeds etc</label
           >
           <div class="input">
             <textarea
@@ -162,10 +162,10 @@ export default {
       const loan = {
         name,
         description,
-        maximumamountallowed,
-        minimumbalanceallowed,
+        maximumamountallowed: parseFloat(maximumamountallowed),
+        minimumbalanceallowed: parseFloat(minimumbalanceallowed),
         requirements: requirementsarray,
-        interestRate,
+        interestRate: parseFloat(interestRate),
         term: {
           duration: termduration,
           unit: termunit,

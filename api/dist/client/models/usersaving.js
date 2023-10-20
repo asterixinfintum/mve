@@ -7,12 +7,16 @@ var userSavingSchema = new Schema({
     type: String,
     required: true
   },
-  type: {
+  savingsplanid: {
     type: String,
     required: true //id of loan item
   },
 
   amount: {
+    type: Number,
+    required: true
+  },
+  totaldeposit: {
     type: Number,
     required: true
   },

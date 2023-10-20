@@ -57,7 +57,7 @@
                   <h3>{{ name }}</h3>
                 </div>
                 <label class="smlabel loan-text">
-                  {{ requirement }}
+                  {{ description }}
                 </label>
 
                 <figure class="loan-img">

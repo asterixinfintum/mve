@@ -10,22 +10,14 @@ const investmentplanSchema = new Schema({
         type: String,
         required: true
     },
-    requirement: {
-        type: String,
-        required: true
+    minimumbalanceallowed: {
+        type: Number
     },
     description: {
         type: String,
-        required: true
+        required: true,
     },
-    requirements: {
-        type: Array,
-        default: []
-    },
-    minimumaccountbalance: {
-        type: Number,
-        default: 5000
-    },
+    requirements: [],
     returnpercentage: {
         type: Number,
         default: 0.5
@@ -33,38 +25,30 @@ const investmentplanSchema = new Schema({
     minimumdeposit: {
         type: Number,
         default: 1000
-    }
+    },
+    durationofinvestment: {
+        duration: {
+            type: Number,
+            required: true
+        },
+        unit: {
+            type: String
+        }
+    },
 });
 
-investmentplanSchema.statics.createinvestmentplan = async function ({
-    foruser,
-    name,
-    minimumaccountbalance,
-    returnpercentage,
-    description,
-    requirement,
-    requirements,
-    minimumdeposit }) {
-
+investmentplanSchema.statics.createinvestmentplan = async function (investementbody) {
 
     return new Promise(async (resolve, reject) => {
         try {
             const InvestmentItem = this;
 
-            const newinvestmemtitem = new InvestmentItem({
-                foruser,
-                name,
-                minimumaccountbalance,
-                returnpercentage,
-                description,
-                requirement,
-                requirements,
-                minimumdeposit
-            });
+            const newinvestmemtitem = new InvestmentItem(investementbody);
 
             await newinvestmemtitem.save();
             resolve({ message: 'success', type: 'item created', content: newinvestmemtitem });
         } catch (error) {
+            console.log(error)
             reject({ message: 'error', type: 'item creation', reason: error });
         }
     })

@@ -16,7 +16,7 @@
       </div>
       <div class="profiledropdown__item--text">Transactions</div>
     </div>
-    <div class="profiledropdown__item">
+    <div class="profiledropdown__item" @click="toroute('yourloans')">
       <div class="profiledropdown__item--svg">
         <svg>
           <use xlink:href="@/assets/imgs/sprite.svg#icon-banknote"></use>
@@ -24,7 +24,7 @@
       </div>
       <div class="profiledropdown__item--text">Your loans</div>
     </div>
-    <div class="profiledropdown__item">
+    <div class="profiledropdown__item" @click="toroute('yourinvestments')">
       <div class="profiledropdown__item--svg">
         <svg>
           <use xlink:href="@/assets/imgs/sprite.svg#icon-flow-merge"></use>

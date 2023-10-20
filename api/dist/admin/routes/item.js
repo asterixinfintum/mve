@@ -74,6 +74,7 @@ item.post('/item/createinvestmentplan', _authenticateToken["default"], function 
         success: success
       });
     })["catch"](function (error) {
+      console.log(error);
       res.status(405).send({
         error: error
       });
@@ -87,6 +88,23 @@ item.post('/item/createinvestmentplan', _authenticateToken["default"], function 
 item.post('/item/createsavingsplanitem', _authenticateToken["default"], function (req, res) {
   if (req.user && req.user._id) {
     _savingsplan["default"].createsavingsitem(req.body).then(function (success) {
+      res.status(200).send({
+        success: success
+      });
+    })["catch"](function (error) {
+      res.status(405).send({
+        error: error
+      });
+    });
+    return;
+  }
+  res.status(405).send({
+    error: 'not alowed'
+  });
+});
+item.get('/item/savingsplans', _authenticateToken["default"], function (req, res) {
+  if (req.user && req.user._id) {
+    _savingsplan["default"].getsavingsitems().then(function (success) {
       res.status(200).send({
         success: success
       });

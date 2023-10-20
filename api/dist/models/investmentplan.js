@@ -16,22 +16,14 @@ var investmentplanSchema = new Schema({
     type: String,
     required: true
   },
-  requirement: {
-    type: String,
-    required: true
+  minimumbalanceallowed: {
+    type: Number
   },
   description: {
     type: String,
     required: true
   },
-  requirements: {
-    type: Array,
-    "default": []
-  },
-  minimumaccountbalance: {
-    type: Number,
-    "default": 5000
-  },
+  requirements: [],
   returnpercentage: {
     type: Number,
     "default": 0.5
@@ -39,34 +31,32 @@ var investmentplanSchema = new Schema({
   minimumdeposit: {
     type: Number,
     "default": 1000
+  },
+  durationofinvestment: {
+    duration: {
+      type: Number,
+      required: true
+    },
+    unit: {
+      type: String
+    }
   }
 });
 investmentplanSchema.statics.createinvestmentplan = /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(_ref) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(investementbody) {
     var _this = this;
-    var foruser, name, minimumaccountbalance, returnpercentage, description, requirement, requirements, minimumdeposit;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
-          foruser = _ref.foruser, name = _ref.name, minimumaccountbalance = _ref.minimumaccountbalance, returnpercentage = _ref.returnpercentage, description = _ref.description, requirement = _ref.requirement, requirements = _ref.requirements, minimumdeposit = _ref.minimumdeposit;
           return _context2.abrupt("return", new Promise( /*#__PURE__*/function () {
-            var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(resolve, reject) {
+            var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(resolve, reject) {
               var InvestmentItem, newinvestmemtitem;
               return _regeneratorRuntime().wrap(function _callee$(_context) {
                 while (1) switch (_context.prev = _context.next) {
                   case 0:
                     _context.prev = 0;
                     InvestmentItem = _this;
-                    newinvestmemtitem = new InvestmentItem({
-                      foruser: foruser,
-                      name: name,
-                      minimumaccountbalance: minimumaccountbalance,
-                      returnpercentage: returnpercentage,
-                      description: description,
-                      requirement: requirement,
-                      requirements: requirements,
-                      minimumdeposit: minimumdeposit
-                    });
+                    newinvestmemtitem = new InvestmentItem(investementbody);
                     _context.next = 5;
                     return newinvestmemtitem.save();
                   case 5:
@@ -75,34 +65,35 @@ investmentplanSchema.statics.createinvestmentplan = /*#__PURE__*/function () {
                       type: 'item created',
                       content: newinvestmemtitem
                     });
-                    _context.next = 11;
+                    _context.next = 12;
                     break;
                   case 8:
                     _context.prev = 8;
                     _context.t0 = _context["catch"](0);
+                    console.log(_context.t0);
                     reject({
                       message: 'error',
                       type: 'item creation',
                       reason: _context.t0
                     });
-                  case 11:
+                  case 12:
                   case "end":
                     return _context.stop();
                 }
               }, _callee, null, [[0, 8]]);
             }));
             return function (_x2, _x3) {
-              return _ref3.apply(this, arguments);
+              return _ref2.apply(this, arguments);
             };
           }()));
-        case 2:
+        case 1:
         case "end":
           return _context2.stop();
       }
     }, _callee2);
   }));
   return function (_x) {
-    return _ref2.apply(this, arguments);
+    return _ref.apply(this, arguments);
   };
 }();
 investmentplanSchema.statics.getinvestmentplans = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
@@ -111,7 +102,7 @@ investmentplanSchema.statics.getinvestmentplans = /*#__PURE__*/_asyncToGenerator
     while (1) switch (_context4.prev = _context4.next) {
       case 0:
         return _context4.abrupt("return", new Promise( /*#__PURE__*/function () {
-          var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(resolve, reject) {
+          var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(resolve, reject) {
             var InvestmentItem, investmentitems;
             return _regeneratorRuntime().wrap(function _callee3$(_context3) {
               while (1) switch (_context3.prev = _context3.next) {
@@ -144,7 +135,7 @@ investmentplanSchema.statics.getinvestmentplans = /*#__PURE__*/_asyncToGenerator
             }, _callee3, null, [[0, 8]]);
           }));
           return function (_x4, _x5) {
-            return _ref5.apply(this, arguments);
+            return _ref4.apply(this, arguments);
           };
         }()));
       case 1:

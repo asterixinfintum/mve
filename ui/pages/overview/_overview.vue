@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="overview" @click="closedrops">
+    <div class="overview dasboard" @click="closedrops">
       <UserHeader
         :notifsbodstate="opennotificationsbody"
         :opennotifsbod="opennotifications"

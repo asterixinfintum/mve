@@ -25,9 +25,9 @@ if (process.env.NODE_ENV !== 'production') {
 }
 var app = (0, _express["default"])();
 var server = _http["default"].createServer(app);
-app.use(_express["default"]["static"]('public'));
-app.use('/', _express["default"]["static"]('public/ui'));
+app.use(_express["default"]["static"](_path["default"].join(__dirname, '../public/ui')));
 //app.use(express.static('uploads'));
+var staticPath = _path["default"].join(__dirname, '../public/ui');
 app.use(_express["default"].urlencoded({
   extended: false
 }));
@@ -43,7 +43,10 @@ app.use(_adminauth["default"]);
 app.use(_item["default"]);
 app.use(_client["default"]);
 app.use(_client2["default"]);
-var PORT = process.env.PORT || 8080;
+app.get('*', function (req, res) {
+  res.sendFile(_path["default"].join(staticPath, 'index.html'));
+});
+var PORT = process.env.PORT || 8081;
 _mongoose["default"].connect("".concat(process.env.DB), {
   //mongodb://db:27017/traderapiv2 =====> production
   //mongodb://127.0.0.1:27017/traderapiv2 ===> development

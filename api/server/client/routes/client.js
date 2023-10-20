@@ -7,6 +7,7 @@ import Transaction from '../../models/transaction';
 import UserContact from '../../models/usercontact';
 import UserLoan from '../models/userloan';
 import Notification from '../../models/notification';
+import UserInvestment from '../models/userinvestment';
 
 import authenticateToken from '../../utils/authenticateToken';
 
@@ -28,7 +29,6 @@ client.get('/currentclient', authenticateToken, async (req, res) => {
         return res.status(200).send({ success: { message: 'success', type: 'auth', content: { user, account, cards } } });
     }
 
-    console.log(error)
     res.status(405).send({ error: 'not alowed' });
 });
 
@@ -77,7 +77,7 @@ client.get('/transaction/get', authenticateToken, async (req, res) => {
     res.status(405).send({ error: 'not alowed' });
 });
 
-client.post('/loanapply', authenticateToken, async (req, res) => {
+/*client.post('/loanapply', authenticateToken, async (req, res) => {
     if (req.user && req.user._id) {
 
         const newloan = new UserLoan({
@@ -100,7 +100,7 @@ client.post('/loanapply', authenticateToken, async (req, res) => {
     }
 
     res.status(405).send({ error: 'not alowed' });
-})
+})*/
 
 client.post('/client/viewnotifications', authenticateToken, async (req, res) => {
     if (req.user && req.user._id) {
@@ -137,7 +137,15 @@ client.post('/client/supportcontact', authenticateToken, async (req, res) => {
 
 client.post('/client/joininvestment', authenticateToken, async (req, res) => {
     if (req.user && req.user._id) {
-        Account.addinvestmentplan(req.user._id, req.body)
+        const newuserinvestment = new UserInvestment({
+            ...req.body, user: req.user._id
+        });
+
+        await newuserinvestment.save();
+
+        const { user, investmentid, amount } = newuserinvestment;
+
+        Account.addinvestmentplan(user, investmentid, amount)
             .then(success => {
                 res.status(200).send({ success })
             })
@@ -178,6 +186,57 @@ client.get('/client/getcontacts', authenticateToken, async (req, res) => {
             });
 
         return;
+    }
+
+    res.status(405).send({ error: 'not alowed' });
+})
+
+client.post('/client/loanrequest', authenticateToken, async (req, res) => {
+    if (req.user && req.user._id) {
+        UserLoan.createuserloan(req.body)
+            .then(success => {
+                res.status(200).send({ success })
+            })
+            .catch(error => {
+                res.status(405).send({ error })
+            });
+
+        return;
+    }
+
+    res.status(405).send({ error: 'not alowed' });
+})
+
+client.get('/client/getuserloans', authenticateToken, async (req, res) => {
+    if (req.user && req.user._id) {
+        const { user } = req.query;
+        UserLoan.getuserloans(user)
+            .then(success => {
+                res.status(200).send({ success })
+            })
+            .catch(error => {
+                res.status(405).send({ error })
+            });
+
+        return;
+    }
+
+    res.status(405).send({ error: 'not alowed' });
+})
+
+client.get('/client/getinvestments', authenticateToken, async (req, res) => {
+    if (req.user && req.user._id) {
+        const { user } = req.query;
+
+        UserInvestment.getuserinvestments(user)
+            .then(success => {
+                res.status(200).send({ success })
+            })
+            .catch(error => {
+                res.status(405).send({ error })
+            });
+
+        return
     }
 
     res.status(405).send({ error: 'not alowed' });

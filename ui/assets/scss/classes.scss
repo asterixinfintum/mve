@@ -72,6 +72,10 @@
         }
     }
 
+    &.blue-background {
+        background: $button-blue;
+    }
+
     & span {
         display: flex;
         align-items: center;
@@ -412,6 +416,14 @@ a {
     z-index: 2000 !important;
 }
 
+.higherz {
+    z-index: 4000 !important;
+}
+
+.lowerz {
+    z-index: 1 !important;
+}
+
 .relativeposition {
     position: relative;
 }
@@ -455,8 +467,21 @@ a {
     width: #{scaleValue(1000)};
 }
 
+.halfscreen-width-2 {
+    width: #{scaleValue(700)};
+}
+
 a.orange {
     text-decoration: none;
     font-size:  #{scaleValue(16)};
     border: none;
+}
+
+.darkerblue {
+    color: $darker-blue !important;
+}
+
+.flex-reverse-column {
+    display: flex;
+    flex-direction: column-reverse;
 }

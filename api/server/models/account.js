@@ -89,20 +89,26 @@ accountSchema.statics.addloan = async function (user, loanid) {
     });
 }
 
-accountSchema.statics.addinvestmentplan = async function (user, { amount, target, investmentplanid }) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const Account = this;
-            const acc = await Account.findOne({ user });
+accountSchema.statics.addinvestmentplan = async function (user, investmentid, amount) {
+    try {
+        const Account = this;
+        const acc = await Account.findOne({ user });
 
-            const investmentplans = [{ amount, target, investmentplanid }, ...acc.investmentplans];
+        if (acc.balance > amount) {
+            const investmentplans = acc.investmentplans;
+            investmentplans.push(investmentid);
             acc.investmentplans = investmentplans;
+
+            const updatedbalance = acc.balance - amount;
+            acc.balance = updatedbalance;
+
             await acc.save();
-            resolve({ message: 'success', type: 'loan application for user', content: acc });
-        } catch (error) {
-            reject({ message: 'error', type: 'auth', reason: error });
+
+            return { message: 'success', type: 'loan application for user', content: acc };
         }
-    })
+    } catch (error) {
+        return { message: 'error', type: 'auth', reason: error };
+    }
 }
 
 
@@ -142,7 +148,7 @@ accountSchema.statics.createuserinvestment = async function (user, body) {
     })
 }
 
-accountSchema.statics.getuserinvestments = async function(user) {
+accountSchema.statics.getuserinvestments = async function (user) {
     return new Promise(async (resolve, reject) => {
         try {
             const Account = this;

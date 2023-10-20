@@ -33,6 +33,28 @@ export const mutations = {
 }
 
 export const actions = {
+    async getcurrentadmin({ commit }, adminid) {
+        const token = localStorage.getItem('873__jh6bdjklkjhghn');
+
+        if (token) {
+            const data = await getfromserver({ token: token, path: `currentadmin?id=${adminid}` });
+
+            if (data.success) {
+                const { content } = data.success;
+
+                const { _id, username, token } = content;
+
+                const admin = {
+                    _id,
+                    username,
+                    token
+                };
+
+                commit('SET_ADMIN', admin);
+                commit('SET_ADMIN_TOKEN', token);
+            }
+        }
+    },
     adminentry({ commit }, credentials) {
         return new Promise(async (resolve, reject) => {
             const data = await posttoserver({ body: credentials, path: 'admin/signin' });
@@ -88,7 +110,7 @@ export const actions = {
 
                 if (data.success) {
                     const users = data.success.content;
-                    console.log(users);
+                    //console.log(users);
                     commit('SET_USERS', users);
                 }
             }
@@ -233,38 +255,23 @@ export const actions = {
         }
     },
     async createloanitem({ commit }, body) {
-        return new Promise(async (resolve, reject) => {
-            const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
+        const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
 
-            console.log(body, 'check action')
-
-            const data = await posttoserver({ token: admintoken, body, path: `item/createloan` });
-
-            if (data.success) {
-                resolve('')
-            }
-        })
+        await posttoserver({ token: admintoken, body, path: `item/createloan` });
     },
     async createinvestmentitem({ commit }, body) {
-        return new Promise(async (resolve, reject) => {
-            const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
+        const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
 
-            const data = await posttoserver({ token: admintoken, body, path: `item/createinvestmentplan` });
-
-            if (data.success) {
-                resolve('')
-            }
-        });
+        await posttoserver({ token: admintoken, body, path: `item/createinvestmentplan` });
     },
     async createsavingsitem({ commit }, body) {
-        return new Promise(async (resolve, reject) => {
+        try {
             const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
 
-            const data = await posttoserver({ token: admintoken, body, path: `item/createsavingsplanitem` });
+            await posttoserver({ token: admintoken, body, path: `item/createsavingsplanitem` });
 
-            if (data.success) {
-                resolve('')
-            }
-        })
+        } catch (error) {
+            return error
+        }
     }
 }

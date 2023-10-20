@@ -80,6 +80,10 @@ import global from "@/mixins/global";
 export default {
   mixins: [global],
   mounted() {
+    let id = this.$route.query.admin;
+
+    this.getcurrentadmin(id);
+    
     this.getusers();
     this.getloans();
     this.getinvestmentplans();
