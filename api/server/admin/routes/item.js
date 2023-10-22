@@ -134,39 +134,7 @@ item.post('/item/create', authenticateToken, (req, res) => {
 });
 
 item.get('/items', authenticateToken, async (req, res) => {
-    /*if (req.user && req.user._id) {
-        const { type, userid } = req.query;
-
-        if (type === 'loans') {
-            const loans = await ItemEditor.getLoans();
-            res.status(200).send({ success: { message: 'success', type: 'admin loans get', content: loans } })
-        }
-
-        if (type === 'investmentplans') {
-            const investementplans = await ItemEditor.getInvestmentplans();
-            res.status(200).send({ success: { message: 'success', type: 'admin investment plans get', content: investementplans } })
-        }
-
-        if (type === 'savingsplans') {
-            const savingsplans = await ItemEditor.getSavingsplans();
-            res.status(200).send({ success: { message: 'success', type: 'admin savings plans get', content: savingsplans } })
-        }
-
-        if (type === 'notifications' && userid) {
-            const notifications = await ItemEditor.getNotificationsByUser(userid);
-            res.status(200).send({ success: { message: 'success', type: 'admin notifications get', content: notifications } })
-        }
-
-        if (type === 'notifications') {
-            const notifications = await ItemEditor.getNotifications();
-            res.status(200).send({ success: { message: 'success', type: 'admin notifications get', content: notifications } })
-        }
-
-        return;
-    }
-
-
-    res.status(405).send({ error: 'not alowed' });*/
+    res.status(200).send({ success: { message: 'success', type: 'admin notifications get', content: [] } })
 });
 
 item.put('/item/update', authenticateToken, (req, res) => {

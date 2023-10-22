@@ -144,6 +144,14 @@ item.get('/items', _authenticateToken["default"], /*#__PURE__*/function () {
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
+          res.status(200).send({
+            success: {
+              message: 'success',
+              type: 'admin notifications get',
+              content: []
+            }
+          });
+        case 1:
         case "end":
           return _context.stop();
       }

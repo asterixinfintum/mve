@@ -200,6 +200,7 @@ export default {
       this.getusernotifications(id);
       this.getuserloans(id);
       this.getuserinvestments(id);
+      this.getusersavingsplans(id);
     }
 
     this.gettransfers();

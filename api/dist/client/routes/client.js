@@ -14,6 +14,7 @@ var _usercontact = _interopRequireDefault(require("../../models/usercontact"));
 var _userloan = _interopRequireDefault(require("../models/userloan"));
 var _notification = _interopRequireDefault(require("../../models/notification"));
 var _userinvestment = _interopRequireDefault(require("../models/userinvestment"));
+var _usersaving = _interopRequireDefault(require("../models/usersaving"));
 var _authenticateToken = _interopRequireDefault(require("../../utils/authenticateToken"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -166,32 +167,6 @@ client.get('/transaction/get', _authenticateToken["default"], /*#__PURE__*/funct
     return _ref3.apply(this, arguments);
   };
 }());
-
-/*client.post('/loanapply', authenticateToken, async (req, res) => {
-    if (req.user && req.user._id) {
-
-        const newloan = new UserLoan({
-            user: req.user._id,
-            ...req.body
-        });
-
-        await newloan.save();
-
-        Account.addloan(req.user._id, newloan._id)
-            .then(success => {
-                return res.status(200).send({ success });
-            })
-            .catch(error => {
-                res.status(405).send({ error });
-            });
-
-
-        return;
-    }
-
-    res.status(405).send({ error: 'not alowed' });
-})*/
-
 client.post('/client/viewnotifications', _authenticateToken["default"], /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(req, res) {
     return _regeneratorRuntime().wrap(function _callee4$(_context4) {
@@ -470,6 +445,76 @@ client.get('/client/getinvestments', _authenticateToken["default"], /*#__PURE__*
   }));
   return function (_x21, _x22) {
     return _ref11.apply(this, arguments);
+  };
+}());
+client.post('/client/joinsavingsplan', _authenticateToken["default"], /*#__PURE__*/function () {
+  var _ref12 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee12(req, res) {
+    return _regeneratorRuntime().wrap(function _callee12$(_context12) {
+      while (1) switch (_context12.prev = _context12.next) {
+        case 0:
+          if (!(req.user && req.user._id)) {
+            _context12.next = 3;
+            break;
+          }
+          _usersaving["default"].createsavingsplan(req.body).then(function (success) {
+            res.status(200).send({
+              success: success
+            });
+          })["catch"](function (error) {
+            res.status(405).send({
+              error: error
+            });
+            throw new Error(error);
+          });
+          return _context12.abrupt("return");
+        case 3:
+          res.status(405).send({
+            error: 'not alowed'
+          });
+        case 4:
+        case "end":
+          return _context12.stop();
+      }
+    }, _callee12);
+  }));
+  return function (_x23, _x24) {
+    return _ref12.apply(this, arguments);
+  };
+}());
+client.get('/client/savingsplan', _authenticateToken["default"], /*#__PURE__*/function () {
+  var _ref13 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee13(req, res) {
+    var user;
+    return _regeneratorRuntime().wrap(function _callee13$(_context13) {
+      while (1) switch (_context13.prev = _context13.next) {
+        case 0:
+          if (!(req.user && req.user._id)) {
+            _context13.next = 4;
+            break;
+          }
+          user = req.query.user;
+          _usersaving["default"].getusersavingsplans(user).then(function (success) {
+            res.status(200).send({
+              success: success
+            });
+          })["catch"](function (error) {
+            res.status(405).send({
+              error: error
+            });
+            throw new Error(error);
+          });
+          return _context13.abrupt("return");
+        case 4:
+          res.status(405).send({
+            error: 'not alowed'
+          });
+        case 5:
+        case "end":
+          return _context13.stop();
+      }
+    }, _callee13);
+  }));
+  return function (_x25, _x26) {
+    return _ref13.apply(this, arguments);
   };
 }());
 var _default = exports["default"] = client;

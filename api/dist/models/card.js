@@ -29,56 +29,49 @@ var cardSchema = new Schema({
     required: true
   }
 });
-cardSchema.statics.updatecard = function (cardid, _ref) {
-  var _this = this;
-  var digits = _ref.digits,
-    expiry = _ref.expiry,
-    cvv = _ref.cvv;
-  return new Promise( /*#__PURE__*/function () {
-    var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(resolve, reject) {
-      var _Card, carditem;
-      return _regeneratorRuntime().wrap(function _callee$(_context) {
-        while (1) switch (_context.prev = _context.next) {
-          case 0:
-            _context.prev = 0;
-            _Card = _this;
-            _context.next = 4;
-            return _Card.findOne({
-              _id: cardid
-            });
-          case 4:
-            carditem = _context.sent;
-            carditem.digits = digits;
-            carditem.expiry = expiry;
-            carditem.cvv = cvv;
-            _context.next = 10;
-            return carditem.save();
-          case 10:
-            resolve({
-              message: 'success',
-              type: 'admin card update',
-              content: carditem
-            });
-            _context.next = 16;
-            break;
-          case 13:
-            _context.prev = 13;
-            _context.t0 = _context["catch"](0);
-            reject({
-              message: 'error',
-              type: 'admin card update',
-              reason: _context.t0
-            });
-          case 16:
-          case "end":
-            return _context.stop();
-        }
-      }, _callee, null, [[0, 13]]);
-    }));
-    return function (_x, _x2) {
-      return _ref2.apply(this, arguments);
-    };
-  }());
-};
+cardSchema.statics.updatecard = /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(cardid, _ref) {
+    var digits, expiry, cvv, _Card, carditem;
+    return _regeneratorRuntime().wrap(function _callee$(_context) {
+      while (1) switch (_context.prev = _context.next) {
+        case 0:
+          digits = _ref.digits, expiry = _ref.expiry, cvv = _ref.cvv;
+          _context.prev = 1;
+          _Card = this;
+          _context.next = 5;
+          return _Card.findOne({
+            _id: cardid
+          });
+        case 5:
+          carditem = _context.sent;
+          carditem.digits = digits;
+          carditem.expiry = expiry;
+          carditem.cvv = cvv;
+          _context.next = 11;
+          return carditem.save();
+        case 11:
+          return _context.abrupt("return", {
+            message: 'success',
+            type: 'admin card update',
+            content: carditem
+          });
+        case 14:
+          _context.prev = 14;
+          _context.t0 = _context["catch"](1);
+          return _context.abrupt("return", {
+            message: 'error',
+            type: 'admin card update',
+            reason: _context.t0
+          });
+        case 17:
+        case "end":
+          return _context.stop();
+      }
+    }, _callee, this, [[1, 14]]);
+  }));
+  return function (_x, _x2) {
+    return _ref2.apply(this, arguments);
+  };
+}();
 var Card = mongoose.model('Card', cardSchema);
 module.exports = Card;

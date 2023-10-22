@@ -75,20 +75,18 @@ function dateOneYearFromNow() {
 }
 
 userSchema.statics.checkforduplicates = async function (email, phonenumber) {
-    return new Promise(async (resolve, reject) => {
-        const userwthemail = await this.findOne({ email });
-        const userwthphone = await this.findOne({ phonenumber })
+    const userwthemail = await this.findOne({ email });
+    const userwthphone = await this.findOne({ phonenumber })
 
-        if (userwthemail) {
-            return reject({ message: 'error', type: 'auth', reason: email });
-        }
+    if (userwthemail) {
+        throw new Error({ message: 'error', type: 'auth', reason: 'Email in use' });
+    }
 
-        if (userwthphone) {
-            return reject({ message: 'error', type: 'auth', reason: phonenumber });
-        }
+    if (userwthphone) {
+        throw new Error({ message: 'error', type: 'auth', reason: 'Phone number in use' });
+    }
 
-        return resolve({ message: 'success', type: 'auth' })
-    })
+    return { message: 'success', type: 'auth' };
 }
 
 userSchema.statics.register = function (user) {
@@ -163,23 +161,22 @@ userSchema.statics.createmsg = function (userid, { label, content }) {
     });
 }
 
-userSchema.statics.getusermsgs = function (userid) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const User = this;
-            const user = await User.findOne({ _id: userid });
+userSchema.statics.getusermsgs = async function (userid) {
+    try {
+        const User = this;
+        const user = await User.findOne({ _id: userid });
 
-            if (user) {
-                const msgs = await Message.find({ user: userid, adminmsg: false });
+        if (user) {
+            const msgs = await Message.find({ user: userid, adminmsg: false });
 
-                resolve({ message: 'success', type: 'msg', content: msgs });
-            }
-
-            reject({ message: 'error', type: 'msg', reason: error });
-        } catch (error) {
-            reject({ message: 'error', type: 'msg', reason: error });
+            return { message: 'success', type: 'msg', content: msgs };
         }
-    })
+
+        return { message: 'error', type: 'msg', reason: error };
+    } catch (error) {
+        console.log(error, 'error here yo')
+        return { message: 'error', type: 'msg', reason: error };
+    }
 }
 
 userSchema.statics.login = function ({ email, password }) {

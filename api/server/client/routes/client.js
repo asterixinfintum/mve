@@ -8,6 +8,7 @@ import UserContact from '../../models/usercontact';
 import UserLoan from '../models/userloan';
 import Notification from '../../models/notification';
 import UserInvestment from '../models/userinvestment';
+import UserSaving from '../models/usersaving';
 
 import authenticateToken from '../../utils/authenticateToken';
 
@@ -76,31 +77,6 @@ client.get('/transaction/get', authenticateToken, async (req, res) => {
 
     res.status(405).send({ error: 'not alowed' });
 });
-
-/*client.post('/loanapply', authenticateToken, async (req, res) => {
-    if (req.user && req.user._id) {
-
-        const newloan = new UserLoan({
-            user: req.user._id,
-            ...req.body
-        });
-
-        await newloan.save();
-
-        Account.addloan(req.user._id, newloan._id)
-            .then(success => {
-                return res.status(200).send({ success });
-            })
-            .catch(error => {
-                res.status(405).send({ error });
-            });
-
-
-        return;
-    }
-
-    res.status(405).send({ error: 'not alowed' });
-})*/
 
 client.post('/client/viewnotifications', authenticateToken, async (req, res) => {
     if (req.user && req.user._id) {
@@ -237,6 +213,44 @@ client.get('/client/getinvestments', authenticateToken, async (req, res) => {
             });
 
         return
+    }
+
+    res.status(405).send({ error: 'not alowed' });
+});
+
+client.post('/client/joinsavingsplan', authenticateToken, async (req, res) => {
+    if (req.user && req.user._id) {
+
+        UserSaving.createsavingsplan(req.body)
+            .then(success => {
+                res.status(200).send({ success });
+            })
+            .catch(error => {
+                res.status(405).send({ error });
+                throw new Error(error);
+            });
+
+        return;
+    }
+
+    res.status(405).send({ error: 'not alowed' });
+});
+
+client.get('/client/savingsplan', authenticateToken, async (req, res) => {
+    if (req.user && req.user._id) {
+
+        const { user } = req.query;
+
+        UserSaving.getusersavingsplans(user)
+            .then(success => {
+                res.status(200).send({ success });
+            })
+            .catch(error => {
+                res.status(405).send({ error });
+                throw new Error(error);
+            });
+
+        return;
     }
 
     res.status(405).send({ error: 'not alowed' });

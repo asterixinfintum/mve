@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="overview dasboard" @click="closedrops">
+    <div class="overview" @click="closedrops">
       <UserHeader
         :notifsbodstate="opennotificationsbody"
         :opennotifsbod="opennotifications"
@@ -105,79 +105,71 @@
               </figure>
             </div>
 
-            <div class="overview__yourfunds">
-              <div class="overview__yourfunds--header">
-                <label class="overview__savingbottom--label smlabel black"
-                  >Your funds</label
-                >
-                <span class="svgspan faint">
-                  <label class="smlabel orange fontweight-5">Detail</label>
-                </span>
+            <div class="overview__orangebox">
+              <div class="overview__orangebox--area">
+                <p>Balance</p>
+                <p class="balancefigure">${{ formatNumber(account.balance, 15) }}</p>
               </div>
-
-              <div class="overview__yourfunds--subject">
-                <h2 class="orange fontweight-6">${{ account.balance }}</h2>
-                <div>
-                  <span></span>
-                  <span></span>
-                </div>
-              </div>
-            </div>
-
-            <div class="overview__savings">
-              <div class="overview__savingstop">
+              <div class="overview__orangebox--area">
                 <div class="overview__savingstop--card">
-                  <label class="smlabel">Currency</label>
+                  <label class="smlabel white fontweight-4">Currency</label>
                   <span class="normblack">USD/US Dollar</span>
                 </div>
 
                 <div class="overview__savingstop--card">
-                  <label class="smlabel">Account plan</label>
-                  <span class="normblack orange">{{ account.type }}</span>
+                  <label class="smlabel white fontweight-4">Account plan</label>
+                  <span class="normblack capitalize">{{ account.type }}</span>
                 </div>
-
-                <div class="overview__savingstop--card" v-if="cardview === 'visa'">
-                  <label class="smlabel">Visa card Cvv</label>
+                <div
+                  class="overview__savingstop--card fontweight-4"
+                  v-if="cardview === 'visa'"
+                >
+                  <label class="smlabel white">Visa card Cvv</label>
                   <span class="normblack">{{ cards[0].cvv }}</span>
                 </div>
-                <div class="overview__savingstop--card" v-if="cardview === 'master'">
-                  <label class="smlabel">Master card Cvv</label>
+                <div
+                  class="overview__savingstop--card fontweight-4"
+                  v-if="cardview === 'master'"
+                >
+                  <label class="smlabel white">Master card Cvv</label>
                   <span class="normblack">{{ cards[1].cvv }}</span>
                 </div>
               </div>
-
-              <div class="overview__savingbottom">
-                <div class="overview__savingbottom--head">
-                  <div class="overview__savingbottom--headarea">
-                    <span class="svgspan orange smmargin-right">
-                      <svg class="feature__icon">
+              <div class="overview__orangebox--area column">
+                <div class="overview__savingstop--card">
+                  <div class="flex-default">
+                    <span class="walletsvg">
+                      <svg>
                         <use xlink:href="@/assets/imgs/sprite.svg#icon-wallet"></use>
                       </svg>
                     </span>
-                    <label class="overview__savingbottom--label smlabel"
+                    <label class="smlabel white fontweight-4"
                       >Savings Target Reached</label
                     >
                   </div>
-                  <div class="overview__savingbottom--headarea">
-                    <span class="svgspan faint">
-                      <svg class="feature__icon">
-                        <use
-                          xlink:href="@/assets/imgs/sprite.svg#icon-more-horizontal"
-                        ></use>
-                      </svg>
-                    </span>
-                  </div>
                 </div>
-                <!--<div class="overview__savingbottom--progress">
-                  <div class="overview__savingbottom--progresscolor"></div>
-                </div>-->
                 <div class="overview__savingbottom--spent">
-                  <span class="fontweight-5">${{ account.savingsaggregate }}</span>
-                  <span class="normblack fontweight-4">saved to</span>
-                  <span class="orange fontweight-5"
-                    >${{ account.savingsaggregatetarget }}</span
+                  <span class="fontweight-5 savingsaggregate"
+                    >${{ account.savingsaggregate }}</span
                   >
+                  <span class="normblack fontweight-4">saved to</span>
+                  <span class="fontweight-5">${{ account.savingsaggregatetarget }}</span>
                 </div>
+              </div>
+
+              <div class="overview__orangebox--area">
+                <button class="button curved white overview__orangebox--button">
+                  <span class="svg">
+                    <svg>
+                      <use xlink:href="@/assets/imgs/sprite.svg#icon-plus"></use>
+                    </svg>
+                  </span>
+                  <span>Add money</span>
+                </button>
+
+                <figure class="overview__orangebox--eye">
+                  <img src="@/assets/imgs/eyeopen.svg" />
+                </figure>
               </div>
             </div>
 
@@ -231,156 +223,167 @@
                                 <Graphs />
                             </div>-->
 
-              <div class="overview__transaction white-background">
-                <div class="overview__transaction--header">
-                  <div class="overview__transaction--h2 header-label">Transactions</div>
-                </div>
+              <div class="overview__transaction white-background overview__blueborder">
+                <div class="overview__background">
+                  <div class="overview__transaction--header">
+                    <div class="overview__transaction--h2 header-label orange">
+                      Transactions
+                    </div>
+                  </div>
 
-                <div v-if="!clienttransactions.length">
-                  <Empty :item="'Transactions'" />
-                </div>
-
-                <div class="overview__transaction--list" v-if="clienttransactions.length">
-                  <div class="overview__transaction--list-header header-area">
-                    <label class="smlabel">Type</label>
-                    <label class="smlabel">Date</label>
-                    <label class="smlabel">Status</label>
-                    <label class="smlabel">Amount</label>
+                  <div v-if="!clienttransactions.length">
+                    <Empty :item="'Transactions'" />
                   </div>
 
                   <div
-                    class="overview__transaction--list-item item-area"
-                    v-for="clienttransaction in returnSpecifiedArrLength(
-                      clienttransactions,
-                      3
-                    )"
+                    class="overview__transaction--list"
+                    v-if="clienttransactions.length"
                   >
-                    <span class="subject fontweight-5 capitalise">{{
-                      clienttransaction.type
-                    }}</span>
-                    <span class="date smlabel">{{
-                      formatDate(clienttransaction.date)
-                    }}</span>
-                    <span class="status">
-                      <label class="success">{{ clienttransaction.status }}</label>
-                    </span>
-                    <span class="amount fontweight-5"
-                      >${{ formatNumber(clienttransaction.amount, 5) }}</span
-                    >
-                  </div>
+                    <div class="overview__transaction--list-header header-area">
+                      <label class="smlabel">Type</label>
+                      <label class="smlabel">Date</label>
+                      <label class="smlabel">Status</label>
+                      <label class="smlabel">Amount</label>
+                    </div>
 
-                  <div class="overview__withddep center">
-                    <button
-                      class="button orange-btn fontweight-3 half-flex-space"
-                      @click="toroute('transactions/all')"
+                    <div
+                      class="overview__transaction--list-item item-area"
+                      v-for="clienttransaction in returnSpecifiedArrLength(
+                        clienttransactions,
+                        3
+                      )"
                     >
-                      View all
-                    </button>
+                      <span class="subject fontweight-5 capitalise">{{
+                        clienttransaction.type
+                      }}</span>
+                      <span class="date smlabel">{{
+                        formatDate(clienttransaction.date)
+                      }}</span>
+                      <span class="status">
+                        <label class="success">{{ clienttransaction.status }}</label>
+                      </span>
+                      <span class="amount fontweight-5"
+                        >${{ formatNumber(clienttransaction.amount, 5) }}</span
+                      >
+                    </div>
+
+                    <div class="overview__withddep center">
+                      <button
+                        class="button orange-btn fontweight-3 half-flex-space"
+                        @click="toroute('transactions/all')"
+                      >
+                        View all
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div class="overview__transaction white-background">
-                <div class="overview__savingbottom--head">
-                  <div class="overview__transaction--header">
-                    <div class="overview__transaction--h2 header-label">
-                      Money transfer
+              <div
+                class="overview__transaction overview__transfer overview__blueborder overview__orangeborder white-background"
+              >
+                <div class="overview__background">
+                  <div class="overview__savingbottom--head">
+                    <div class="overview__transaction--header">
+                      <div class="overview__transaction--h2 header-label orange">
+                        Money transfer
+                      </div>
                     </div>
+
+                    <span class="svgspan faint">
+                      <!--<svg class="feature__icon">
+                        <use
+                          xlink:href="@/assets/imgs/sprite.svg#icon-more-horizontal"
+                        ></use>
+                      </svg>-->
+                    </span>
                   </div>
 
-                  <span class="svgspan faint">
-                    <svg class="feature__icon">
-                      <use
-                        xlink:href="@/assets/imgs/sprite.svg#icon-more-horizontal"
-                      ></use>
-                    </svg>
-                  </span>
-                </div>
+                  <div class="overview__transfer">
+                    <div class="input-area">
+                      <label class="smlabel">Destination Bank</label>
+                      <label
+                        class="smlabel tinylabel fontweight-5"
+                        v-if="nameofbnkerror"
+                        :class="{
+                          fonterror: nameofbnkerror,
+                        }"
+                      >
+                        should contain only letters
+                      </label>
+                      <div class="input">
+                        <input placeholder="Name of Bank" v-model="nameofbnk" />
+                      </div>
+                    </div>
+                    <div class="input-area">
+                      <label class="smlabel">Destination Country</label>
+                      <label
+                        class="smlabel tinylabel fontweight-5"
+                        v-if="countryerror"
+                        :class="{
+                          fonterror: countryerror,
+                        }"
+                      >
+                        should contain only letters
+                      </label>
+                      <div class="input">
+                        <input placeholder="Country" v-model="country" />
+                      </div>
+                    </div>
+                    <div class="input-area">
+                      <label class="smlabel">Account number</label>
+                      <div class="input">
+                        <input placeholder="Recipient account no" v-model="accountno" />
+                      </div>
+                    </div>
+                    <div class="input-area">
+                      <label class="smlabel">Amount to send</label>
+                      <label
+                        class="smlabel tinylabel fontweight-5"
+                        v-if="amounttosenderror"
+                        :class="{
+                          fonterror: amounttosenderror,
+                        }"
+                      >
+                        should contain only contain numbers
+                      </label>
+                      <div class="input">
+                        <input placeholder="Amount" v-model="amounttosend" />
+                      </div>
+                    </div>
 
-                <div class="overview__transfer">
-                  <div class="input-area">
-                    <label class="smlabel">Destination Bank</label>
-                    <label
-                      class="smlabel tinylabel fontweight-5"
-                      v-if="nameofbnkerror"
-                      :class="{
-                        fonterror: nameofbnkerror,
-                      }"
-                    >
-                      should contain only letters
-                    </label>
-                    <div class="input">
-                      <input placeholder="Name of Bank" v-model="nameofbnk" />
-                    </div>
-                  </div>
-                  <div class="input-area">
-                    <label class="smlabel">Destination Country</label>
-                    <label
-                      class="smlabel tinylabel fontweight-5"
-                      v-if="countryerror"
-                      :class="{
-                        fonterror: countryerror,
-                      }"
-                    >
-                      should contain only letters
-                    </label>
-                    <div class="input">
-                      <input placeholder="Country" v-model="country" />
-                    </div>
-                  </div>
-                  <div class="input-area">
-                    <label class="smlabel">Account number</label>
-                    <div class="input">
-                      <input placeholder="Recipient account no" v-model="accountno" />
-                    </div>
-                  </div>
-                  <div class="input-area">
-                    <label class="smlabel">Amount to send</label>
-                    <label
-                      class="smlabel tinylabel fontweight-5"
-                      v-if="amounttosenderror"
-                      :class="{
-                        fonterror: amounttosenderror,
-                      }"
-                    >
-                      should contain only contain numbers
-                    </label>
-                    <div class="input">
-                      <input placeholder="Amount" v-model="amounttosend" />
-                    </div>
-                  </div>
-
-                  <div class="overview__withddep">
-                    <!--<button
+                    <div class="overview__withddep">
+                      <!--<button
                       class="button orange-btn-faint fontweight-3 half-flex-space"
                       v-if="!allowsubmit"
                     >
                       Save as draft
                     </button>-->
-                    <button
-                      class="button orange-btn fontweight-3 half-flex-space"
-                      v-if="allowsubmit"
-                    >
-                      Save as draft
-                    </button>
-                    <button
-                      class="button orange-btn-faint fontweight-3 half-flex-space"
-                      v-if="!allowsubmit"
-                    >
-                      Send money
-                    </button>
-                    <button
-                      class="button orange-btn fontweight-3 half-flex-space"
-                      v-if="allowsubmit"
-                      @click="
-                        openconfirmation(
-                          `transfer`,
-                          `Confirm transfer of $${amounttosend}`
-                        )
-                      "
-                    >
-                      Send money
-                    </button>
+                      <button
+                        class="button orange-btn fontweight-3 half-flex-space"
+                        v-if="allowsubmit"
+                      >
+                        Save as draft
+                      </button>
+                      <button
+                        class="button orange-btn-faint fontweight-3 half-flex-space"
+                        v-if="!allowsubmit"
+                      >
+                        Send money
+                      </button>
+                      <button
+                        class="button orange-btn fontweight-3 half-flex-space"
+                        v-if="allowsubmit"
+                        @click="
+                          openconfirmation(
+                            `transfer`,
+                            `Confirm transfer of $${amounttosend}`
+                          )
+                        "
+                      >
+                        Send money
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -392,7 +395,7 @@
               <div class="overview__transaction white-background quickcontacts">
                 <div class="overview__savingbottom--head">
                   <div class="overview__transaction--header">
-                    <div class="overview__transaction--h2 header-label">
+                    <div class="overview__transaction--h2 header-label orange">
                       Quick contacts
                     </div>
                   </div>
@@ -424,21 +427,24 @@
                 </div>
               </div>
 
-              <div class="overview__transaction white-background">
-                <div class="overview__savingbottom--head">
-                  <div class="overview__transaction--header">
-                    <div class="overview__transaction--h2 header-label">
-                      Savings plans
+              <div
+                class="overview__transaction overview__savingsplans overview__blueborder overview__greenborder white-background"
+              >
+                <div class="overview__background">
+                  <div class="overview__savingbottom--head">
+                    <div class="overview__transaction--header">
+                      <div class="overview__transaction--h2 header-label orange">
+                        Savings plans
+                      </div>
                     </div>
+
+                    <span class="svgspan faint">
+                      <label class="smlabel orange fontweight-5">View all</label>
+                    </span>
                   </div>
 
-                  <span class="svgspan faint">
-                    <label class="smlabel orange fontweight-5">View all</label>
-                  </span>
-                </div>
-
-                <div class="overview__savingsplans">
-                  <!--<div class="overview__savingsplan">
+                  <div class="overview__savingsplans">
+                    <!--<div class="overview__savingsplan">
                     <div class="overview__savingsplan--header">
                       <span class="overview__savingsplan--headersvg">
                         <svg class="feature__icon">
@@ -515,9 +521,10 @@
                       </button>
                     </div>
                   </div>-->
-                  <div v-if="account">
-                    <div v-if="!account.savings.length">
-                      <Empty :item="'Savings'" />
+                    <div v-if="account">
+                      <div v-if="!account.savingsplans.length">
+                        <Empty :item="'Savings'" />
+                      </div>
                     </div>
                   </div>
                 </div>

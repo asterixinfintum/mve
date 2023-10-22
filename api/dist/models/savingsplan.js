@@ -25,6 +25,10 @@ var savingsplanSchema = new Schema({
     type: Number,
     required: true
   },
+  tax: {
+    type: Number,
+    "default": 0.05
+  },
   minimumaccountbalance: {
     type: Number,
     "default": 5000

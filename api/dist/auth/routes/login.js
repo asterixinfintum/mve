@@ -21,6 +21,7 @@ login.post('/login', function (req, res) {
       success: success
     });
   })["catch"](function (error) {
+    console.log(error);
     res.status(405).send({
       error: error
     });

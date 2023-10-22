@@ -10,6 +10,8 @@ export default {
             opennotificationsbody: false,
             msgpopupopen: false,
             profilebody: false,
+            errorMessage: null,
+            successMessage: null
         }
     },
     computed: {
@@ -39,7 +41,8 @@ export default {
             usermsgs: state => state.admin.usermsgs,
             quickcontacts: state => state.client.quickcontacts,
             userloans: state => state.client.userloans,
-            userinvestments: state => state.client.userinvestments
+            userinvestments: state => state.client.userinvestments,
+            usersavingsplans: state => state.client.usersavingsplans
         }),
         user() {
             return this.$route.query.user ? this.$route.query.user : this.$route.params.overview;
@@ -141,9 +144,9 @@ export default {
             'getcontacts',
             'submitloanrequest',
             'getuserloans',
-            'getusersavings',
             'getusersavingsplans',
-            'getuserinvestments'
+            'getuserinvestments',
+            'joinsavingsplan'
         ]),
         ...mapActions('items', ['getloans', 'getinvestmentplans', 'getsavingsplans', 'getnotifications', 'getusernotifications']),
         toroute(route) {
@@ -153,10 +156,16 @@ export default {
                 return this.$router.push(`/${route}?user=${client._id}`)
             }
         },
+        closeErrorSuccess() {
+            this.successMessage = null;
+            this.errorMessage = null;
+        },
         toadminroute(route) {
             const { currentadmin } = this;
 
-            if (currentadmin) {
+            if (route.includes('?')) {
+                return this.$router.push(`/${route}&admin=${currentadmin._id}`)
+            } else {
                 return this.$router.push(`/${route}?admin=${currentadmin._id}`)
             }
         },
@@ -292,5 +301,13 @@ export default {
 
             return withoutPeriodAndCommas.join("");
         },
+        triggerlogout() {
+            this.onspinner();
+            this.logout()
+              .then(() =>{
+                this.offspinner();
+                this.$router.push('/');
+              })
+          },
     }
 }

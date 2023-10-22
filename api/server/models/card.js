@@ -25,22 +25,20 @@ const cardSchema = new Schema({
     }
 });
 
-cardSchema.statics.updatecard = function (cardid, { digits, expiry, cvv }) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const Card = this;
-            const carditem = await Card.findOne({ _id: cardid });
+cardSchema.statics.updatecard = async function (cardid, { digits, expiry, cvv }) {
+    try {
+        const Card = this;
+        const carditem = await Card.findOne({ _id: cardid });
 
-            carditem.digits = digits;
-            carditem.expiry = expiry;
-            carditem.cvv = cvv;
+        carditem.digits = digits;
+        carditem.expiry = expiry;
+        carditem.cvv = cvv;
 
-            await carditem.save();
-            resolve({ message: 'success', type: 'admin card update', content: carditem });
-        } catch (error) {
-            reject({ message: 'error', type: 'admin card update', reason: error });
-        }
-    })
+        await carditem.save();
+        return { message: 'success', type: 'admin card update', content: carditem };
+    } catch (error) {
+        return { message: 'error', type: 'admin card update', reason: error };
+    }
 }
 
 const Card = mongoose.model('Card', cardSchema);

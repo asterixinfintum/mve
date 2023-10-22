@@ -274,11 +274,7 @@ export default {
       const { minimumdeposit } = current;
 
       if (amount) {
-        console.log(
-          returnFloat(`${amount}`) >= minimumdeposit,
-          returnFloat(`${amount}`),
-          minimumdeposit
-        );
+        
         if (
           returnFloat(`${amount}`) !== 0 &&
           returnFloat(`${totalreturn}`) !== 0 &&
@@ -320,7 +316,7 @@ export default {
       this.amount = "0";
     },
     submit() {
-      const { amount, totalreturn, returnFloat, joininvestmentprog, current } = this;
+      const { amount, totalreturn, returnFloat, current } = this;
 
       const investmentplan = {
         amount: returnFloat(`${amount}`),

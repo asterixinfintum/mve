@@ -1,6 +1,3 @@
-let BASE;
-const DEVELOPMENT = false;
-
 function getCurrentPageDomain() {
     if (process.client) {
         // Check if the code is running on the client side
@@ -13,12 +10,22 @@ function getCurrentPageDomain() {
     }
 }
 
+let BASE = getCurrentPageDomain();
 
-if (!DEVELOPMENT) {
+//console.log(BASE);
+
+if (BASE === 'http://localhost') {
+    BASE = `http://localhost:8081`
+} else {
+    BASE = getCurrentPageDomain();
+}
+
+
+/*if (!DEVELOPMENT) {
     BASE = getCurrentPageDomain();
 } else {
     BASE = `http://localhost:8081`;
-}
+}*/
 
 async function posttoserver({ body, token, path }) {
     try {

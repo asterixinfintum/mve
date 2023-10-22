@@ -82,6 +82,7 @@
                   compoundingfrequency,
                   contributionplan,
                   term,
+                  tax,
                   _id,
                 })
               "
@@ -113,6 +114,9 @@ export default {
     "compoundingfrequency",
     "contributionplan",
     "term",
+    "_id",
+    "tax",
+    "setcurrent"
   ],
   mixins: [global],
 };

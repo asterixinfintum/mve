@@ -1,6 +1,4 @@
-import { rejects } from 'assert';
 import requester from './requester';
-import { resolve } from 'path';
 
 const { posttoserver, getfromserver } = requester;
 
@@ -8,7 +6,6 @@ export const state = () => ({
     clienttransactions: [],
     quickcontacts: [],
     userloans: [],
-    usersavings: [],
     usersavingsplans: [],
     userinvestments: []
 });
@@ -24,7 +21,7 @@ export const mutations = {
         state.userloans = data;
     },
     SET_USERSAVINGSPLANS(state, data) {
-        state.usersavings = data;
+        state.usersavingsplans = data;
     },
     SET_USERINVESTMENTPLANS(state, data) {
         state.userinvestments = data;
@@ -86,17 +83,34 @@ export const actions = {
         })
     },
     async joininvestmentprog({ commit }, body) {
-        try {
+
+        return new Promise(async (resolve, reject) => {
             const token = localStorage.getItem('873__jh6bdjklkjhghn');
 
             const data = await posttoserver({ token, body, path: `client/joininvestment` });
 
-            if (data.success) {
-
-                return data.success
+            if (!data.success) {
+                reject('error')
+            } else {
+                resolve(data)
             }
+        })
+    },
+    async joinsavingsplan({ commit }, body) {
+        try {
+            const token = localStorage.getItem('873__jh6bdjklkjhghn');
+
+            const data = await posttoserver({ token, body, path: `client/joinsavingsplan` });
+
+            if (!data.success) {
+
+                throw new Error('error here')
+            }
+
+            return data.success;
+
         } catch (error) {
-            return error;
+            throw error;
         }
     },
     async createcontact({ commit }, body) {
@@ -162,10 +176,19 @@ export const actions = {
             return error;
         }
     },
-    getusersavings({ commit }, userid) {
-        return new Promise(async (resolve, reject) => { })
+    async getusersavingsplans({ commit }, userid) {
+        try {
+            const token = localStorage.getItem('873__jh6bdjklkjhghn');
+
+            const data = await getfromserver({ token, path: `client/savingsplan?user=${userid}` });
+
+            if (data.success) {
+                const final = data.success.content;
+
+                commit('SET_USERSAVINGSPLANS', final);
+            }
+        } catch (error) {
+            throw error;
+        }
     },
-    getusersavingsplans({ commit }, userid) {
-        return new Promise(async (resolve, reject) => { })
-    }
 }

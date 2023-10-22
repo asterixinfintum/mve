@@ -3,6 +3,11 @@
     <div class="landing">
       <Header />
 
+      <ErrorSuccess 
+        :successMessage="successMessage"
+        :errorMessage="errorMessage"
+        :closeErrorSuccess="closeErrorSuccess"/>
+
       <div class="auth">
         <div class="auth__left">
           <figure class="auth__img">
@@ -56,7 +61,7 @@
                 v-if="allowlogin"
                 @click="calllogin"
               >
-                Register
+                Login
               </button>
             </div>
           </div>
@@ -82,7 +87,10 @@ export default {
           this.offspinner();
           this.$router.push(`/overview/${_id}`);
         })
-        .catch((error) => {});
+        .catch((error) => {
+          this.offspinner();
+          this.errorMessage = 'Wrong Email or password'
+        });
     },
   },
   computed: {

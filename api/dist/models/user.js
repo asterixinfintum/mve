@@ -82,83 +82,67 @@ function dateOneYearFromNow() {
   return "".concat(month, "/").concat(day);
 }
 userSchema.statics.checkforduplicates = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(email, phonenumber) {
-    var _this = this;
-    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-      while (1) switch (_context2.prev = _context2.next) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(email, phonenumber) {
+    var userwthemail, userwthphone;
+    return _regeneratorRuntime().wrap(function _callee$(_context) {
+      while (1) switch (_context.prev = _context.next) {
         case 0:
-          return _context2.abrupt("return", new Promise( /*#__PURE__*/function () {
-            var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(resolve, reject) {
-              var userwthemail, userwthphone;
-              return _regeneratorRuntime().wrap(function _callee$(_context) {
-                while (1) switch (_context.prev = _context.next) {
-                  case 0:
-                    _context.next = 2;
-                    return _this.findOne({
-                      email: email
-                    });
-                  case 2:
-                    userwthemail = _context.sent;
-                    _context.next = 5;
-                    return _this.findOne({
-                      phonenumber: phonenumber
-                    });
-                  case 5:
-                    userwthphone = _context.sent;
-                    if (!userwthemail) {
-                      _context.next = 8;
-                      break;
-                    }
-                    return _context.abrupt("return", reject({
-                      message: 'error',
-                      type: 'auth',
-                      reason: email
-                    }));
-                  case 8:
-                    if (!userwthphone) {
-                      _context.next = 10;
-                      break;
-                    }
-                    return _context.abrupt("return", reject({
-                      message: 'error',
-                      type: 'auth',
-                      reason: phonenumber
-                    }));
-                  case 10:
-                    return _context.abrupt("return", resolve({
-                      message: 'success',
-                      type: 'auth'
-                    }));
-                  case 11:
-                  case "end":
-                    return _context.stop();
-                }
-              }, _callee);
-            }));
-            return function (_x3, _x4) {
-              return _ref2.apply(this, arguments);
-            };
-          }()));
-        case 1:
+          _context.next = 2;
+          return this.findOne({
+            email: email
+          });
+        case 2:
+          userwthemail = _context.sent;
+          _context.next = 5;
+          return this.findOne({
+            phonenumber: phonenumber
+          });
+        case 5:
+          userwthphone = _context.sent;
+          if (!userwthemail) {
+            _context.next = 8;
+            break;
+          }
+          throw new Error({
+            message: 'error',
+            type: 'auth',
+            reason: 'Email in use'
+          });
+        case 8:
+          if (!userwthphone) {
+            _context.next = 10;
+            break;
+          }
+          throw new Error({
+            message: 'error',
+            type: 'auth',
+            reason: 'Phone number in use'
+          });
+        case 10:
+          return _context.abrupt("return", {
+            message: 'success',
+            type: 'auth'
+          });
+        case 11:
         case "end":
-          return _context2.stop();
+          return _context.stop();
       }
-    }, _callee2);
+    }, _callee, this);
   }));
   return function (_x, _x2) {
     return _ref.apply(this, arguments);
   };
 }();
 userSchema.statics.register = function (user) {
-  var _this2 = this;
+  var _this = this;
   return new Promise( /*#__PURE__*/function () {
-    var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(resolve, reject) {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(resolve, reject) {
       var _User, newuser, payload, token, tokens, visa, master, cards, account;
-      return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-        while (1) switch (_context3.prev = _context3.next) {
+      return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+        while (1) switch (_context2.prev = _context2.next) {
           case 0:
-            _context3.prev = 0;
-            _User = _this2;
+            _context2.prev = 0;
+            _User = _this;
             newuser = new _User(user);
             payload = {
               _id: newuser._id,
@@ -187,16 +171,16 @@ userSchema.statics.register = function (user) {
               cards: cards
             });
             newuser.account = account._id;
-            _context3.next = 14;
+            _context2.next = 14;
             return visa.save();
           case 14:
-            _context3.next = 16;
+            _context2.next = 16;
             return master.save();
           case 16:
-            _context3.next = 18;
+            _context2.next = 18;
             return account.save();
           case 18:
-            _context3.next = 20;
+            _context2.next = 20;
             return newuser.save();
           case 20:
             resolve({
@@ -204,52 +188,52 @@ userSchema.statics.register = function (user) {
               type: 'auth',
               content: newuser
             });
-            _context3.next = 27;
+            _context2.next = 27;
             break;
           case 23:
-            _context3.prev = 23;
-            _context3.t0 = _context3["catch"](0);
-            console.log(_context3.t0);
+            _context2.prev = 23;
+            _context2.t0 = _context2["catch"](0);
+            console.log(_context2.t0);
             reject({
               message: 'error',
               type: 'auth',
-              reason: _context3.t0
+              reason: _context2.t0
             });
           case 27:
           case "end":
-            return _context3.stop();
+            return _context2.stop();
         }
-      }, _callee3, null, [[0, 23]]);
+      }, _callee2, null, [[0, 23]]);
     }));
-    return function (_x5, _x6) {
-      return _ref3.apply(this, arguments);
+    return function (_x3, _x4) {
+      return _ref2.apply(this, arguments);
     };
   }());
 };
-userSchema.statics.createmsg = function (userid, _ref4) {
-  var _this3 = this;
-  var label = _ref4.label,
-    content = _ref4.content;
+userSchema.statics.createmsg = function (userid, _ref3) {
+  var _this2 = this;
+  var label = _ref3.label,
+    content = _ref3.content;
   return new Promise( /*#__PURE__*/function () {
-    var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(resolve, reject) {
+    var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(resolve, reject) {
       var _User2, user, msg;
-      return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-        while (1) switch (_context4.prev = _context4.next) {
+      return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+        while (1) switch (_context3.prev = _context3.next) {
           case 0:
-            _context4.prev = 0;
-            _User2 = _this3;
-            _context4.next = 4;
+            _context3.prev = 0;
+            _User2 = _this2;
+            _context3.next = 4;
             return _User2.findOne({
               _id: userid
             });
           case 4:
-            user = _context4.sent;
+            user = _context3.sent;
             msg = new _message["default"]({
               user: user._id,
               label: label,
               content: content
             });
-            _context4.next = 8;
+            _context3.next = 8;
             return msg.save();
           case 8:
             resolve({
@@ -257,110 +241,106 @@ userSchema.statics.createmsg = function (userid, _ref4) {
               type: 'msg',
               content: msg
             });
-            _context4.next = 14;
+            _context3.next = 14;
             break;
           case 11:
-            _context4.prev = 11;
-            _context4.t0 = _context4["catch"](0);
+            _context3.prev = 11;
+            _context3.t0 = _context3["catch"](0);
             reject({
               message: 'error',
               type: 'msg',
-              reason: _context4.t0
+              reason: _context3.t0
             });
           case 14:
           case "end":
-            return _context4.stop();
+            return _context3.stop();
         }
-      }, _callee4, null, [[0, 11]]);
+      }, _callee3, null, [[0, 11]]);
     }));
-    return function (_x7, _x8) {
-      return _ref5.apply(this, arguments);
+    return function (_x5, _x6) {
+      return _ref4.apply(this, arguments);
     };
   }());
 };
-userSchema.statics.getusermsgs = function (userid) {
-  var _this4 = this;
+userSchema.statics.getusermsgs = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(userid) {
+    var _User3, user, msgs;
+    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+      while (1) switch (_context4.prev = _context4.next) {
+        case 0:
+          _context4.prev = 0;
+          _User3 = this;
+          _context4.next = 4;
+          return _User3.findOne({
+            _id: userid
+          });
+        case 4:
+          user = _context4.sent;
+          if (!user) {
+            _context4.next = 10;
+            break;
+          }
+          _context4.next = 8;
+          return _message["default"].find({
+            user: userid,
+            adminmsg: false
+          });
+        case 8:
+          msgs = _context4.sent;
+          return _context4.abrupt("return", {
+            message: 'success',
+            type: 'msg',
+            content: msgs
+          });
+        case 10:
+          return _context4.abrupt("return", {
+            message: 'error',
+            type: 'msg',
+            reason: error
+          });
+        case 13:
+          _context4.prev = 13;
+          _context4.t0 = _context4["catch"](0);
+          console.log(_context4.t0, 'error here yo');
+          return _context4.abrupt("return", {
+            message: 'error',
+            type: 'msg',
+            reason: _context4.t0
+          });
+        case 17:
+        case "end":
+          return _context4.stop();
+      }
+    }, _callee4, this, [[0, 13]]);
+  }));
+  return function (_x7) {
+    return _ref5.apply(this, arguments);
+  };
+}();
+userSchema.statics.login = function (_ref6) {
+  var _this3 = this;
+  var email = _ref6.email,
+    password = _ref6.password;
   return new Promise( /*#__PURE__*/function () {
-    var _ref6 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(resolve, reject) {
-      var _User3, user, msgs;
+    var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(resolve, reject) {
+      var _User4, validuser, payload, token, tokens;
       return _regeneratorRuntime().wrap(function _callee5$(_context5) {
         while (1) switch (_context5.prev = _context5.next) {
           case 0:
             _context5.prev = 0;
-            _User3 = _this4;
+            _User4 = _this3;
             _context5.next = 4;
-            return _User3.findOne({
-              _id: userid
-            });
-          case 4:
-            user = _context5.sent;
-            if (!user) {
-              _context5.next = 10;
-              break;
-            }
-            _context5.next = 8;
-            return _message["default"].find({
-              user: userid,
-              adminmsg: false
-            });
-          case 8:
-            msgs = _context5.sent;
-            resolve({
-              message: 'success',
-              type: 'msg',
-              content: msgs
-            });
-          case 10:
-            reject({
-              message: 'error',
-              type: 'msg',
-              reason: error
-            });
-            _context5.next = 16;
-            break;
-          case 13:
-            _context5.prev = 13;
-            _context5.t0 = _context5["catch"](0);
-            reject({
-              message: 'error',
-              type: 'msg',
-              reason: _context5.t0
-            });
-          case 16:
-          case "end":
-            return _context5.stop();
-        }
-      }, _callee5, null, [[0, 13]]);
-    }));
-    return function (_x9, _x10) {
-      return _ref6.apply(this, arguments);
-    };
-  }());
-};
-userSchema.statics.login = function (_ref7) {
-  var _this5 = this;
-  var email = _ref7.email,
-    password = _ref7.password;
-  return new Promise( /*#__PURE__*/function () {
-    var _ref8 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(resolve, reject) {
-      var _User4, validuser, payload, token, tokens;
-      return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-        while (1) switch (_context6.prev = _context6.next) {
-          case 0:
-            _context6.prev = 0;
-            _User4 = _this5;
-            _context6.next = 4;
             return _User4.findOne({
               email: email,
               password: password
             });
           case 4:
-            validuser = _context6.sent;
+            validuser = _context5.sent;
             if (validuser) {
-              _context6.next = 7;
+              _context5.next = 7;
               break;
             }
-            return _context6.abrupt("return", reject({
+            return _context5.abrupt("return", reject({
               message: 'error',
               type: 'auth',
               reason: 'invalid user'
@@ -373,7 +353,7 @@ userSchema.statics.login = function (_ref7) {
             token = _jsonwebtoken["default"].sign(payload, process.env.secretKeyJWT);
             tokens = [token].concat(_toConsumableArray(validuser.tokens));
             validuser.tokens = tokens;
-            _context6.next = 13;
+            _context5.next = 13;
             return validuser.save();
           case 13:
             resolve({
@@ -381,59 +361,59 @@ userSchema.statics.login = function (_ref7) {
               type: 'auth',
               content: validuser
             });
-            _context6.next = 19;
+            _context5.next = 19;
             break;
           case 16:
-            _context6.prev = 16;
-            _context6.t0 = _context6["catch"](0);
+            _context5.prev = 16;
+            _context5.t0 = _context5["catch"](0);
             reject({
               message: 'error',
               type: 'auth',
-              reason: _context6.t0
+              reason: _context5.t0
             });
           case 19:
           case "end":
-            return _context6.stop();
+            return _context5.stop();
         }
-      }, _callee6, null, [[0, 16]]);
+      }, _callee5, null, [[0, 16]]);
     }));
-    return function (_x11, _x12) {
-      return _ref8.apply(this, arguments);
+    return function (_x8, _x9) {
+      return _ref7.apply(this, arguments);
     };
   }());
 };
 userSchema.statics.addTransferToUser = function (userid, transactionid) {
-  var _this6 = this;
+  var _this4 = this;
   return new Promise( /*#__PURE__*/function () {
-    var _ref9 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(resolve, reject) {
+    var _ref8 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(resolve, reject) {
       var _User5, user, transfer, account, transactions;
-      return _regeneratorRuntime().wrap(function _callee7$(_context7) {
-        while (1) switch (_context7.prev = _context7.next) {
+      return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+        while (1) switch (_context6.prev = _context6.next) {
           case 0:
-            _context7.prev = 0;
-            _User5 = _this6;
-            _context7.next = 4;
+            _context6.prev = 0;
+            _User5 = _this4;
+            _context6.next = 4;
             return _User5.findOne({
               _id: userid
             });
           case 4:
-            user = _context7.sent;
-            _context7.next = 7;
+            user = _context6.sent;
+            _context6.next = 7;
             return _transaction["default"].findOne({
               _id: transactionid
             });
           case 7:
-            transfer = _context7.sent;
-            _context7.next = 10;
+            transfer = _context6.sent;
+            _context6.next = 10;
             return _account["default"].findOne({
               _id: user.account
             });
           case 10:
-            account = _context7.sent;
+            account = _context6.sent;
             transactions = account.transactions;
             transactions.push(transfer._id);
             account.transactions = transactions;
-            _context7.next = 16;
+            _context6.next = 16;
             return account.save();
           case 16:
             resolve({
@@ -441,69 +421,69 @@ userSchema.statics.addTransferToUser = function (userid, transactionid) {
               type: 'user transfer',
               content: transfer
             });
-            _context7.next = 22;
+            _context6.next = 22;
             break;
           case 19:
-            _context7.prev = 19;
-            _context7.t0 = _context7["catch"](0);
+            _context6.prev = 19;
+            _context6.t0 = _context6["catch"](0);
             reject({
               message: 'error',
               type: 'transfer',
-              reason: _context7.t0
+              reason: _context6.t0
             });
           case 22:
           case "end":
-            return _context7.stop();
+            return _context6.stop();
         }
-      }, _callee7, null, [[0, 19]]);
+      }, _callee6, null, [[0, 19]]);
     }));
-    return function (_x13, _x14) {
-      return _ref9.apply(this, arguments);
+    return function (_x10, _x11) {
+      return _ref8.apply(this, arguments);
     };
   }());
 };
 userSchema.statics.getTransactions = function (userid) {
   return new Promise( /*#__PURE__*/function () {
-    var _ref10 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(resolve, reject) {
+    var _ref9 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(resolve, reject) {
       var account, transactions, txnsPromises, txnsarr, txns;
-      return _regeneratorRuntime().wrap(function _callee9$(_context9) {
-        while (1) switch (_context9.prev = _context9.next) {
+      return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+        while (1) switch (_context8.prev = _context8.next) {
           case 0:
-            _context9.prev = 0;
-            _context9.next = 3;
+            _context8.prev = 0;
+            _context8.next = 3;
             return _account["default"].findOne({
               user: userid
             });
           case 3:
-            account = _context9.sent;
+            account = _context8.sent;
             transactions = account.transactions;
             txnsPromises = transactions.map( /*#__PURE__*/function () {
-              var _ref11 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(transaction) {
+              var _ref10 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(transaction) {
                 var txn;
-                return _regeneratorRuntime().wrap(function _callee8$(_context8) {
-                  while (1) switch (_context8.prev = _context8.next) {
+                return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+                  while (1) switch (_context7.prev = _context7.next) {
                     case 0:
-                      _context8.next = 2;
+                      _context7.next = 2;
                       return _transaction["default"].findOne({
                         _id: transaction
                       });
                     case 2:
-                      txn = _context8.sent;
-                      return _context8.abrupt("return", txn);
+                      txn = _context7.sent;
+                      return _context7.abrupt("return", txn);
                     case 4:
                     case "end":
-                      return _context8.stop();
+                      return _context7.stop();
                   }
-                }, _callee8);
+                }, _callee7);
               }));
-              return function (_x17) {
-                return _ref11.apply(this, arguments);
+              return function (_x14) {
+                return _ref10.apply(this, arguments);
               };
             }());
-            _context9.next = 8;
+            _context8.next = 8;
             return Promise.all(txnsPromises);
           case 8:
-            txnsarr = _context9.sent;
+            txnsarr = _context8.sent;
             txns = txnsarr.filter(function (txn) {
               return txn !== undefined;
             });
@@ -512,49 +492,49 @@ userSchema.statics.getTransactions = function (userid) {
               type: 'user transfer',
               content: txns
             });
-            _context9.next = 16;
+            _context8.next = 16;
             break;
           case 13:
-            _context9.prev = 13;
-            _context9.t0 = _context9["catch"](0);
+            _context8.prev = 13;
+            _context8.t0 = _context8["catch"](0);
             reject({
               message: 'error',
               type: 'transactions',
-              reason: _context9.t0
+              reason: _context8.t0
             });
           case 16:
           case "end":
-            return _context9.stop();
+            return _context8.stop();
         }
-      }, _callee9, null, [[0, 13]]);
+      }, _callee8, null, [[0, 13]]);
     }));
-    return function (_x15, _x16) {
-      return _ref10.apply(this, arguments);
+    return function (_x12, _x13) {
+      return _ref9.apply(this, arguments);
     };
   }());
 };
 userSchema.statics.updatepassword = function (userid, newpassword, oldpassword) {
-  var _this7 = this;
+  var _this5 = this;
   return new Promise( /*#__PURE__*/function () {
-    var _ref12 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10(resolve, reject) {
+    var _ref11 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(resolve, reject) {
       var _User6, user;
-      return _regeneratorRuntime().wrap(function _callee10$(_context10) {
-        while (1) switch (_context10.prev = _context10.next) {
+      return _regeneratorRuntime().wrap(function _callee9$(_context9) {
+        while (1) switch (_context9.prev = _context9.next) {
           case 0:
-            _context10.prev = 0;
-            _User6 = _this7;
-            _context10.next = 4;
+            _context9.prev = 0;
+            _User6 = _this5;
+            _context9.next = 4;
             return _User6.findOne({
               _id: userid
             });
           case 4:
-            user = _context10.sent;
+            user = _context9.sent;
             if (!(user.password === oldpassword)) {
-              _context10.next = 12;
+              _context9.next = 12;
               break;
             }
             user.password = newpassword;
-            _context10.next = 9;
+            _context9.next = 9;
             return user.save();
           case 9:
             resolve({
@@ -562,7 +542,7 @@ userSchema.statics.updatepassword = function (userid, newpassword, oldpassword) 
               type: 'password change',
               content: user
             });
-            _context10.next = 13;
+            _context9.next = 13;
             break;
           case 12:
             reject({
@@ -571,24 +551,24 @@ userSchema.statics.updatepassword = function (userid, newpassword, oldpassword) 
               reason: 'wrong password'
             });
           case 13:
-            _context10.next = 18;
+            _context9.next = 18;
             break;
           case 15:
-            _context10.prev = 15;
-            _context10.t0 = _context10["catch"](0);
+            _context9.prev = 15;
+            _context9.t0 = _context9["catch"](0);
             reject({
               message: 'error',
               type: 'password change',
-              reason: _context10.t0
+              reason: _context9.t0
             });
           case 18:
           case "end":
-            return _context10.stop();
+            return _context9.stop();
         }
-      }, _callee10, null, [[0, 15]]);
+      }, _callee9, null, [[0, 15]]);
     }));
-    return function (_x18, _x19) {
-      return _ref12.apply(this, arguments);
+    return function (_x15, _x16) {
+      return _ref11.apply(this, arguments);
     };
   }());
 };

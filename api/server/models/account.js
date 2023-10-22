@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-import UserLoan from '../client/models/userloan';
-import UserInvestment from '../client/models/userinvestment';
-import UserSaving from '../client/models/usersaving';
-
 const accountSchema = new Schema({
     user: {
         type: String,
@@ -37,7 +33,7 @@ const accountSchema = new Schema({
         type: Array,
         default: []
     },
-    savings: {
+    savingsplans: {
         type: Array,
         default: []
     },
@@ -108,6 +104,29 @@ accountSchema.statics.addinvestmentplan = async function (user, investmentid, am
         }
     } catch (error) {
         return { message: 'error', type: 'auth', reason: error };
+    }
+}
+
+accountSchema.statics.addsavingsplan = async function (user, newusersavingsid, amount) {
+    try {
+        const Account = this;
+        const acc = await Account.findOne({ user });
+
+        if (acc.balance > amount) {
+            const savingsplans = acc.savingsplans;
+
+            const updatedbalance = acc.balance - amount;
+            acc.balance = updatedbalance;
+
+            savingsplans.push(newusersavingsid);
+            acc.savingsplans = savingsplans;
+
+            await acc.save();
+        } else {
+            throw error
+        }
+    } catch (error) {
+        throw error
     }
 }
 

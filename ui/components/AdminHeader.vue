@@ -67,6 +67,14 @@
           </span>
           <label>Messages</label>
         </div>
+        <div class="userheader__menuitem" @click="triggerlogout">
+          <span>
+            <svg class="feature__icon">
+              <use xlink:href="@/assets/imgs/sprite.svg#icon-key"></use>
+            </svg>
+          </span>
+          <label>Logout</label>
+        </div>
       </div>
 
       <div></div>

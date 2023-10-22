@@ -29,18 +29,20 @@ export const mutations = {
 }
 
 export const actions = {
-    checkauthdup({ commit }, credentials) {
-        return new Promise(async (resolve, reject) => {
+    async checkauthdup({ commit }, credentials) {
+        try {
             const { email, phonenumber } = credentials;
 
             const data = await posttoserver({ body: { email, phonenumber }, path: 'checkduplicateuser' });
 
-            if (data.success) {
-                resolve(data)
-            } else {
-                reject('error')
+            if (!data.success) {
+                throw new Error();
             }
-        })
+
+            return data.success
+        } catch (error) {
+            throw error;
+        }
     },
     register({ commit }, newuser) {
         return new Promise(async (resolve, reject) => {

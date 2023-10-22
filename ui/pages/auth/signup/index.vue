@@ -2,6 +2,12 @@
   <div>
     <div class="landing">
       <Header />
+
+      <ErrorSuccess 
+        :successMessage="successMessage"
+        :errorMessage="errorMessage"
+        :closeErrorSuccess="closeErrorSuccess"/>
+
       <div class="auth">
         <div class="auth__left">
           <figure class="auth__img">
@@ -248,14 +254,13 @@ export default {
       this.triggerloading("checking for duplicates");
       checkauthdup(credentials)
         .then(async (data) => {
-          console.log(data);
           this.endloading().then(() => {
             this.togglepwarea(true);
           });
         })
         .catch((error) => {
-          console.log(error);
           this.endloading();
+          this.errorMessage = 'Email or phone number already in use by an account'
         });
     },
     callregister() {

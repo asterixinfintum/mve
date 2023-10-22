@@ -44,7 +44,8 @@ export default {
     },
   },
   mounted() {
-    this.getuser(this.userid);
+    this.getuser(this.userid, 'hello');
+    console.log(this.userid);
     this.getusermsgs(this.userid);
   },
 };

@@ -17,12 +17,61 @@
       <div class="overview__content white-background content-body">
         <div class="padding-top-bottom"></div>
         <div class="overview__transaction--header">
-          <div class="overview__transaction--h2 header-label">
-            Start a savings plan
-          </div>
+          <div class="overview__transaction--h2 header-label">Start a savings plan</div>
         </div>
 
         <div class="padding-top-bottom"></div>
+
+        <div class="popup-overlay higherz" v-if="current && reviewchoice">
+          <div class="popup">
+            <div class="displaycard__review">
+              <div class="displaycard__review--header">
+                <div class="displaycard__review--headerleft">
+                  <figure class="displaycard__review--logo">
+                    <img src="@/assets/imgs/logo-nobackground.png" />
+                  </figure>
+                  <p class="displaycard__review--now">now</p>
+                </div>
+
+                <div class="displaycard__review--headerright">
+                  <span class="displaycard__review--svgupback" @click="review">
+                    <svg>
+                      <use xlink:href="@/assets/imgs/sprite.svg#icon-arrow_drop_up"></use>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+
+              <div class="displaycard__review--content">
+                <p>
+                  <span class="displaycard__review--itemlogo">
+                    <svg>
+                      <use xlink:href="@/assets/imgs/sprite.svg#icon-wallet"></use>
+                    </svg>
+                  </span>
+
+                  {{ `You are about to join in the ${current.name} savings plan` }}
+                </p>
+              </div>
+
+              <div class="displaycard__review--bottom">
+                <button
+                  class="button displaycard__review--btn"
+                  @click="submit"
+                  v-if="!submitting"
+                >
+                  Yes, join this savings plan
+                </button>
+                <button
+                  class="button displaycard__review--btn loading blue-background"
+                  v-if="submitting"
+                >
+                  <span></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div class="popup-overlay lowerz" v-if="current">
           <div class="displaycard__applyform savings">
@@ -87,7 +136,7 @@
                   </div>
                   <label>Tax</label>
                   <p class="displaycard__formslider--value">
-                    ${{ formatNumber(tax, 30) }}
+                    {{ formatNumber(tax, 30) }}%
                   </p>
                 </div>
 
@@ -136,6 +185,7 @@
               compoundingfrequency,
               contributionplan,
               term,
+              tax,
               _id,
             } in savingsplans"
           >
@@ -149,6 +199,9 @@
                 :compoundingfrequency="compoundingfrequency"
                 :contributionplan="contributionplan"
                 :term="term"
+                :tax="tax"
+                :_id="_id"
+                :setcurrent="setcurrent"
               />
             </div>
           </div>
@@ -169,6 +222,7 @@ export default {
       reviewchoice: false,
       submitting: false,
       submissiondone: false,
+      inputerror: false,
     };
   },
   mixins: [global],
@@ -178,17 +232,54 @@ export default {
         this.callsetcurrent(newval);
       }
     },
+    amount(newval, oldval) {
+      const { account } = this;
+
+      if (account.balance <= newval) {
+        this.inputerror = true;
+      } else {
+        this.inputerror = false;
+      }
+    },
   },
   computed: {
-    allowreview() {
-      return false;
-    },
     tax() {
-      return '0'
+      const { current, toPercentage } = this;
+      const { tax } = current;
+
+      if (tax) {
+        return toPercentage(tax);
+      }
+
+      return "0";
     },
     totaldeposit() {
-      return '0'
-    }
+      const { amount, current, returnFloat } = this;
+      const { tax } = current;
+
+      if (this.current && amount) {
+        return returnFloat(amount) * tax + returnFloat(amount);
+      }
+
+      return "0";
+    },
+    allowreview() {
+      const { account, amount, returnFloat, current } = this;
+      const { minimumdeposit } = current;
+
+      if (amount) {
+        if (
+          returnFloat(`${amount}`) !== 0 &&
+          account.balance > current.minimumaccountbalance &&
+          account.balance > returnFloat(`${amount}`) &&
+          returnFloat(`${amount}`) > minimumdeposit
+        ) {
+          return true;
+        }
+      }
+
+      return false;
+    },
   },
   mounted() {
     if (this.savingsplans.length) {
@@ -196,6 +287,32 @@ export default {
     }
   },
   methods: {
+    review() {
+      this.reviewchoice ? (this.reviewchoice = false) : (this.reviewchoice = true);
+    },
+    submit() {
+      const { account, amount, current, totaldeposit, returnFloat } = this;
+
+      const savingsplan = {
+        user: account.user,
+        savingsplanid: current._id,
+        amount: returnFloat(`${amount}`),
+        totaldeposit: returnFloat(`${totaldeposit}`),
+      };
+
+      this.submitting = true;
+
+      this.joinsavingsplan(savingsplan).then((what) => {
+        this.reviewchoice = false;
+        this.submissiondone = true;
+        this.submitting = false;
+        this.amount = '0'
+
+        console.log('what is this', what)
+      }).catch(error => {
+        console.log(error, 'error here')
+      })
+    },
     validateNumberInputTo() {
       const { customSplitByDot, removePeriodAndCommas } = this;
       const formattedNumber = this.amount
@@ -215,6 +332,7 @@ export default {
         compoundingfrequency,
         contributionplan,
         term,
+        tax,
         _id,
       } = arr[arr.length - 1];
       this.setcurrent({
@@ -226,6 +344,7 @@ export default {
         compoundingfrequency,
         contributionplan,
         term,
+        tax,
         _id,
       });
     },
@@ -238,6 +357,7 @@ export default {
       compoundingfrequency,
       contributionplan,
       term,
+      tax,
       _id,
     }) {
       this.current = {
@@ -249,6 +369,7 @@ export default {
         compoundingfrequency,
         contributionplan,
         term,
+        tax,
         _id,
       };
     },

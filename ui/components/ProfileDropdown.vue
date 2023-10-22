@@ -1,6 +1,6 @@
 <template>
   <div class="profiledropdown">
-    <div class="profiledropdown__item">
+    <div class="profiledropdown__item" @click="toroute('yoursavings')">
       <div class="profiledropdown__item--svg">
         <svg>
           <use xlink:href="@/assets/imgs/sprite.svg#icon-wallet"></use>
@@ -8,7 +8,7 @@
       </div>
       <div class="profiledropdown__item--text">Your savings</div>
     </div>
-    <div class="profiledropdown__item">
+    <div class="profiledropdown__item"  @click="toroute('transactions/all')">
       <div class="profiledropdown__item--svg">
         <svg>
           <use xlink:href="@/assets/imgs/sprite.svg#icon-clock"></use>
@@ -48,16 +48,6 @@ import global from "@/mixins/global";
 
 export default {
   mixins: [global],
-  methods: {
-    triggerlogout() {
-      this.onspinner();
-      this.logout()
-        .then(() =>{
-          this.offspinner();
-          this.$router.push('/');
-        })
-    },
-  },
 };
 </script>
 
