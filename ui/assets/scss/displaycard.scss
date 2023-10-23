@@ -224,6 +224,10 @@
 
         &.savings {
             background: rgba($primary-orange, 1);
+            height: #{scaleValue(600)};
+            //overflow: scroll;
+            transform: scale(.9) translateY(#{scaleValue(-40)});
+
         }
 
         &--header {

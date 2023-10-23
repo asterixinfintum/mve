@@ -6,8 +6,6 @@ import Account from '../../models/account';
 import Transaction from '../../models/transaction';
 import Savingsplan from '../../models/savingsplan';
 
-console.log(InvestmentPlan, Account, Transaction, 'ths here')
-
 const userSavingSchema = new Schema({
     user: {
         type: String,
@@ -31,7 +29,12 @@ const userSavingSchema = new Schema({
         default: 0
     },
     target: {
-        type: Number
+        type: Number,
+        required: true
+    },
+    nameofsavingsplan: {
+        type: String,
+        required: true
     },
     loss: {
         type: Number,
@@ -40,7 +43,7 @@ const userSavingSchema = new Schema({
     },
     status: {
         type: String,
-        default: 'pending' //accepted
+        default: 'live' //accepted
     },
     deadline: {
         type: String
@@ -60,7 +63,7 @@ userSavingSchema.statics.createsavingsplan = async function (savingsplan) {
 
         return { message: 'success', type: 'user savingsplan create', content: newusersavings };
     } catch (error) {
-        console.log(error, 'checl error here')
+        console.log(error, 'check error here')
         throw error;
     }
 }

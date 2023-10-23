@@ -73,8 +73,10 @@
                     <label class="date">{{ cards[0].expiry }}</label>
                   </div>
                   <div class="overview__card--textarea">
-                    <label class="cardnum">{{ cards[0].digits }}</label>
-                    <label></label>
+                    <label class="cardnum" v-if="!detailshide">{{
+                      cards[0].digits
+                    }}</label>
+                    <label class="cardnum" v-if="detailshide">**********</label>
                   </div>
                 </div>
               </figure>
@@ -98,8 +100,10 @@
                     <label class="date">{{ cards[1].expiry }}</label>
                   </div>
                   <div class="overview__card--textarea">
-                    <label class="cardnum">{{ cards[1].digits }}</label>
-                    <label></label>
+                    <label class="cardnum" v-if="!detailshide">{{
+                      cards[1].digits
+                    }}</label>
+                    <label class="cardnum" v-if="detailshide">**********</label>
                   </div>
                 </div>
               </figure>
@@ -125,14 +129,16 @@
                   v-if="cardview === 'visa'"
                 >
                   <label class="smlabel white">Visa card Cvv</label>
-                  <span class="normblack">{{ cards[0].cvv }}</span>
+                  <span class="normblack" v-if="!detailshide">{{ cards[0].cvv }}</span>
+                  <span class="normblack" v-if="detailshide">**********</span>
                 </div>
                 <div
                   class="overview__savingstop--card fontweight-4"
                   v-if="cardview === 'master'"
                 >
                   <label class="smlabel white">Master card Cvv</label>
-                  <span class="normblack">{{ cards[1].cvv }}</span>
+                  <span class="normblack" v-if="!detailshide">{{ cards[1].cvv }}</span>
+                  <span class="normblack" v-if="detailshide">**********</span>
                 </div>
               </div>
               <div class="overview__orangebox--area column">
@@ -167,7 +173,7 @@
                   <span>Add money</span>
                 </button>
 
-                <figure class="overview__orangebox--eye">
+                <figure class="overview__orangebox--eye" @click="toggledetailshide">
                   <img src="@/assets/imgs/eyeopen.svg" />
                 </figure>
               </div>
@@ -181,7 +187,9 @@
                   </svg>
                 </span>
                 <label class="tinylabel">Loans</label>
-                <span class="normblack fontweight-5">${{ account.loansaggregate }}</span>
+                <span class="normblack fontweight-5"
+                  >${{ formatNumber(account.loansaggregate) }}</span
+                >
               </div>
 
               <div class="overview__finsumcard">
@@ -192,7 +200,7 @@
                 </span>
                 <label class="tinylabel">Investments</label>
                 <span class="normblack fontweight-5"
-                  >${{ account.investmentgrowth }}</span
+                  >${{ formatNumber(account.investmentgrowth) }}</span
                 >
               </div>
 
@@ -203,82 +211,122 @@
                   </svg>
                 </span>
                 <label class="tinylabel">Income</label>
-                <span class="normblack fontweight-5">${{ account.income }}</span>
+                <span class="normblack fontweight-5"
+                  >${{ formatNumber(account.income) }}</span
+                >
               </div>
             </div>
-
-            <!--<div class="overview__withddep">
-              <button class="button orange-btn-faint fontweight-3 half-flex-space">
-                Withdraw
-              </button>
-              <button class="button orange-btn fontweight-3 half-flex-space">
-                Deposit
-              </button>
-            </div>-->
           </div>
 
           <div class="overview__right">
-            <div class="overview__rightbottom">
-              <!--<div class="overview__transaction white-background">
-                                <Graphs />
-                            </div>-->
-
-              <div class="overview__transaction white-background overview__blueborder">
+            <div class="overview__righttop">
+              <div
+                class="overview__transaction overview__tranxs white-background overview__blueborder"
+              >
                 <div class="overview__background">
-                  <div class="overview__transaction--header">
-                    <div class="overview__transaction--h2 header-label orange">
-                      Transactions
+                  <div class="overview__savingbottom--head">
+                    <div class="overview__transaction--header">
+                      <div class="overview__transaction--h2 header-label orange">
+                        Transactions
+                      </div>
                     </div>
+
+                    <span class="svgspan faint" @click="toroute('transactions/all')">
+                      <label class="smlabel orange fontweight-5">View all</label>
+                    </span>
                   </div>
 
-                  <div v-if="!clienttransactions.length">
+                  <div v-if="!trnxs.length">
                     <Empty :item="'Transactions'" />
                   </div>
 
-                  <div
-                    class="overview__transaction--list"
-                    v-if="clienttransactions.length"
-                  >
-                    <div class="overview__transaction--list-header header-area">
-                      <label class="smlabel">Type</label>
-                      <label class="smlabel">Date</label>
-                      <label class="smlabel">Status</label>
-                      <label class="smlabel">Amount</label>
-                    </div>
-
-                    <div
-                      class="overview__transaction--list-item item-area"
-                      v-for="clienttransaction in returnSpecifiedArrLength(
-                        clienttransactions,
-                        3
-                      )"
-                    >
-                      <span class="subject fontweight-5 capitalise">{{
-                        clienttransaction.type
-                      }}</span>
-                      <span class="date smlabel">{{
-                        formatDate(clienttransaction.date)
-                      }}</span>
-                      <span class="status">
-                        <label class="success">{{ clienttransaction.status }}</label>
-                      </span>
-                      <span class="amount fontweight-5"
-                        >${{ formatNumber(clienttransaction.amount, 5) }}</span
+                  <div class="overview__transaction--list" v-if="trnxs.length">
+                    <div>
+                      <div
+                        class="overview__tranx"
+                        v-for="{ amount, date, status, type, destinationbank } in trnxs"
                       >
-                    </div>
+                        <div class="overview__tranx--logoarea">
+                          <figure class="overview__tranx--logo">
+                            <img src="@/assets/imgs/logo-nobackground.png" />
+                          </figure>
+                        </div>
 
-                    <div class="overview__withddep center">
-                      <button
-                        class="button orange-btn fontweight-3 half-flex-space"
-                        @click="toroute('transactions/all')"
-                      >
-                        View all
-                      </button>
+                        <div class="overview__tranxbody">
+                          <div class="overview__tranxbody--left">
+                            <p class="overview__tranxbody--bottommargin capitalize">
+                              {{ destinationbank }}
+                            </p>
+                            <div class="smlabel">
+                              {{ formatDate(date) }}
+                            </div>
+                          </div>
+                          <div class="overview__tranxbody--right">
+                            <span class="overview__tranxbody--normblack normblack"
+                              >${{ formatNumber(amount, 12) }}</span
+                            >
+                            <span class="tinylabel">{{ type }}</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
+              <div class="overview__imgslider">
+                <div class="overview__imgslider--slide">
+                  <figure
+                    class="overview__imgslider--fig"
+                    :class="{
+                      center: currentslide === 1,
+                      left: currentslide === 2,
+                      right: currentslide === 3,
+                      offcreen: currentslide === 2 || currentslide === 3,
+                    }"
+                    @click="toroute('savings')"
+                  >
+                    <div class="overview__imgslider--textarea">
+                      <span>Find out what savings program is best for you</span>
+                    </div>
+                    <img src="@/assets/imgs/slideitem1.png" />
+                  </figure>
+
+                  <figure
+                    class="overview__imgslider--fig"
+                    :class="{
+                      center: currentslide === 2,
+                      left: currentslide === 3,
+                      right: currentslide === 1,
+                      offcreen: currentslide === 3 || currentslide === 1,
+                    }"
+                    @click="toroute('investmentplans')"
+                  >
+                    <div class="overview__imgslider--textarea">
+                      <span>Our investment plans are tailored to help you proper</span>
+                    </div>
+                    <img src="@/assets/imgs/slideitem4.png" />
+                  </figure>
+
+                  <figure
+                    class="overview__imgslider--fig"
+                    :class="{
+                      center: currentslide === 3,
+                      left: currentslide === 1,
+                      right: currentslide === 2,
+                      offcreen: currentslide === 2 || currentslide === 1,
+                    }"
+                  >
+                    <div class="overview__imgslider--textarea">
+                      <span>Get loans of up to $1000,000 and build your business</span>
+                    </div>
+                    <img src="@/assets/imgs/slideitem5.png" />
+                  </figure>
+                </div>
+              </div>
+            </div>
+
+            <div class="overview__rightbottom">
               <div
                 class="overview__transaction overview__transfer overview__blueborder overview__orangeborder white-background"
               >
@@ -387,45 +435,6 @@
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div class="no-margin">
-            <div class="overview__rightbottom">
-              <div class="overview__transaction white-background quickcontacts">
-                <div class="overview__savingbottom--head">
-                  <div class="overview__transaction--header">
-                    <div class="overview__transaction--h2 header-label orange">
-                      Quick contacts
-                    </div>
-                  </div>
-                </div>
-
-                <div class="overview__quickcontacts">
-                  <div
-                    class="overview__quickcontacts--contact"
-                    v-for="quickcontact in quickcontacts"
-                  >
-                    <figure class="overview__quickcontacts--add">
-                      <svg class="feature__icon">
-                        <use xlink:href="@/assets/imgs/sprite.svg#icon-user"></use>
-                      </svg>
-                    </figure>
-                    <label class="smlabel capitalize">{{
-                      quickcontact.contactname
-                    }}</label>
-                  </div>
-
-                  <div
-                    class="overview__quickcontacts--add"
-                    @click="opencreatecontactform"
-                  >
-                    <svg class="feature__icon">
-                      <use xlink:href="@/assets/imgs/sprite.svg#icon-plus"></use>
-                    </svg>
-                  </div>
-                </div>
-              </div>
 
               <div
                 class="overview__transaction overview__savingsplans overview__blueborder overview__greenborder white-background"
@@ -438,91 +447,31 @@
                       </div>
                     </div>
 
-                    <span class="svgspan faint">
+                    <span class="svgspan faint" @click="toroute('yoursavings')">
                       <label class="smlabel orange fontweight-5">View all</label>
                     </span>
                   </div>
 
                   <div class="overview__savingsplans">
-                    <!--<div class="overview__savingsplan">
-                    <div class="overview__savingsplan--header">
-                      <span class="overview__savingsplan--headersvg">
-                        <svg class="feature__icon">
-                          <use xlink:href="@/assets/imgs/sprite.svg#icon-pig"></use>
-                        </svg>
-                      </span>
-
-                      <div class="overview__savingsplan--headertext">
-                        <h3>Savings Plan Name</h3>
-                        <label class="smlabel">Monthly saving $3000</label>
+                    <div v-if="savingsplns.length">
+                      <div
+                        class=""
+                        v-for="{ usersaving, savingsplanname } in savingsplns"
+                      >
+                        <div v-if="usersaving.target">
+                          <UserSavings
+                            :amount="usersaving.amount"
+                            :target="usersaving.target"
+                            :nameofsavingsplan="usersaving.nameofsavingsplan"
+                            :savingsplanname="savingsplanname"
+                            :overviewone="true"
+                          />
+                        </div>
                       </div>
                     </div>
 
-                    <div class="overview__withddep">
-                      <button
-                        class="button orange-btn-faint fontweight-3 half-flex-space"
-                      >
-                        Close
-                      </button>
-                      <button class="button orange-btn fontweight-3 half-flex-space">
-                        Join
-                      </button>
-                    </div>
-                  </div>
-
-                  <div class="overview__savingsplan">
-                    <div class="overview__savingsplan--header">
-                      <span class="overview__savingsplan--headersvg">
-                        <svg class="feature__icon">
-                          <use xlink:href="@/assets/imgs/sprite.svg#icon-pig"></use>
-                        </svg>
-                      </span>
-
-                      <div class="overview__savingsplan--headertext">
-                        <h3>Savings Plan Name</h3>
-                        <label class="smlabel">Monthly saving $3000</label>
-                      </div>
-                    </div>
-
-                    <div class="overview__withddep">
-                      <button
-                        class="button orange-btn-faint fontweight-3 half-flex-space"
-                      >
-                        Close
-                      </button>
-                      <button class="button orange-btn fontweight-3 half-flex-space">
-                        Join
-                      </button>
-                    </div>
-                  </div>
-
-                  <div class="overview__savingsplan">
-                    <div class="overview__savingsplan--header">
-                      <span class="overview__savingsplan--headersvg">
-                        <svg class="feature__icon">
-                          <use xlink:href="@/assets/imgs/sprite.svg#icon-pig"></use>
-                        </svg>
-                      </span>
-
-                      <div class="overview__savingsplan--headertext">
-                        <h3>Savings Plan Name</h3>
-                        <label class="smlabel">Monthly saving $3000</label>
-                      </div>
-                    </div>
-
-                    <div class="overview__withddep">
-                      <button
-                        class="button orange-btn-faint fontweight-3 half-flex-space"
-                      >
-                        Close
-                      </button>
-                      <button class="button orange-btn fontweight-3 half-flex-space">
-                        Join
-                      </button>
-                    </div>
-                  </div>-->
                     <div v-if="account">
-                      <div v-if="!account.savingsplans.length">
+                      <div v-if="!savingsplns.length">
                         <Empty :item="'Savings'" />
                       </div>
                     </div>
@@ -530,6 +479,10 @@
                 </div>
               </div>
             </div>
+          </div>
+
+          <div class="no-margin">
+            <div class="overview__rightbottom"></div>
           </div>
         </div>
       </div>
@@ -553,10 +506,26 @@ export default {
       amounttosenderror: false,
       cardview: "visa",
       createcontactformopen: false,
+      detailshide: true,
+      currentslide: 1,
     };
   },
   mixins: [global],
   computed: {
+    trnxs() {
+      const { clienttransactions } = this;
+
+      const trnxs = clienttransactions.slice(-2).reverse();
+
+      return trnxs;
+    },
+    savingsplns() {
+      const { usersavingsplans } = this;
+
+      const savingspls = usersavingsplans.slice(-2).reverse();
+
+      return savingspls;
+    },
     allowsubmit() {
       const {
         nameofbnk,
@@ -582,6 +551,8 @@ export default {
   },
   mounted() {
     this.getcontacts();
+
+    this.sliderrun();
   },
   watch: {
     nameofbnk(newval, oldval) {
@@ -613,6 +584,20 @@ export default {
     },
   },
   methods: {
+    sliderrun() {
+      setInterval(() => {
+        if (this.currentslide === 3) {
+          this.currentslide = 1;
+        } else {
+          let tracker = this.currentslide;
+          tracker += 1;
+          this.currentslide = tracker;
+        }
+      }, 3000);
+    },
+    toggledetailshide() {
+      this.detailshide ? (this.detailshide = false) : (this.detailshide = true);
+    },
     opencreatecontactform() {
       this.createcontactformopen = true;
     },

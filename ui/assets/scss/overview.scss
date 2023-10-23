@@ -230,7 +230,7 @@ $overview-area-padding: #{scaleValue(30)};
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
-        border: $faint-black-border;
+        border: 2px solid rgba($primary-orange, .5);
         border-radius: $border-radius;
         height: #{scaleValue(140)};
         width: #{scaleValue(115)};
@@ -272,6 +272,84 @@ $overview-area-padding: #{scaleValue(30)};
 
     &__right {
         flex-grow: 0;
+    }
+
+    &__righttop {
+        display: flex;
+    }
+
+    &__imgslider {
+        width: #{scaleValue(270)};
+        height: #{scaleValue(300)};
+
+        &--textarea {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba($font-black, .9);
+            color: $primary-orange;
+            z-index: 3;
+            padding: #{scaleValue(20)};
+            font-size: #{scaleValue(15)};
+            line-height: #{scaleValue(24)};
+        }
+
+        &--slide {
+            position: relative;
+            border-radius: #{scaleValue(13)};
+            overflow: hidden;
+            width: #{scaleValue(270)};
+            height: #{scaleValue(300)};
+        }
+
+        &--fig {
+            height: #{scaleValue(300)};
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            border-radius: #{scaleValue(13)};
+            transition: all .5s ease;
+            cursor: pointer;
+
+            &::before {
+                content: '';
+                height: 100%;
+                width: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                background: rgba($primary-orange, .4);
+            }
+
+            & img {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+            }
+
+            &.offscreen {
+                opacity: 0;
+                z-index: 1;
+            }
+
+            &.center {
+                opacity: 1;
+                z-index: 3;
+            }
+
+            &.left {
+                opacity: 0;
+                z-index: 1;
+            }
+
+            &.right {
+                opacity: 0;
+                z-index: 1;
+            }
+        }
     }
 
     &__transaction {
@@ -331,15 +409,14 @@ $overview-area-padding: #{scaleValue(30)};
     }
 
     &__savingsplans {
-        height: auto;
+        height: #{scaleValue(599)};
         border-radius: $border-radius;
         overflow: hidden;
-        height: #{scaleValue(700)};
     }
 
     &__rightbottom {
         display: flex;
-        flex-direction: column;
+        //flex-direction: column;
     }
 
     &__quickcontacts {
@@ -559,5 +636,62 @@ $overview-area-padding: #{scaleValue(30)};
         height: 100%;
         border-radius: #{scaleValue(5)};
         padding: #{scaleValue(30)};
+    }
+
+    &__tranxs {
+        width: #{scaleValue(700)};
+    }
+
+    &__tranx {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: #{scaleValue(30)};
+
+        &--logoarea {
+            display: flex;
+            align-items: center;
+        }
+
+        &--logo {
+            width: #{scaleValue(40)};
+            height: #{scaleValue(40)};
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba($primary-orange, .1);
+            border-radius: #{scaleValue(5)};
+
+            & img {
+                object-fit: cover;
+                height: 70%;
+                width: 70%;
+            }
+        }
+
+    }
+
+    &__tranxbody {
+        border-bottom: 2px solid rgba($primary-orange, .2);
+        width: #{scaleValue(560)};
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: #{scaleValue(20)};
+
+        &--bottommargin {
+            display: flex;
+            margin-bottom: #{scaleValue(10)};
+        }
+
+        &--right {
+            display: flex;
+            align-items: center;
+        }
+
+        &--normblack {
+            margin-right: #{scaleValue(10)};
+        }
     }
 }

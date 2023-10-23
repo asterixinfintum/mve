@@ -18,22 +18,15 @@
 
         <div class="flex-reverse-column relativeposition halfscreen-width-2">
           <div
-            class="displaycard__userlistcard displaycard__review"
-            v-for="savingsplan in usersavingsplans"
+            v-for="{ usersaving, savingsplanname } in usersavingsplans"
           >
-            <div class="displaycard__review--header">
-              <div class="displaycard__review--headerleft">
-                <figure class="displaycard__review--logo">
-                  <img src="@/assets/imgs/logo-nobackground.png" />
-                </figure>
-                <p class="displaycard__review--now capitalize darkerblue">
-                  ${{ formatNumber(savingsplan.usersaving.amount, 20) }}
-                </p>
-              </div>
 
-              <div class="">
-                <h2 class="displaycard__name loan">{{ savingsplan.savingsplanname }}</h2>
-              </div>
+            <div v-if="usersaving.target && usersaving.nameofsavingsplan">
+              <UserSavings 
+                :amount="usersaving.amount"
+                :target="usersaving.target"
+                :nameofsavingsplan="usersaving.nameofsavingsplan"
+                :savingsplanname="savingsplanname"/>
             </div>
           </div>
         </div>

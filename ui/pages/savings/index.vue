@@ -109,20 +109,57 @@
 
               <div class="padding-top-bottom"></div>
 
-              <div class="input-area">
-                <label
-                  class="smlabel"
-                  :class="{
-                    fonterror: inputerror,
-                  }"
-                  >Amount to begin with</label
-                >
-                <div class="input">
-                  <input
-                    placeholder="Amount"
-                    v-model="amount"
-                    @input="validateNumberInputTo"
-                  />
+              <div class="input-area fullbody grid">
+                <div class="input-area">
+                  <label
+                    class="smlabel"
+                    :class="{
+                      fonterror: inputerror,
+                    }"
+                    >Amount to begin with</label
+                  >
+                  <div class="input">
+                    <input
+                      placeholder="Amount"
+                      v-model="amount"
+                      @input="validateNumberInputTo"
+                    />
+                  </div>
+                </div>
+
+                <div class="input-area">
+                  <label
+                    class="smlabel"
+                    :class="{
+                      fonterror: inputerror,
+                    }"
+                    >Savings Target</label
+                  >
+                  <div class="input">
+                    <input
+                      placeholder="Savings target"
+                      v-model="target"
+                      @input="validateNumberInputToTarget"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="input-area fullbody">
+                <div class="input-area">
+                  <label
+                    class="smlabel"
+                    :class="{
+                      fonterror: inputerror,
+                    }"
+                    >Name this savings plan eg: (new car)</label
+                  >
+                  <div class="input">
+                    <input
+                      placeholder="What are you saving for"
+                      v-model="nameofsavingsplan"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -219,6 +256,8 @@ export default {
     return {
       current: null,
       amount: 0,
+      target: 0,
+      nameofsavingsplan: "",
       reviewchoice: false,
       submitting: false,
       submissiondone: false,
@@ -264,12 +303,14 @@ export default {
       return "0";
     },
     allowreview() {
-      const { account, amount, returnFloat, current } = this;
+      const { account, amount, returnFloat, current, target, nameofsavingsplan } = this;
       const { minimumdeposit } = current;
 
-      if (amount) {
+      if (amount && target) {
         if (
           returnFloat(`${amount}`) !== 0 &&
+          returnFloat(`${target}`) !== 0 &&
+          nameofsavingsplan.length &&
           account.balance > current.minimumaccountbalance &&
           account.balance > returnFloat(`${amount}`) &&
           returnFloat(`${amount}`) > minimumdeposit
@@ -291,27 +332,31 @@ export default {
       this.reviewchoice ? (this.reviewchoice = false) : (this.reviewchoice = true);
     },
     submit() {
-      const { account, amount, current, totaldeposit, returnFloat } = this;
+      const { account, amount, current, totaldeposit, returnFloat, target, nameofsavingsplan } = this;
 
       const savingsplan = {
         user: account.user,
         savingsplanid: current._id,
+        target: returnFloat(`${target}`),
         amount: returnFloat(`${amount}`),
+        nameofsavingsplan,
         totaldeposit: returnFloat(`${totaldeposit}`),
       };
 
       this.submitting = true;
 
-      this.joinsavingsplan(savingsplan).then((what) => {
-        this.reviewchoice = false;
-        this.submissiondone = true;
-        this.submitting = false;
-        this.amount = '0'
+      this.joinsavingsplan(savingsplan)
+        .then((what) => {
+          this.reviewchoice = false;
+          this.submissiondone = true;
+          this.submitting = false;
+          this.amount = "0";
 
-        console.log('what is this', what)
-      }).catch(error => {
-        console.log(error, 'error here')
-      })
+          console.log("what is this", what);
+        })
+        .catch((error) => {
+          console.log(error, "error here");
+        });
     },
     validateNumberInputTo() {
       const { customSplitByDot, removePeriodAndCommas } = this;
@@ -321,6 +366,15 @@ export default {
       const characters = removePeriodAndCommas(customSplitByDot(formattedNumber));
 
       return (this.amount = characters);
+    },
+    validateNumberInputToTarget() {
+      const { customSplitByDot, removePeriodAndCommas } = this;
+      const formattedNumber = this.target
+        .replace(/[^1234567890.]/g, "")
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      const characters = removePeriodAndCommas(customSplitByDot(formattedNumber));
+
+      return (this.target = characters);
     },
     callsetcurrent(arr) {
       const {
