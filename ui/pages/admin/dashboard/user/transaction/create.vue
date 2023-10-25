@@ -26,7 +26,11 @@
                   >
                   </label>
                   <div class="input">
-                    <input :placeholder="`Amount`" v-model="amount" />
+                    <input
+                      :placeholder="`Amount`"
+                      v-model="amount"
+                      @input="validateNumberAmount"
+                    />
                   </div>
                 </div>
 
@@ -40,7 +44,10 @@
                   >
                   </label>
                   <div class="input">
-                    <input :placeholder="`'deposit', 'withdrawal', 'transfer'`" v-model="type" />
+                    <input
+                      :placeholder="`'deposit', 'withdrawal', 'transfer'`"
+                      v-model="type"
+                    />
                   </div>
                 </div>
 
@@ -96,7 +103,10 @@
                   >
                   </label>
                   <div class="input">
-                    <input :placeholder="`'success', 'pending', 'failed', 'in review'`" v-model="status" />
+                    <input
+                      :placeholder="`'success', 'pending', 'failed', 'in review'`"
+                      v-model="status"
+                    />
                   </div>
                 </div>
 
@@ -143,11 +153,20 @@ export default {
       date: "",
       country: "",
       bank: "",
-      destinationaccount: ""
+      destinationaccount: "",
     };
   },
   mixins: [global],
   methods: {
+    validateNumberAmount() {
+      const { customSplitByDot, removePeriodAndCommas } = this;
+      const formattedNumber = this.amount
+        .replace(/[^1234567890.]/g, "")
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      const characters = removePeriodAndCommas(customSplitByDot(formattedNumber));
+
+      return (this.amount = characters);
+    },
     createtransaction() {
       const { amount, type, status, date, country, bank, destinationaccount } = this;
 

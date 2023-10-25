@@ -155,11 +155,11 @@ userLoanSchema.statics.getuserloans = /*#__PURE__*/function () {
         case 28:
           _context3.prev = 28;
           _context3.t1 = _context3["catch"](0);
-          throw {
+          throw new Error({
             message: 'error',
             type: 'user loans get',
             reason: _context3.t1
-          };
+          });
         case 31:
         case "end":
           return _context3.stop();

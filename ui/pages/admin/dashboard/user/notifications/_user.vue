@@ -25,6 +25,9 @@
                 </p>
                 <p class="cardlist__item--date capitalize">{{ notification.read ? `seen by ${userprofile.details.firstname} ${userprofile.details.lastname}` : `not yet seen by ${userprofile.details.firstname} ${userprofile.details.lastname}` }}</p>
               </div>
+
+
+              
             </div>
           </div>
         </div>

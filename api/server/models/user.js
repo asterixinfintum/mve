@@ -6,8 +6,6 @@ import Account from './account';
 import Transaction from './transaction';
 import Message from './message';
 
-import authenticateToken from '../utils/authenticateToken';
-
 const { Schema } = mongoose;
 
 const userSchema = new Schema({

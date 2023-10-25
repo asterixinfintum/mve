@@ -90,7 +90,7 @@ export const actions = {
         return new Promise(async (resolve, reject) => {
             const token = localStorage.getItem('873__jh6bdjklkjhghn');
 
-            const data = await getfromserver({ token, path: `items?type=notifications&userid=${userid}` });
+            const data = await getfromserver({ token, path: `client/notifications?userid=${userid}` });
 
             if (data.success) {
                 const { content } = data.success;

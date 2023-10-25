@@ -8,7 +8,7 @@
           </svg>
         </span>
         <div class="apply__content">
-          <div class="apply__form" v-if="!general">
+          <div class="apply__form">
             <div class="overview__transaction--header bottom-margin">
               <div class="overview__transaction--h2 header-label capitalize">
                 {{
@@ -45,10 +45,18 @@
               </div>
             </div>
 
-            <div class="overview__withddep">
+            <div class="overview__withddep" v-if="allowsubmit">
               <button
                 class="button orange-btn fontweight-3 half-flex-space curved"
                 @click="callcreatenotification"
+              >
+                Add Notification
+              </button>
+            </div>
+
+            <div class="overview__withddep" v-if="!allowsubmit">
+              <button
+                class="button orange-btn-faint fontweight-3 half-flex-space curved"
               >
                 Add Notification
               </button>
@@ -65,7 +73,7 @@ import global from "@/mixins/global";
 
 export default {
   mixins: [global],
-  props: ["user", "togglenotform"],
+  props: ["togglenotform"],
   data() {
     return {
       label: "",
@@ -85,11 +93,12 @@ export default {
 
       this.toggleverbiage("Creating notification");
       this.onspinner();
+
       this.createnotification(notification).then(() => {
         this.toggleverbiage(null);
         this.offspinner();
 
-        if (this.user) {
+        if (this.userid) {
           this.togglenotform();
           this.getusernotifications(this.user);
         }
@@ -99,6 +108,15 @@ export default {
   computed: {
     userid() {
       return this.$route.params.user;
+    },
+    allowsubmit() {
+      const { label, description } = this;
+
+      if (label.length && description.length) {
+        return true;
+      }
+
+      return false;
     },
   },
 };

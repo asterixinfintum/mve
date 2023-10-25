@@ -4,7 +4,11 @@
       <AdminHeader />
 
       <div v-if="addnotification && userprofile">
-        <AddNotification :user="userid" :togglenotform="togglenotform" />
+        <AddNotification :togglenotform="togglenotform" />
+      </div>
+
+      <div v-if="addmessage && userprofile">
+        <CreateMessageAdmin :togglemessageform="togglemessageform"/>
       </div>
 
       <div class="dashboard__content" v-if="userprofile">
@@ -28,7 +32,7 @@
             </span>
 
             <span>
-              <button class="dashboard__usersubbtns--btn button curved fontweight-4">
+              <button class="dashboard__usersubbtns--btn button curved fontweight-4" @click="togglemessageform">
                 Create Message
               </button>
             </span>
@@ -71,7 +75,7 @@
             <span>
               <button
                 class="dashboard__usersubbtns--btn button curved fontweight-4"
-                @click="togglenotform"
+                @click="toadminroute(`yourloans?user=${userid}`)"
               >
                 View loan applications
               </button>
@@ -79,7 +83,7 @@
 
             <button
                 class="dashboard__usersubbtns--btn button curved fontweight-4"
-                @click="toadminroute(`admin/dashboard/user/investmentplans?user=${userid}`)"
+                @click="toadminroute(`yourinvestments?user=${userid}`)"
               >
                 View Investment plans
               </button>
@@ -87,36 +91,11 @@
 
             <button
                 class="dashboard__usersubbtns--btn button curved fontweight-4"
-                @click="togglenotform"
+                @click="toadminroute(`yoursavings?user=${userid}`)"
               >
                 View savings plans
               </button> 
             </span>
-          </div>
-        </div>
-
-        <div class="dashboard__usersub bottom-margin">
-          <div class="dashboard__usersubbtns flex-default">
-            <button
-                class="dashboard__usersubbtns--btn button curved fontweight-4"
-                @click="toadminroute(`admin/dashboard/investmentplans?user=${userid}`)"
-              >
-                View Investment items
-            </button>
-
-            <button
-                class="dashboard__usersubbtns--btn button curved fontweight-4"
-                @click="toadminroute(`admin/dashboard/loans?user=${userid}`)"
-              >
-                View loan items
-              </button>
-
-              <button
-                class="dashboard__usersubbtns--btn button curved fontweight-4"
-                @click="toadminroute(`admin/dashboard/savingsplans?user=${userid}`)"
-              >
-                View savings items
-              </button>
           </div>
         </div>
 
@@ -411,6 +390,7 @@ export default {
   data() {
     return {
       addnotification: false,
+      addmessage: false
     };
   },
   mixins: [global],
@@ -427,6 +407,13 @@ export default {
         this.addnotification = true;
       }
     },
+    togglemessageform() {
+      if (this.addmessage) {
+        return (this.addmessage = false);
+      } else {
+        this.addmessage = true;
+      }
+    }
   },
   mounted() {
     this.getuser(this.userid);

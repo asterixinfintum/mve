@@ -151,7 +151,7 @@ export const actions = {
             const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
 
             if (admintoken) {
-                const data = await posttoserver({ token: admintoken, body: notification, path: `item/create` });
+                const data = await posttoserver({ token: admintoken, body: notification, path: `item/createnotification` });
 
                 if (data.success) {
                     resolve(data);
@@ -239,6 +239,13 @@ export const actions = {
             }
         });
     },
+    async editusertransaction({ commit }, body) {
+        const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
+
+        const data = await posttoserver({ token: admintoken, body, path: `client/edittransaction` });
+
+        return data;
+    },
     async getusermsgs({ commit }, userid) {
         try {
             const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
@@ -247,7 +254,6 @@ export const actions = {
 
             if (data.success) {
                 const msgs = data.success.content;
-                console.log(msgs);
                 commit('SET_USER_MSGS', msgs);
             }
         } catch (error) {
@@ -273,5 +279,10 @@ export const actions = {
         } catch (error) {
             return error
         }
+    },
+    async senduseramessage({ commit }, body) {
+        const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
+
+        await posttoserver({ token: admintoken, body, path: `item/createmessage` });
     }
 }

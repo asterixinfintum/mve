@@ -3,7 +3,6 @@ import express from 'express';
 import User from '../../models/user';
 import Account from '../../models/account';
 import Card from '../../models/card';
-import Notification from '../../models/notification';
 import Transaction from '../../models/transaction';
 
 import authenticateToken from '../../utils/authenticateToken';
@@ -135,6 +134,23 @@ clientedit.post('/client/createtransaction', authenticateToken, (req, res) => {
 
     res.status(405).send({ error: 'not alowed' });
 });
+
+clientedit.post('/client/edittransaction', authenticateToken, (req, res) => {
+    if (req.user && req.user._id) {
+
+        Transaction.updatetransaction(req.body)
+            .then(success => {
+                return res.status(200).send({ success });
+            })
+            .catch(error => {
+                console.log(error)
+                res.status(405).send({ error });
+            });
+        return;
+    }
+
+    res.status(405).send({ error: 'not alowed' });
+})
 
 clientedit.get('/client/messages', authenticateToken, (req, res) => {
     if (req.user && req.user._id) {

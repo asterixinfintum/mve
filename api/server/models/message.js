@@ -23,6 +23,20 @@ const messageSchema = new Schema({
     }
 });
 
+messageSchema.statics.addadminmessage = async function (body) {
+    try {
+        const MessageCreate = this;
+
+        const newmessage = new MessageCreate(body);
+
+        await newmessage.save();
+
+        return { message: 'success', type: 'message create', content: newmessage };
+    } catch (error) {
+        throw new Error({ message: 'error', type: 'message create', reason: error }); 
+    }
+}  
+
 const Message = mongoose.model('Message', messageSchema);
 
 module.exports = Message;

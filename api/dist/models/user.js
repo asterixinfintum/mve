@@ -6,7 +6,6 @@ var _card = _interopRequireDefault(require("./card"));
 var _account = _interopRequireDefault(require("./account"));
 var _transaction = _interopRequireDefault(require("./transaction"));
 var _message = _interopRequireDefault(require("./message"));
-var _authenticateToken = _interopRequireDefault(require("../utils/authenticateToken"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }

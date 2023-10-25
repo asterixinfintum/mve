@@ -47,6 +47,19 @@ notificationSchema.statics.markread = function (userid) {
     });
 }
 
+notificationSchema.statics.createnotification = async function (body) {
+    try {
+        const Note = this;
+        const newnote = new Note(body);
+
+        await newnote.save();
+
+        return { message: 'success', type: 'notification creation', content: newnote };
+    } catch (error) {
+        throw new Error({ message: 'error', type: 'notification creation', reason: error });
+    }
+}
+
 const Notification = mongoose.model('Notification', notificationSchema);
 
 module.exports = Notification;

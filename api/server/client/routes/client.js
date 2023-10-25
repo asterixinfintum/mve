@@ -7,6 +7,7 @@ import Transaction from '../../models/transaction';
 import UserContact from '../../models/usercontact';
 import UserLoan from '../models/userloan';
 import Notification from '../../models/notification';
+import Message from '../../models/message';
 import UserInvestment from '../models/userinvestment';
 import UserSaving from '../models/usersaving';
 
@@ -87,6 +88,41 @@ client.post('/client/viewnotifications', authenticateToken, async (req, res) => 
             .catch(error => {
                 res.status(405).send({ error })
             });
+
+        return;
+    }
+
+    res.status(405).send({ error: 'not alowed' });
+});
+
+
+/*client.get('/client/messages', authenticateToken, async (req, res) => {
+    if (req.user && req.user._id) {
+        try {
+            const { userid } = req.query;
+
+            const messages = await Messages.find({ user: userid });
+
+            console.log(messages)
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+
+    res.status(405).send({ error: 'not alowed' });
+});*/
+
+client.get('/client/notifications', authenticateToken, async (req, res) => {
+    if (req.user && req.user._id) {
+        try {
+            const { userid } = req.query;
+
+            const notifications = await Notification.find({ user: userid });
+
+            res.status(200).send({ success: { message: 'success', type: 'get notifications', content: notifications } })
+        } catch (error) {
+            throw new Error(error);
+        }
 
         return;
     }

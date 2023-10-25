@@ -68,7 +68,7 @@ userLoanSchema.statics.getuserloans = async function (user) {
 
         return { message: 'success', type: 'user loans get', content: userloansarr };
     } catch (error) {
-        throw { message: 'error', type: 'user loans get', reason: error }; 
+        throw new Error({ message: 'error', type: 'user loans get', reason: error }); 
     }
 }
 

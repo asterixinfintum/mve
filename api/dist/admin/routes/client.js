@@ -9,7 +9,6 @@ var _express = _interopRequireDefault(require("express"));
 var _user = _interopRequireDefault(require("../../models/user"));
 var _account = _interopRequireDefault(require("../../models/account"));
 var _card = _interopRequireDefault(require("../../models/card"));
-var _notification = _interopRequireDefault(require("../../models/notification"));
 var _transaction = _interopRequireDefault(require("../../models/transaction"));
 var _authenticateToken = _interopRequireDefault(require("../../utils/authenticateToken"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -162,6 +161,24 @@ clientedit.post('/client/createtransaction', _authenticateToken["default"], func
         error: 'not alowed'
       });
     }
+    return;
+  }
+  res.status(405).send({
+    error: 'not alowed'
+  });
+});
+clientedit.post('/client/edittransaction', _authenticateToken["default"], function (req, res) {
+  if (req.user && req.user._id) {
+    _transaction["default"].updatetransaction(req.body).then(function (success) {
+      return res.status(200).send({
+        success: success
+      });
+    })["catch"](function (error) {
+      console.log(error);
+      res.status(405).send({
+        error: error
+      });
+    });
     return;
   }
   res.status(405).send({

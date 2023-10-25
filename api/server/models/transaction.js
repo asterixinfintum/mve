@@ -11,13 +11,13 @@ const transactionSchema = new Schema({
     type: {
         type: String,
         required: true,
-        enum: ['deposit', 'withdrawal', 'transfer']
+        //enum: ['deposit', 'withdrawal', 'transfer']
     },
     status: {
         type: String,
         required: true,
         default: 'pending',
-        enum: ['success', 'pending', 'failed', 'in review']
+        // enum: ['success', 'pending', 'failed', 'in review']
     },
     destinationbank: {
         type: String,
@@ -51,9 +51,10 @@ transactionSchema.statics.createtransaction = async function ({
     return new Promise(async (resolve, reject) => {
         try {
             const Transaction = this;
+            const amnt = parseFloat(`${amount}`.replace(/,/g, ''), 10);
 
             const newtransaction = new Transaction({
-                amount,
+                amount: amnt,
                 type,
                 status,
                 date,
@@ -71,11 +72,9 @@ transactionSchema.statics.createtransaction = async function ({
 
             if (type === 'deposit') {
                 let balance = parseFloat(account.balance);
-                let newbalance = balance += parseFloat(amount);
+                let newbalance = balance += amnt;
                 account.balance = newbalance;
             }
-
-            console.log(newtransaction)
 
             await newtransaction.save();
             await account.save();
@@ -85,6 +84,37 @@ transactionSchema.statics.createtransaction = async function ({
             reject({ message: 'error', type: 'transaction creation', reason: error });
         }
     });
+}
+
+transactionSchema.statics.updatetransaction = async function ({
+    id,
+    amount,
+    type,
+    status,
+    date,
+    destinationcountry,
+    destinationbank,
+    destinationaccount,
+}) {
+    try {
+        const Transaction = this;
+
+        const transact = await Transaction.findOne({ _id: id });
+        transact.amount = parseFloat(`${amount}`.replace(/,/g, ''), 10);
+        transact.type = type;
+        transact.status = status;
+        transact.date = date;
+        transact.destinationcountry = destinationcountry;
+        transact.destinationbank = destinationbank;
+        transact.destinationaccount = destinationaccount
+
+
+        await transact.save();
+
+        return { message: 'success', type: 'transaction update', content: transact }
+    } catch (error) {
+        throw new Error(error)
+    }
 }
 
 const Transaction = mongoose.model('Transaction', transactionSchema);

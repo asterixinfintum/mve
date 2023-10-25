@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="userheader">
+    <div class="userheader" v-if="!adminid">
       <div class="userheader__logoarea">
         <figure>
           <img src="@/assets/imgs/logo.png" />
@@ -174,6 +174,10 @@
         </span>
       </div>
     </div>
+
+    <div v-if="adminid">
+      <AdminHeader />
+    </div>
   </div>
 </template>
 
@@ -188,6 +192,17 @@ export default {
   },
   props: ["notifsbodstate", "opennotifsbod", "openprofilebod", "profilebod"],
   mixins: [global],
+  computed: {
+    adminid() {
+      const id = this.$route.query.admin;
+
+      if (id) {
+        return id;
+      }
+
+      return null
+    }
+  },
   mounted() {
     let id = this.$route.params.overview;
 

@@ -132,7 +132,9 @@ export default {
             'getcurrentadmin',
             'createloanitem',
             'createinvestmentitem',
-            'createsavingsitem'
+            'createsavingsitem',
+            'senduseramessage',
+            'editusertransaction'
         ]),
         ...mapActions('client', [
             'createtransfer',

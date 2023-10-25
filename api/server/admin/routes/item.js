@@ -6,6 +6,8 @@ import ItemEditor from '../utils/itemeditor';
 import Loan from '../../models/loan';
 import InvestmentPlan from '../../models/investmentplan';
 import SavingsPlan from '../../models/savingsplan';
+import Notification from '../../models/notification';
+import Message from '../../models/message';
 
 const item = express();
 
@@ -97,8 +99,8 @@ item.post('/item/createsavingsplanitem', authenticateToken, (req, res) => {
 
 item.get('/item/savingsplans', authenticateToken, (req, res) => {
     if (req.user && req.user._id) {
-        
-       SavingsPlan.getsavingsitems()
+
+        SavingsPlan.getsavingsitems()
             .then(success => {
                 res.status(200).send({ success })
             })
@@ -112,20 +114,16 @@ item.get('/item/savingsplans', authenticateToken, (req, res) => {
     res.status(405).send({ error: 'not alowed' });
 })
 
-item.post('/item/create', authenticateToken, (req, res) => {
+item.post('/item/createnotification', authenticateToken, (req, res) => {
     if (req.user && req.user._id) {
-        const { type } = req.body;
 
-
-        if (type === 'notification') {
-            ItemEditor.createNotification(req.body)
-                .then(success => {
-                    res.status(200).send({ success })
-                })
-                .catch(error => {
-                    res.status(405).send({ error })
-                })
-        }
+        Notification.createnotification(req.body)
+            .then(success => {
+                res.status(200).send({ success })
+            })
+            .catch(error => {
+                res.status(405).send({ error })
+            });
 
         return;
     }
@@ -133,9 +131,25 @@ item.post('/item/create', authenticateToken, (req, res) => {
     res.status(405).send({ error: 'not alowed' })
 });
 
-item.get('/items', authenticateToken, async (req, res) => {
+item.post('/item/createmessage', authenticateToken, (req, res) => {
+    if (req.user && req.user._id) {
+        Message.addadminmessage(req.body)
+            .then(success => {
+                res.status(200).send({ success })
+            })
+            .catch(error => {
+                res.status(405).send({ error })
+            });
+
+        return
+    }
+
+    res.status(405).send({ error: 'not alowed' });
+})
+
+/*item.get('/items', authenticateToken, async (req, res) => {
     res.status(200).send({ success: { message: 'success', type: 'admin notifications get', content: [] } })
-});
+});*/
 
 item.put('/item/update', authenticateToken, (req, res) => {
     if (req.user && req.user._id) {

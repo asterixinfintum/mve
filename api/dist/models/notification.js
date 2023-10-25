@@ -95,5 +95,40 @@ notificationSchema.statics.markread = function (userid) {
     };
   }());
 };
+notificationSchema.statics.createnotification = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(body) {
+    var Note, newnote;
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      while (1) switch (_context3.prev = _context3.next) {
+        case 0:
+          _context3.prev = 0;
+          Note = this;
+          newnote = new Note(body);
+          _context3.next = 5;
+          return newnote.save();
+        case 5:
+          return _context3.abrupt("return", {
+            message: 'success',
+            type: 'notification creation',
+            content: newnote
+          });
+        case 8:
+          _context3.prev = 8;
+          _context3.t0 = _context3["catch"](0);
+          throw new Error({
+            message: 'error',
+            type: 'notification creation',
+            reason: _context3.t0
+          });
+        case 11:
+        case "end":
+          return _context3.stop();
+      }
+    }, _callee3, this, [[0, 8]]);
+  }));
+  return function (_x4) {
+    return _ref3.apply(this, arguments);
+  };
+}();
 var Notification = mongoose.model('Notification', notificationSchema);
 module.exports = Notification;

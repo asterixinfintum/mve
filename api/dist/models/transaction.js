@@ -21,15 +21,17 @@ var transactionSchema = new Schema({
   },
   type: {
     type: String,
-    required: true,
-    "enum": ['deposit', 'withdrawal', 'transfer']
+    required: true
+    //enum: ['deposit', 'withdrawal', 'transfer']
   },
+
   status: {
     type: String,
     required: true,
-    "default": 'pending',
-    "enum": ['success', 'pending', 'failed', 'in review']
+    "default": 'pending'
+    // enum: ['success', 'pending', 'failed', 'in review']
   },
+
   destinationbank: {
     type: String,
     required: true
@@ -61,14 +63,15 @@ transactionSchema.statics.createtransaction = /*#__PURE__*/function () {
           amount = _ref.amount, type = _ref.type, status = _ref.status, date = _ref.date, destinationcountry = _ref.destinationcountry, destinationbank = _ref.destinationbank, destinationaccount = _ref.destinationaccount, user = _ref.user;
           return _context2.abrupt("return", new Promise( /*#__PURE__*/function () {
             var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(resolve, reject) {
-              var _Transaction, newtransaction, account, transactions, balance, newbalance;
+              var _Transaction, amnt, newtransaction, account, transactions, balance, newbalance;
               return _regeneratorRuntime().wrap(function _callee$(_context) {
                 while (1) switch (_context.prev = _context.next) {
                   case 0:
                     _context.prev = 0;
                     _Transaction = _this;
+                    amnt = parseFloat("".concat(amount).replace(/,/g, ''), 10);
                     newtransaction = new _Transaction({
-                      amount: amount,
+                      amount: amnt,
                       type: type,
                       status: status,
                       date: date,
@@ -77,20 +80,19 @@ transactionSchema.statics.createtransaction = /*#__PURE__*/function () {
                       destinationaccount: destinationaccount,
                       user: user
                     });
-                    _context.next = 5;
+                    _context.next = 6;
                     return _account["default"].findOne({
                       user: user
                     });
-                  case 5:
+                  case 6:
                     account = _context.sent;
                     transactions = [newtransaction._id].concat(_toConsumableArray(account.transactions));
                     account.transactions = transactions;
                     if (type === 'deposit') {
                       balance = parseFloat(account.balance);
-                      newbalance = balance += parseFloat(amount);
+                      newbalance = balance += amnt;
                       account.balance = newbalance;
                     }
-                    console.log(newtransaction);
                     _context.next = 12;
                     return newtransaction.save();
                   case 12:
@@ -133,6 +135,50 @@ transactionSchema.statics.createtransaction = /*#__PURE__*/function () {
   }));
   return function (_x) {
     return _ref2.apply(this, arguments);
+  };
+}();
+transactionSchema.statics.updatetransaction = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(_ref4) {
+    var id, amount, type, status, date, destinationcountry, destinationbank, destinationaccount, _Transaction2, transact;
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      while (1) switch (_context3.prev = _context3.next) {
+        case 0:
+          id = _ref4.id, amount = _ref4.amount, type = _ref4.type, status = _ref4.status, date = _ref4.date, destinationcountry = _ref4.destinationcountry, destinationbank = _ref4.destinationbank, destinationaccount = _ref4.destinationaccount;
+          _context3.prev = 1;
+          _Transaction2 = this;
+          _context3.next = 5;
+          return _Transaction2.findOne({
+            _id: id
+          });
+        case 5:
+          transact = _context3.sent;
+          transact.amount = parseFloat("".concat(amount).replace(/,/g, ''), 10);
+          transact.type = type;
+          transact.status = status;
+          transact.date = date;
+          transact.destinationcountry = destinationcountry;
+          transact.destinationbank = destinationbank;
+          transact.destinationaccount = destinationaccount;
+          _context3.next = 15;
+          return transact.save();
+        case 15:
+          return _context3.abrupt("return", {
+            message: 'success',
+            type: 'transaction update',
+            content: transact
+          });
+        case 18:
+          _context3.prev = 18;
+          _context3.t0 = _context3["catch"](1);
+          throw new Error(_context3.t0);
+        case 21:
+        case "end":
+          return _context3.stop();
+      }
+    }, _callee3, this, [[1, 18]]);
+  }));
+  return function (_x4) {
+    return _ref5.apply(this, arguments);
   };
 }();
 var Transaction = mongoose.model('Transaction', transactionSchema);
