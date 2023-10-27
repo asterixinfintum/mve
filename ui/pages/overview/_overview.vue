@@ -453,7 +453,7 @@
                   </div>
 
                   <div class="overview__savingsplans">
-                    <div v-if="savingsplns.length">
+                    <div v-if="savingsplns.length" class="overview__savingsplans--content">
                       <div
                         class=""
                         v-for="{ usersaving, savingsplanname } in savingsplns"

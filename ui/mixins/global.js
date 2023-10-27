@@ -1,5 +1,4 @@
 import { mapActions, mapState, mapMutations } from 'vuex';
-import { state } from '../store/client';
 
 export default {
     extends: 'layouts/default',
@@ -113,6 +112,15 @@ export default {
 
             return {}
         },
+        adminid() {
+            const id = this.$route.query.admin;
+      
+            if (id) {
+              return id;
+            }
+      
+            return null
+          }
     },
     methods: {
         ...mapActions('auth', ['checkauthdup', 'register', 'login', 'logout', 'showautherror', 'removeautherror', 'getcurrentclient']),
@@ -134,7 +142,10 @@ export default {
             'createinvestmentitem',
             'createsavingsitem',
             'senduseramessage',
-            'editusertransaction'
+            'editusertransaction',
+            'edituserloan',
+            'editusersaving',
+            'edituserinvestment'
         ]),
         ...mapActions('client', [
             'createtransfer',
@@ -148,7 +159,8 @@ export default {
             'getuserloans',
             'getusersavingsplans',
             'getuserinvestments',
-            'joinsavingsplan'
+            'joinsavingsplan',
+            'deposittosavingsitem'
         ]),
         ...mapActions('items', ['getloans', 'getinvestmentplans', 'getsavingsplans', 'getnotifications', 'getusernotifications']),
         toroute(route) {

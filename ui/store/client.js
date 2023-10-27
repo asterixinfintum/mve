@@ -191,4 +191,13 @@ export const actions = {
             throw error;
         }
     },
+    async deposittosavingsitem({ commit }, body) {
+        try {
+            const token = localStorage.getItem('873__jh6bdjklkjhghn');
+
+            await posttoserver({ token, body, path: `client/deposittosavingsitem` });
+        } catch (error) {
+            throw error
+        }
+    }
 }

@@ -242,10 +242,10 @@ client.get('/client/getinvestments', authenticateToken, async (req, res) => {
 
         UserInvestment.getuserinvestments(user)
             .then(success => {
-                res.status(200).send({ success })
+                res.status(200).send({ success });
             })
             .catch(error => {
-                res.status(405).send({ error })
+                res.status(405).send({ error });
             });
 
         return
@@ -278,6 +278,24 @@ client.get('/client/savingsplan', authenticateToken, async (req, res) => {
         const { user } = req.query;
 
         UserSaving.getusersavingsplans(user)
+            .then(success => {
+                res.status(200).send({ success });
+            })
+            .catch(error => {
+                res.status(405).send({ error });
+                throw new Error(error);
+            });
+
+        return;
+    }
+
+    res.status(405).send({ error: 'not alowed' });
+});
+
+client.post('/client/deposittosavingsitem', authenticateToken, async (req, res) => {
+    if (req.user && req.user._id) {
+
+        UserSaving.deposittosavingsitem(req.body)
             .then(success => {
                 res.status(200).send({ success });
             })

@@ -192,17 +192,6 @@ export default {
   },
   props: ["notifsbodstate", "opennotifsbod", "openprofilebod", "profilebod"],
   mixins: [global],
-  computed: {
-    adminid() {
-      const id = this.$route.query.admin;
-
-      if (id) {
-        return id;
-      }
-
-      return null
-    }
-  },
   mounted() {
     let id = this.$route.params.overview;
 

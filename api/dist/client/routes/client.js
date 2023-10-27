@@ -582,4 +582,38 @@ client.get('/client/savingsplan', _authenticateToken["default"], /*#__PURE__*/fu
     return _ref14.apply(this, arguments);
   };
 }());
+client.post('/client/deposittosavingsitem', _authenticateToken["default"], /*#__PURE__*/function () {
+  var _ref15 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee15(req, res) {
+    return _regeneratorRuntime().wrap(function _callee15$(_context15) {
+      while (1) switch (_context15.prev = _context15.next) {
+        case 0:
+          if (!(req.user && req.user._id)) {
+            _context15.next = 3;
+            break;
+          }
+          _usersaving["default"].deposittosavingsitem(req.body).then(function (success) {
+            res.status(200).send({
+              success: success
+            });
+          })["catch"](function (error) {
+            res.status(405).send({
+              error: error
+            });
+            throw new Error(error);
+          });
+          return _context15.abrupt("return");
+        case 3:
+          res.status(405).send({
+            error: 'not alowed'
+          });
+        case 4:
+        case "end":
+          return _context15.stop();
+      }
+    }, _callee15);
+  }));
+  return function (_x29, _x30) {
+    return _ref15.apply(this, arguments);
+  };
+}());
 var _default = exports["default"] = client;

@@ -27,7 +27,7 @@ html {
 
 /* Create a styles rule for the scrollbar itself */
 ::-webkit-scrollbar {
-    width: #{scaleValue(10)};
+    width: #{scaleValue(5)};
     /* adjust the width of the scrollbar */
     height: 100vh;
     /* make the scrollbar tall enough to cover the entire page */

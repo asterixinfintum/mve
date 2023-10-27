@@ -26,7 +26,11 @@
                 :amount="usersaving.amount"
                 :target="usersaving.target"
                 :nameofsavingsplan="usersaving.nameofsavingsplan"
-                :savingsplanname="savingsplanname"/>
+                :savingsplanname="savingsplanname"
+                :bonus="usersaving.bonus"
+                :message="usersaving.message"
+                :status="usersaving.status"
+                :id="usersaving._id"/>
             </div>
           </div>
         </div>

@@ -1,9 +1,7 @@
 "use strict";
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-var _investmentplan = _interopRequireDefault(require("../../models/investmentplan"));
 var _account = _interopRequireDefault(require("../../models/account"));
-var _transaction = _interopRequireDefault(require("../../models/transaction"));
 var _savingsplan = _interopRequireDefault(require("../../models/savingsplan"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
@@ -32,10 +30,13 @@ var userSavingSchema = new Schema({
     type: Number,
     required: true
   },
-  profit: {
+  bonus: {
     type: Number,
     required: true,
     "default": 0
+  },
+  message: {
+    type: String
   },
   target: {
     type: Number,
@@ -44,11 +45,6 @@ var userSavingSchema = new Schema({
   nameofsavingsplan: {
     type: String,
     required: true
-  },
-  loss: {
-    type: Number,
-    required: true,
-    "default": 0
   },
   status: {
     type: String,
@@ -158,11 +154,7 @@ userSavingSchema.statics.getusersavingsplans = /*#__PURE__*/function () {
         case 28:
           _context2.prev = 28;
           _context2.t1 = _context2["catch"](0);
-          return _context2.abrupt("return", {
-            message: 'error',
-            type: 'get savingsplan',
-            reason: _context2.t1
-          });
+          throw Error(_context2.t1);
         case 31:
         case "end":
           return _context2.stop();
@@ -171,6 +163,103 @@ userSavingSchema.statics.getusersavingsplans = /*#__PURE__*/function () {
   }));
   return function (_x2) {
     return _ref2.apply(this, arguments);
+  };
+}();
+userSavingSchema.statics.editusersaving = /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(_ref3) {
+    var amount, bonus, message, status, id, Usersavnsplan, usrsavitm;
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      while (1) switch (_context3.prev = _context3.next) {
+        case 0:
+          amount = _ref3.amount, bonus = _ref3.bonus, message = _ref3.message, status = _ref3.status, id = _ref3.id;
+          _context3.prev = 1;
+          Usersavnsplan = this;
+          _context3.next = 5;
+          return Usersavnsplan.findOne({
+            _id: id
+          });
+        case 5:
+          usrsavitm = _context3.sent;
+          usrsavitm.amount = amount;
+          usrsavitm.bonus = bonus;
+          usrsavitm.message = message;
+          usrsavitm.status = status;
+          _context3.next = 12;
+          return usrsavitm.save();
+        case 12:
+          return _context3.abrupt("return", {
+            message: 'success',
+            type: 'user savingsplan edit',
+            content: usrsavitm
+          });
+        case 15:
+          _context3.prev = 15;
+          _context3.t0 = _context3["catch"](1);
+          throw Error(_context3.t0);
+        case 18:
+        case "end":
+          return _context3.stop();
+      }
+    }, _callee3, this, [[1, 15]]);
+  }));
+  return function (_x3) {
+    return _ref4.apply(this, arguments);
+  };
+}();
+userSavingSchema.statics.deposittosavingsitem = /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(_ref5) {
+    var amount, id, Usersavnsplan, usrsavitm, usraccount, totaldeposit, newtotaldeposit, usrbalance, newusrbalance;
+    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+      while (1) switch (_context4.prev = _context4.next) {
+        case 0:
+          amount = _ref5.amount, id = _ref5.id;
+          _context4.prev = 1;
+          Usersavnsplan = this;
+          _context4.next = 5;
+          return Usersavnsplan.findOne({
+            _id: id
+          });
+        case 5:
+          usrsavitm = _context4.sent;
+          _context4.next = 8;
+          return _account["default"].findOne({
+            user: usrsavitm.user
+          });
+        case 8:
+          usraccount = _context4.sent;
+          totaldeposit = usrsavitm.totaldeposit;
+          newtotaldeposit = totaldeposit + parseFloat("".concat(amount).replace(/,/g, ''), 10);
+          usrsavitm.totaldeposit = newtotaldeposit;
+          usrsavitm.amount = newtotaldeposit;
+          usrbalance = usraccount.balance;
+          newusrbalance = usrbalance - parseFloat("".concat(amount).replace(/,/g, ''), 10);
+          usraccount.balance = newusrbalance;
+          _context4.next = 18;
+          return usraccount.save();
+        case 18:
+          _context4.next = 20;
+          return usrsavitm.save();
+        case 20:
+          return _context4.abrupt("return", {
+            message: 'success',
+            type: 'user savingsplan deposit',
+            content: {
+              usrsavitm: usrsavitm,
+              usraccount: usraccount
+            }
+          });
+        case 23:
+          _context4.prev = 23;
+          _context4.t0 = _context4["catch"](1);
+          throw Error(_context4.t0);
+        case 26:
+        case "end":
+          return _context4.stop();
+      }
+    }, _callee4, this, [[1, 23]]);
+  }));
+  return function (_x4) {
+    return _ref6.apply(this, arguments);
   };
 }();
 var UserSaving = mongoose.model('UserSaving', userSavingSchema);

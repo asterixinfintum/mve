@@ -20,7 +20,11 @@ const userInvestmentSchema = new Schema({
         type: Number,
         default: 0
     },
-    loss: {
+    profit: {
+        type: Number,
+        default: 0
+    },
+    deduction: {
         type: Number,
         default: 0
     },
@@ -54,7 +58,26 @@ userInvestmentSchema.statics.getuserinvestments = async function (user) {
 
         return { message: 'success', type: 'user investment get', content: investmentsarr };
     } catch (error) {
-        return { message: 'error', type: 'user investment get', reason: error }
+        throw new Error(error)
+    }
+}
+
+userInvestmentSchema.statics.edituserinvestment = async function ({ profit, deduction, status, message, id }) {
+    try {
+        const UserInvestmnt = this;
+
+        const usrinvst = await UserInvestmnt.findOne({ _id: id });
+        usrinvst.profit = parseFloat(profit);
+        usrinvst.deduction = parseFloat(deduction);
+        usrinvst.status = status;
+        usrinvst.message = message;
+
+        await usrinvst.save();
+
+        return { message: 'success', type: 'user investment edit', content: usrinvst }
+
+    } catch (error) {
+        throw new Error(error)
     }
 }
 

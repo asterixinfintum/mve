@@ -1,5 +1,131 @@
 <template>
   <div>
+    <div class="popup-overlay highz" v-if="depositformopen">
+      <div class="popup">
+        <div class="halfscreen-width-2">
+          <div class="overview__transaction--header">
+            <div class="overview__transaction--h2 header-label smlabel orange">
+              Deposit into your
+              <span class="capitalize">{{ nameofsavingsplan }}</span> savings plan
+            </div>
+          </div>
+
+          <div class="padding-top-bottom">
+            <div class="input-area fullbody">
+              <label class="smlabel">Amount</label>
+              <div class="input">
+                <input
+                  placeholder="Amount"
+                  type="text"
+                  v-model="depositamount"
+                  @input="validateNumberInputToDeposit"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="flex-with-spacebetween">
+            <div class="overview__withddep">
+              <button
+                class="button orange-btn fontweight-3 half-flex-space loanbtn curved"
+                v-if="allowdeposit"
+                @click="depositintosavings"
+              >
+                deposit
+              </button>
+
+              <button
+                class="button orange-btn-faint fontweight-3 half-flex-space loanbtn curved"
+                v-if="!allowdeposit"
+              >
+                deposit
+              </button>
+            </div>
+
+            <div class="overview__withddep">
+              <button
+                class="button fontweight-3 half-flex-space loanbtn curved blue-background"
+                @click="closedeposit"
+              >
+                cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="popup-overlay highz" v-if="edit">
+      <div class="popup">
+        <div class="halfscreen-width-2">
+          <div class="two-side-grid">
+            <div class="input-area fullbody">
+              <label class="smlabel">Bonus</label>
+              <div class="input">
+                <input
+                  placeholder="bonus to display for this savings"
+                  type="number"
+                  v-model="formbonus"
+                />
+              </div>
+            </div>
+
+            <div class="input-area fullbody">
+              <label class="smlabel">Amount</label>
+              <div class="input">
+                <input placeholder="Edit the amount" type="number" v-model="formamount" />
+              </div>
+            </div>
+          </div>
+
+          <div class="input-area fullbody">
+            <label class="smlabel">Status</label>
+            <div class="input">
+              <input placeholder="Edit the status" type="text" v-model="formstatus" />
+            </div>
+          </div>
+
+          <div class="input-area fullbody">
+            <label class="smlabel">Write a message to display to user</label>
+            <div class="input">
+              <textarea
+                placeholder="Message for this user saving item"
+                v-model="formmessage"
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="flex-with-spacebetween">
+            <div class="overview__withddep">
+              <button
+                class="button orange-btn fontweight-3 half-flex-space loanbtn curved"
+                v-if="allowsubmit"
+                @click="submit"
+              >
+                submit
+              </button>
+
+              <button
+                class="button orange-btn-faint fontweight-3 half-flex-space loanbtn curved"
+                v-if="!allowsubmit"
+              >
+                submit
+              </button>
+            </div>
+
+            <div class="overview__withddep">
+              <button
+                class="button fontweight-3 half-flex-space loanbtn curved blue-background"
+                @click="closeitem"
+              >
+                close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="usersavings" :class="{ overviewone }">
       <div class="usersavings__top">
         <div class="usersavings__top--left">
@@ -9,9 +135,14 @@
             </svg>
           </span>
         </div>
-        <div class="usersavings__top--right">
-          <h2 class="capitalize">{{ nameofsavingsplan }}</h2>
-          <h3 class="capitalize">Plan: ({{ savingsplanname }})</h3>
+
+        <div class="flex-with-spacebetween">
+          <div>
+            <div class="usersavings__top--right">
+              <h2 class="capitalize">{{ nameofsavingsplan }}</h2>
+              <h3 class="capitalize">Plan: ({{ savingsplanname }})</h3>
+            </div>
+          </div>
         </div>
       </div>
       <div class="usersavings__bottom">
@@ -26,7 +157,28 @@
 
       <div class="usersavings__progress">
         <div class="usersavings__progress--background"></div>
-        <div class="usersavings__progress--color"></div>
+        <div class="usersavings__progress--color" ref="progress"></div>
+      </div>
+
+      <div class="flex-with-spacebetween">
+        <div class="overview__withddep">
+          <button
+            class="button orange-btn fontweight-3 half-flex-space loanbtn curved"
+            @click="opendeposit"
+          >
+            Deposit
+          </button>
+        </div>
+
+        <div class="overview__withddep">
+          <button
+            class="button fontweight-3 half-flex-space loanbtn curved blue-background"
+            v-if="adminid"
+            @click="edititem"
+          >
+            Edit
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -36,8 +188,125 @@
 import global from "@/mixins/global";
 
 export default {
-  props: ["target", "amount", "nameofsavingsplan", "savingsplanname", "overviewone"],
+  data() {
+    return {
+      edit: false,
+      formbonus: 0,
+      formamount: 0,
+      formstatus: "",
+      formmessage: "",
+      depositformopen: false,
+      deposit: 0,
+      depositamount: "",
+    };
+  },
+  props: [
+    "target",
+    "amount",
+    "nameofsavingsplan",
+    "savingsplanname",
+    "overviewone",
+    "bonus",
+    "message",
+    "status",
+    "id",
+  ],
   mixins: [global],
+  computed: {
+    allowdeposit() {
+      const { depositamount, account } = this;
+
+      const amount = parseFloat(`${depositamount}`.replace(/,/g, ""), 10);
+
+      if (depositamount.length && account.balance > amount) {
+        return true;
+      }
+
+      return false;
+    },
+    allowsubmit() {
+      const { formamount, formmessage, formstatus } = this;
+
+      if (formamount && formmessage && formstatus) {
+        if (formamount && formmessage.length && formstatus.length) {
+          return true;
+        }
+      }
+
+      return false;
+    },
+  },
+  methods: {
+    depositintosavings() {
+      const { depositamount, id } = this;
+
+      this.toggleverbiage(`Updating item`);
+      this.onspinner();
+
+      this.deposittosavingsitem({ amount: depositamount, id }).then(() => {
+        this.toggleverbiage(null);
+        this.offspinner();
+        this.closedeposit();
+      });
+    },
+    validateNumberInputToDeposit() {
+      const { customSplitByDot, removePeriodAndCommas } = this;
+      const formattedNumber = this.depositamount
+        .replace(/[^1234567890.]/g, "")
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      const characters = removePeriodAndCommas(customSplitByDot(formattedNumber));
+
+      return (this.depositamount = characters);
+    },
+    closedeposit() {
+      this.depositformopen = false;
+    },
+    opendeposit() {
+      this.depositformopen = true;
+    },
+    submit() {
+      const { formamount, formbonus, formmessage, formstatus, id } = this;
+
+      const usersavingedit = {
+        amount: parseFloat(formamount),
+        bonus: parseFloat(formbonus),
+        message: formmessage,
+        status: formstatus,
+        id,
+      };
+
+      this.toggleverbiage(`Updating item`);
+      this.onspinner();
+
+      this.editusersaving(usersavingedit).then(() => {
+        this.toggleverbiage(null);
+        this.offspinner();
+        this.closeitem();
+      });
+    },
+    closeitem() {
+      this.edit = false;
+    },
+    edititem() {
+      this.edit = true;
+    },
+    setProgress(amount, target) {
+      const progressBar = this.$refs.progress;
+      const percentage = (amount / target) * 100;
+
+      progressBar.style.width = percentage + "%";
+    },
+  },
+  mounted() {
+    const { setProgress, amount, target, bonus, status, message } = this;
+
+    this.formamount = amount;
+    this.formbonus = bonus;
+    this.formstatus = status;
+    this.formmessage = message;
+
+    setProgress(amount, target);
+  },
 };
 </script>
 
@@ -50,7 +319,7 @@ export default {
   padding: #{scaleValue(30)};
 
   &.overviewone {
-    width: 100%
+    width: 100%;
   }
 
   &__top {
@@ -78,7 +347,6 @@ export default {
     }
 
     &--right {
-
       & h2 {
         font-weight: 500;
         font-size: #{scaleValue(16)};
@@ -134,6 +402,8 @@ export default {
       height: 100%;
       width: 50%;
       background: rgba($primary-orange, 1);
+
+      transition: all 0.4s ease;
     }
   }
 }

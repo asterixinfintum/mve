@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-import InvestmentPlan from '../../models/investmentplan';
 import Account from '../../models/account';
-import Transaction from '../../models/transaction';
 import Savingsplan from '../../models/savingsplan';
 
 const userSavingSchema = new Schema({
@@ -23,10 +21,13 @@ const userSavingSchema = new Schema({
         type: Number,
         required: true,
     },
-    profit: {
+    bonus: {
         type: Number,
         required: true,
         default: 0
+    },
+    message: {
+        type: String
     },
     target: {
         type: Number,
@@ -35,11 +36,6 @@ const userSavingSchema = new Schema({
     nameofsavingsplan: {
         type: String,
         required: true
-    },
-    loss: {
-        type: Number,
-        required: true,
-        default: 0
     },
     status: {
         type: String,
@@ -89,10 +85,55 @@ userSavingSchema.statics.getusersavingsplans = async function (user) {
 
         return { message: 'success', type: 'user savingsplan get', content: usersavingsarr };
     } catch (error) {
-        return { message: 'error', type: 'get savingsplan', reason: error }
+        throw Error(error);
     }
 }
 
+userSavingSchema.statics.editusersaving = async function ({ amount, bonus, message, status, id }) {
+    try {
+        const Usersavnsplan = this;
+        const usrsavitm = await Usersavnsplan.findOne({ _id: id });
+
+        usrsavitm.amount = amount;
+        usrsavitm.bonus = bonus;
+        usrsavitm.message = message;
+        usrsavitm.status = status;
+
+        await usrsavitm.save();
+
+        return { message: 'success', type: 'user savingsplan edit', content: usrsavitm };
+    } catch (error) {
+        throw Error(error);
+    }
+}
+
+userSavingSchema.statics.deposittosavingsitem = async function ({ amount, id }) {
+    try {
+        const Usersavnsplan = this;
+        const usrsavitm = await Usersavnsplan.findOne({ _id: id });
+        const usraccount = await Account.findOne({ user: usrsavitm.user });
+
+        const totaldeposit = usrsavitm.totaldeposit;
+        const newtotaldeposit = totaldeposit + parseFloat(`${amount}`.replace(/,/g, ''), 10);
+
+        usrsavitm.totaldeposit = newtotaldeposit;
+        usrsavitm.amount = newtotaldeposit;
+
+        const usrbalance = usraccount.balance;
+        const newusrbalance = usrbalance - parseFloat(`${amount}`.replace(/,/g, ''), 10);
+
+        usraccount.balance = newusrbalance;
+
+        await usraccount.save();
+
+        await usrsavitm.save();
+
+        return { message: 'success', type: 'user savingsplan deposit', content: { usrsavitm, usraccount } };
+
+    } catch (error) {
+        throw Error(error);
+    }
+}
 
 const UserSaving = mongoose.model('UserSaving', userSavingSchema);
 

@@ -65,7 +65,7 @@ export const actions = {
 
             if (data.success) {
                 const { content } = data.success;
-                console.log(content)
+                //console.log(content)
                 commit('SET_SAVINGSPLANS', content);
             } else {
                 reject('fail')

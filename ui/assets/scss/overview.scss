@@ -412,11 +412,17 @@ $overview-area-padding: #{scaleValue(30)};
         height: #{scaleValue(599)};
         border-radius: $border-radius;
         overflow: hidden;
+
+        &--content {
+            height: #{scaleValue(599)};
+            padding-bottom:  #{scaleValue(100)};
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
     }
 
     &__rightbottom {
         display: flex;
-        //flex-direction: column;
     }
 
     &__quickcontacts {

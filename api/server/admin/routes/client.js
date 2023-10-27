@@ -5,6 +5,10 @@ import Account from '../../models/account';
 import Card from '../../models/card';
 import Transaction from '../../models/transaction';
 
+import Userloan from '../../client/models/userloan';
+import Usersaving from '../../client/models/usersaving';
+import Userinvestment from '../../client/models/userinvestment';
+
 import authenticateToken from '../../utils/authenticateToken';
 
 const clientedit = express();
@@ -161,7 +165,6 @@ clientedit.get('/client/messages', authenticateToken, (req, res) => {
                 return res.status(200).send({ success });
             })
             .catch(error => {
-                console.log(error)
                 res.status(405).send({ error });
             });
 
@@ -171,21 +174,54 @@ clientedit.get('/client/messages', authenticateToken, (req, res) => {
     res.status(405).send({ error: 'not alowed' });
 });
 
-clientedit.get('/client/investmentplans', authenticateToken, () => {
+clientedit.post('/client/edituserloan', authenticateToken, (req, res) => {
     if (req.user && req.user._id) {
-        const { userid } = req.query;
 
-        Account.getuserinvestments(userid)
+        Userloan.edituserloan(req.body)
+            .then(success => {
+                return res.status(200).send({ success });
+            })
+            .catch(error => {
+                res.status(405).send({ error });
+            });
+
+        return;
     }
+
+    res.status(405).send({ error: 'not alowed' });
 });
 
-clientedit.post('/client/savings', authenticateToken, (req, res) => {
+clientedit.post('/client/editusersaving', authenticateToken, (req, res) => {
+    if (req.user && req.user._id) {
+        Usersaving.editusersaving(req.body)
+            .then(success => {
+                return res.status(200).send({ success });
+            })
+            .catch(error => {
+                console.log(error)
+                res.status(405).send({ error });
+            });
 
+        return
+    }
+
+    res.status(405).send({ error: 'not alowed' });
 });
 
-clientedit.post('/client/editinvestments', authenticateToken, (req, res) => {
+clientedit.post('/client/edituserinvestment', authenticateToken, (req, res) => {
+    if (req.user && req.user._id) {
+        Userinvestment.edituserinvestment(req.body)
+            .then(success => {
+                return res.status(200).send({ success });
+            })
+            .catch(error => {
+                console.log(error)
+                res.status(405).send({ error });
+            });
+    }
 
-});
+    return;
+})
 
 
 

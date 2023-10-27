@@ -284,5 +284,20 @@ export const actions = {
         const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
 
         await posttoserver({ token: admintoken, body, path: `item/createmessage` });
+    },
+    async edituserloan({ commit }, body) {
+        const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
+
+        await posttoserver({ token: admintoken, body, path: `client/edituserloan` });
+    },
+    async editusersaving({ commit }, body) {
+        const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
+
+        await posttoserver({ token: admintoken, body, path: `client/editusersaving` });
+    },
+    async edituserinvestment({ commit }, body) {
+        const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
+
+        await posttoserver({ token: admintoken, body, path: `client/edituserinvestment` });
     }
 }

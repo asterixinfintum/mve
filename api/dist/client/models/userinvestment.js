@@ -29,7 +29,11 @@ var userInvestmentSchema = new Schema({
     type: Number,
     "default": 0
   },
-  loss: {
+  profit: {
+    type: Number,
+    "default": 0
+  },
+  deduction: {
     type: Number,
     "default": 0
   },
@@ -102,11 +106,7 @@ userInvestmentSchema.statics.getuserinvestments = /*#__PURE__*/function () {
         case 28:
           _context.prev = 28;
           _context.t1 = _context["catch"](0);
-          return _context.abrupt("return", {
-            message: 'error',
-            type: 'user investment get',
-            reason: _context.t1
-          });
+          throw new Error(_context.t1);
         case 31:
         case "end":
           return _context.stop();
@@ -115,6 +115,47 @@ userInvestmentSchema.statics.getuserinvestments = /*#__PURE__*/function () {
   }));
   return function (_x) {
     return _ref.apply(this, arguments);
+  };
+}();
+userInvestmentSchema.statics.edituserinvestment = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(_ref2) {
+    var profit, deduction, status, message, id, UserInvestmnt, usrinvst;
+    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+      while (1) switch (_context2.prev = _context2.next) {
+        case 0:
+          profit = _ref2.profit, deduction = _ref2.deduction, status = _ref2.status, message = _ref2.message, id = _ref2.id;
+          _context2.prev = 1;
+          UserInvestmnt = this;
+          _context2.next = 5;
+          return UserInvestmnt.findOne({
+            _id: id
+          });
+        case 5:
+          usrinvst = _context2.sent;
+          usrinvst.profit = parseFloat(profit);
+          usrinvst.deduction = parseFloat(deduction);
+          usrinvst.status = status;
+          usrinvst.message = message;
+          _context2.next = 12;
+          return usrinvst.save();
+        case 12:
+          return _context2.abrupt("return", {
+            message: 'success',
+            type: 'user investment edit',
+            content: usrinvst
+          });
+        case 15:
+          _context2.prev = 15;
+          _context2.t0 = _context2["catch"](1);
+          throw new Error(_context2.t0);
+        case 18:
+        case "end":
+          return _context2.stop();
+      }
+    }, _callee2, this, [[1, 15]]);
+  }));
+  return function (_x2) {
+    return _ref3.apply(this, arguments);
   };
 }();
 var UserInvestment = mongoose.model('UserInvestment', userInvestmentSchema);

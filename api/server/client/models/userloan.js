@@ -68,7 +68,23 @@ userLoanSchema.statics.getuserloans = async function (user) {
 
         return { message: 'success', type: 'user loans get', content: userloansarr };
     } catch (error) {
-        throw new Error({ message: 'error', type: 'user loans get', reason: error }); 
+        throw new Error(error); 
+    }
+}
+
+userLoanSchema.statics.edituserloan = async function ({ message, status, userloan }) {
+    try {
+        const Userln = this;
+        const userloanitem = await Userln.findOne({ _id: userloan });
+
+        userloanitem.message = message;
+        userloanitem.status = status;
+
+        await userloanitem.save();
+
+        return { message: 'success', type: 'user loans get', content: userloanitem };
+    } catch (error) {
+        throw new Error(error); 
     }
 }
 

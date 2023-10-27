@@ -17,9 +17,16 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-weight: 400;
-    font-size: #{scaleValue(18)};
     margin-top: #{scaleValue(80)};
     color: $darker-blue;
+
+    & p {
+      padding: #{scaleValue(16)};
+      border-radius: #{scaleValue(3)};
+      background: rgba($darker-blue, .1);
+      font-size: #{scaleValue(14)};
+      font-weight: 500;
+      border: 1px solid rgba($primary-orange, .3);
+    }
 }
 </style>

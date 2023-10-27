@@ -76,6 +76,7 @@ export default {
       '~/assets/scss/dashboard.scss',
       '~/assets/scss/cardlist.scss',
       '~/assets/scss/displaycard.scss',
+      '~/assets/scss/investmentcard.scss',
     ],
     hoistUseStatements: true
   },

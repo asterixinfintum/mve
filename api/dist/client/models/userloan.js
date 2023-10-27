@@ -155,11 +155,7 @@ userLoanSchema.statics.getuserloans = /*#__PURE__*/function () {
         case 28:
           _context3.prev = 28;
           _context3.t1 = _context3["catch"](0);
-          throw new Error({
-            message: 'error',
-            type: 'user loans get',
-            reason: _context3.t1
-          });
+          throw new Error(_context3.t1);
         case 31:
         case "end":
           return _context3.stop();
@@ -168,6 +164,45 @@ userLoanSchema.statics.getuserloans = /*#__PURE__*/function () {
   }));
   return function (_x4) {
     return _ref4.apply(this, arguments);
+  };
+}();
+userLoanSchema.statics.edituserloan = /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(_ref5) {
+    var message, status, userloan, Userln, userloanitem;
+    return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+      while (1) switch (_context4.prev = _context4.next) {
+        case 0:
+          message = _ref5.message, status = _ref5.status, userloan = _ref5.userloan;
+          _context4.prev = 1;
+          Userln = this;
+          _context4.next = 5;
+          return Userln.findOne({
+            _id: userloan
+          });
+        case 5:
+          userloanitem = _context4.sent;
+          userloanitem.message = message;
+          userloanitem.status = status;
+          _context4.next = 10;
+          return userloanitem.save();
+        case 10:
+          return _context4.abrupt("return", {
+            message: 'success',
+            type: 'user loans get',
+            content: userloanitem
+          });
+        case 13:
+          _context4.prev = 13;
+          _context4.t0 = _context4["catch"](1);
+          throw new Error(_context4.t0);
+        case 16:
+        case "end":
+          return _context4.stop();
+      }
+    }, _callee4, this, [[1, 13]]);
+  }));
+  return function (_x5) {
+    return _ref6.apply(this, arguments);
   };
 }();
 var UserLoan = mongoose.model('UserLoan', userLoanSchema);

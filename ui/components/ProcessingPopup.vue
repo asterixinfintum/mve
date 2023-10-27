@@ -1,5 +1,5 @@
 <template>
-  <div class="popup-overlay highz" v-if="spinneron">
+  <div class="popup-overlay higherz" v-if="spinneron">
     <div class="popup">
       <div class="loader"></div>
       <p class="verbiage" v-if="spinnerverbiage">{{ spinnerverbiage }}</p>

@@ -8,6 +8,56 @@
         :profilebod="profilebody"
       />
 
+      <div class="popup-overlay highz" v-if="current">
+        <div class="popup">
+          <div class="halfscreen-width-2">
+            <div class="input-area fullbody">
+              <label class="smlabel">Status</label>
+              <div class="input">
+                <input placeholder="pending, approved etc" type="text" v-model="status" />
+              </div>
+            </div>
+            <div class="input-area fullbody">
+              <label class="smlabel">Write a message to display to user</label>
+              <div class="input">
+                <textarea
+                  placeholder="Message for this loan"
+                  v-model="message"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="flex-with-spacebetween">
+              <div class="overview__withddep">
+                <button
+                  class="button orange-btn fontweight-3 half-flex-space loanbtn curved"
+                  v-if="allowsubmit"
+                  @click="submit"
+                >
+                  submit
+                </button>
+
+                <button
+                  class="button orange-btn-faint fontweight-3 half-flex-space loanbtn curved"
+                  v-if="!allowsubmit"
+                >
+                  submit
+                </button>
+              </div>
+
+              <div class="overview__withddep">
+                <button
+                  class="button fontweight-3 half-flex-space loanbtn curved blue-background"
+                  @click="closeitem"
+                >
+                  close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="overview__content white-background content-body">
         <div class="padding-top-bottom"></div>
         <div class="overview__transaction--header">
@@ -49,7 +99,18 @@
 
             <div class="padding-top-bottom"></div>
 
-            <span class="displaycard__status capitalise">{{ loan.userloan.status }}</span>
+            <div class="flex-with-spacebetween">
+              <span class="displaycard__status capitalise">{{
+                loan.userloan.status
+              }}</span>
+              <span
+                class="displaycard__status capitalise orange cursorpointer"
+                v-if="adminid"
+                @click="edititem(loan.userloan._id)"
+              >
+                Edit this item
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -61,6 +122,52 @@
 import global from "@/mixins/global";
 
 export default {
+  data() {
+    return {
+      message: "",
+      status: "",
+      current: null,
+    };
+  },
+  methods: {
+    submit() {
+      const { message, status, current } = this;
+
+      const body = {
+        message,
+        status,
+        userloan: current.userloan._id,
+      };
+
+      this.toggleverbiage("Editing item");
+      this.onspinner();
+
+      this.edituserloan(body).then(() => {
+        this.toggleverbiage(null);
+        this.offspinner();
+        this.current = null;
+      });
+    },
+    edititem(id) {
+      const loan = this.userloans.find((loan) => loan.userloan._id === id);
+
+      this.current = loan;
+    },
+    closeitem() {
+      this.current = null;
+    },
+  },
   mixins: [global],
+  computed: {
+    allowsubmit() {
+      const { message, status, current } = this;
+
+      if (message.length && status.length && current) {
+        return true;
+      }
+
+      return false;
+    },
+  },
 };
 </script>
