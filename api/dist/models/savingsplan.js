@@ -58,68 +58,58 @@ var savingsplanSchema = new Schema({
 });
 savingsplanSchema.statics.createsavingsitem = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(savingsplan) {
-    var SavingsPln, newsavingsitem;
+    var newsavingsitem;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
           _context.prev = 0;
-          SavingsPln = this;
-          newsavingsitem = new SavingsPln(savingsplan);
-          _context.next = 5;
+          newsavingsitem = new this(savingsplan);
+          _context.next = 4;
           return newsavingsitem.save();
-        case 5:
+        case 4:
           return _context.abrupt("return", {
             message: 'success',
             type: 'item created',
             content: newsavingsitem
           });
-        case 8:
-          _context.prev = 8;
+        case 7:
+          _context.prev = 7;
           _context.t0 = _context["catch"](0);
-          return _context.abrupt("return", {
-            message: 'error',
-            type: 'item creation',
-            reason: _context.t0
-          });
-        case 11:
+          throw new Error("Item creation failed: ".concat(_context.t0.message));
+        case 10:
         case "end":
           return _context.stop();
       }
-    }, _callee, this, [[0, 8]]);
+    }, _callee, this, [[0, 7]]);
   }));
   return function (_x) {
     return _ref.apply(this, arguments);
   };
 }();
 savingsplanSchema.statics.getsavingsitems = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-  var SavingsPln, savingsplans;
+  var savingsplans;
   return _regeneratorRuntime().wrap(function _callee2$(_context2) {
     while (1) switch (_context2.prev = _context2.next) {
       case 0:
         _context2.prev = 0;
-        SavingsPln = this;
-        _context2.next = 4;
-        return SavingsPln.find();
-      case 4:
+        _context2.next = 3;
+        return this.find();
+      case 3:
         savingsplans = _context2.sent;
         return _context2.abrupt("return", {
           message: 'success',
           type: 'savings items get',
           content: savingsplans
         });
-      case 8:
-        _context2.prev = 8;
+      case 7:
+        _context2.prev = 7;
         _context2.t0 = _context2["catch"](0);
-        return _context2.abrupt("return", {
-          message: 'error',
-          type: 'savings items get',
-          reason: _context2.t0
-        });
-      case 11:
+        throw new Error("Error getting savings items: ".concat(_context2.t0.message));
+      case 10:
       case "end":
         return _context2.stop();
     }
-  }, _callee2, this, [[0, 8]]);
+  }, _callee2, this, [[0, 7]]);
 }));
 var SavingsPlan = mongoose.model('SavingsPlan', savingsplanSchema);
 module.exports = SavingsPlan;

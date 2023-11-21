@@ -128,48 +128,55 @@ clientedit.post('/client/accountupdate', _authenticateToken["default"], function
     error: 'not alowed'
   });
 });
-clientedit.post('/client/createtransaction', _authenticateToken["default"], function (req, res) {
-  if (req.user && req.user._id) {
-    var _req$body4 = req.body,
-      amount = _req$body4.amount,
-      destinationaccount = _req$body4.destinationaccount,
-      type = _req$body4.type,
-      status = _req$body4.status,
-      date = _req$body4.date,
-      country = _req$body4.country,
-      bank = _req$body4.bank,
-      user = _req$body4.user;
-    if (amount && type && status && date && country && bank && user) {
-      _transaction["default"].createtransaction({
-        amount: amount,
-        type: type,
-        status: status,
-        date: date,
-        destinationaccount: destinationaccount,
-        destinationcountry: country,
-        destinationbank: bank,
-        user: user
-      }).then(function (success) {
-        return res.status(200).send({
-          success: success
-        });
-      })["catch"](function (error) {
-        console.log(error);
-        res.status(405).send({
-          error: error
-        });
-      });
-    } else {
-      res.status(405).send({
-        error: 'not alowed'
-      });
-    }
-    return;
-  }
-  res.status(405).send({
-    error: 'not alowed'
-  });
-});
+clientedit.post('/client/createtransaction', _authenticateToken["default"], /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(req, res) {
+    var _req$body4, amount, destinationaccount, type, status, date, country, bank, user, success;
+    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+      while (1) switch (_context2.prev = _context2.next) {
+        case 0:
+          _req$body4 = req.body, amount = _req$body4.amount, destinationaccount = _req$body4.destinationaccount, type = _req$body4.type, status = _req$body4.status, date = _req$body4.date, country = _req$body4.country, bank = _req$body4.bank, user = _req$body4.user;
+          if (!(!amount || !type || !status || !date || !country || !bank || !user)) {
+            _context2.next = 3;
+            break;
+          }
+          return _context2.abrupt("return", res.status(400).send({
+            error: 'Missing required fields'
+          }));
+        case 3:
+          _context2.prev = 3;
+          _context2.next = 6;
+          return _transaction["default"].createtransaction({
+            amount: amount,
+            type: type,
+            status: status,
+            date: date,
+            destinationaccount: destinationaccount,
+            destinationcountry: country,
+            destinationbank: bank,
+            user: user
+          });
+        case 6:
+          success = _context2.sent;
+          return _context2.abrupt("return", res.status(200).send({
+            success: success
+          }));
+        case 10:
+          _context2.prev = 10;
+          _context2.t0 = _context2["catch"](3);
+          console.error('Error creating transaction:', _context2.t0);
+          res.status(500).send({
+            error: 'Internal Server Error'
+          });
+        case 14:
+        case "end":
+          return _context2.stop();
+      }
+    }, _callee2, null, [[3, 10]]);
+  }));
+  return function (_x3, _x4) {
+    return _ref2.apply(this, arguments);
+  };
+}());
 clientedit.post('/client/edittransaction', _authenticateToken["default"], function (req, res) {
   if (req.user && req.user._id) {
     _transaction["default"].updatetransaction(req.body).then(function (success) {

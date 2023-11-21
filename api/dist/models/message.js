@@ -28,34 +28,29 @@ var messageSchema = new Schema({
 });
 messageSchema.statics.addadminmessage = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(body) {
-    var MessageCreate, newmessage;
+    var newmessage;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
           _context.prev = 0;
-          MessageCreate = this;
-          newmessage = new MessageCreate(body);
-          _context.next = 5;
+          newmessage = new this(body); // Directly use 'this' to create a new instance
+          _context.next = 4;
           return newmessage.save();
-        case 5:
+        case 4:
           return _context.abrupt("return", {
             message: 'success',
             type: 'message create',
             content: newmessage
           });
-        case 8:
-          _context.prev = 8;
+        case 7:
+          _context.prev = 7;
           _context.t0 = _context["catch"](0);
-          throw new Error({
-            message: 'error',
-            type: 'message create',
-            reason: _context.t0
-          });
-        case 11:
+          throw new Error("Message creation failed: ".concat(_context.t0.message));
+        case 10:
         case "end":
           return _context.stop();
       }
-    }, _callee, this, [[0, 8]]);
+    }, _callee, this, [[0, 7]]);
   }));
   return function (_x) {
     return _ref.apply(this, arguments);

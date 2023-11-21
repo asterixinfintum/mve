@@ -43,106 +43,82 @@ var investmentplanSchema = new Schema({
   }
 });
 investmentplanSchema.statics.createinvestmentplan = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(investementbody) {
-    var _this = this;
-    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-      while (1) switch (_context2.prev = _context2.next) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(investementbody) {
+    var newinvestmemtitem;
+    return _regeneratorRuntime().wrap(function _callee$(_context) {
+      while (1) switch (_context.prev = _context.next) {
         case 0:
-          return _context2.abrupt("return", new Promise( /*#__PURE__*/function () {
-            var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(resolve, reject) {
-              var InvestmentItem, newinvestmemtitem;
-              return _regeneratorRuntime().wrap(function _callee$(_context) {
-                while (1) switch (_context.prev = _context.next) {
-                  case 0:
-                    _context.prev = 0;
-                    InvestmentItem = _this;
-                    newinvestmemtitem = new InvestmentItem(investementbody);
-                    _context.next = 5;
-                    return newinvestmemtitem.save();
-                  case 5:
-                    resolve({
-                      message: 'success',
-                      type: 'item created',
-                      content: newinvestmemtitem
-                    });
-                    _context.next = 12;
-                    break;
-                  case 8:
-                    _context.prev = 8;
-                    _context.t0 = _context["catch"](0);
-                    console.log(_context.t0);
-                    reject({
-                      message: 'error',
-                      type: 'item creation',
-                      reason: _context.t0
-                    });
-                  case 12:
-                  case "end":
-                    return _context.stop();
-                }
-              }, _callee, null, [[0, 8]]);
-            }));
-            return function (_x2, _x3) {
-              return _ref2.apply(this, arguments);
-            };
-          }()));
-        case 1:
+          _context.prev = 0;
+          newinvestmemtitem = new this(investementbody);
+          _context.next = 4;
+          return newinvestmemtitem.save();
+        case 4:
+          return _context.abrupt("return", {
+            message: 'success',
+            type: 'item created',
+            content: newinvestmemtitem
+          });
+        case 7:
+          _context.prev = 7;
+          _context.t0 = _context["catch"](0);
+          throw new Error("Item creation failed: ".concat(_context.t0.message));
+        case 10:
         case "end":
-          return _context2.stop();
+          return _context.stop();
       }
-    }, _callee2);
+    }, _callee, this, [[0, 7]]);
   }));
   return function (_x) {
     return _ref.apply(this, arguments);
   };
 }();
-investmentplanSchema.statics.getinvestmentplans = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-  var _this2 = this;
-  return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-    while (1) switch (_context4.prev = _context4.next) {
+investmentplanSchema.statics.getinvestmentplans = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+  var _this = this;
+  return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+    while (1) switch (_context3.prev = _context3.next) {
       case 0:
-        return _context4.abrupt("return", new Promise( /*#__PURE__*/function () {
-          var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(resolve, reject) {
+        return _context3.abrupt("return", new Promise( /*#__PURE__*/function () {
+          var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(resolve, reject) {
             var InvestmentItem, investmentitems;
-            return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-              while (1) switch (_context3.prev = _context3.next) {
+            return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+              while (1) switch (_context2.prev = _context2.next) {
                 case 0:
-                  _context3.prev = 0;
-                  InvestmentItem = _this2;
-                  _context3.next = 4;
+                  _context2.prev = 0;
+                  InvestmentItem = _this;
+                  _context2.next = 4;
                   return InvestmentItem.find();
                 case 4:
-                  investmentitems = _context3.sent;
+                  investmentitems = _context2.sent;
                   resolve({
                     message: 'success',
                     type: 'loans retrieval',
                     content: investmentitems
                   });
-                  _context3.next = 11;
+                  _context2.next = 11;
                   break;
                 case 8:
-                  _context3.prev = 8;
-                  _context3.t0 = _context3["catch"](0);
+                  _context2.prev = 8;
+                  _context2.t0 = _context2["catch"](0);
                   reject({
                     message: 'error',
                     type: 'loans retrieval',
-                    reason: _context3.t0
+                    reason: _context2.t0
                   });
                 case 11:
                 case "end":
-                  return _context3.stop();
+                  return _context2.stop();
               }
-            }, _callee3, null, [[0, 8]]);
+            }, _callee2, null, [[0, 8]]);
           }));
-          return function (_x4, _x5) {
-            return _ref4.apply(this, arguments);
+          return function (_x2, _x3) {
+            return _ref3.apply(this, arguments);
           };
         }()));
       case 1:
       case "end":
-        return _context4.stop();
+        return _context3.stop();
     }
-  }, _callee4);
+  }, _callee3);
 }));
 var InvestmentPlan = mongoose.model('InvestmentPlan', investmentplanSchema);
 module.exports = InvestmentPlan;

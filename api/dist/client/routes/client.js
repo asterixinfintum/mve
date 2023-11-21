@@ -201,41 +201,76 @@ client.post('/client/viewnotifications', _authenticateToken["default"], /*#__PUR
     return _ref4.apply(this, arguments);
   };
 }());
-
-/*client.get('/client/messages', authenticateToken, async (req, res) => {
-    if (req.user && req.user._id) {
-        try {
-            const { userid } = req.query;
-
-            const messages = await Messages.find({ user: userid });
-
-            console.log(messages)
-        } catch (error) {
-            throw new Error(error);
-        }
-    }
-
-    res.status(405).send({ error: 'not alowed' });
-});*/
-
-client.get('/client/notifications', _authenticateToken["default"], /*#__PURE__*/function () {
+client.get('/client/messages', _authenticateToken["default"], /*#__PURE__*/function () {
   var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(req, res) {
-    var userid, notifications;
+    var userid, messages;
     return _regeneratorRuntime().wrap(function _callee5$(_context5) {
       while (1) switch (_context5.prev = _context5.next) {
         case 0:
-          if (!(req.user && req.user._id)) {
-            _context5.next = 13;
+          if (!(!req.user || !req.user._id)) {
+            _context5.next = 2;
             break;
           }
-          _context5.prev = 1;
+          return _context5.abrupt("return", res.status(401).send({
+            error: 'Unauthorized'
+          }));
+        case 2:
+          _context5.prev = 2;
           userid = req.query.userid;
-          _context5.next = 5;
+          if (userid) {
+            _context5.next = 6;
+            break;
+          }
+          return _context5.abrupt("return", res.status(400).send({
+            error: 'User ID is required'
+          }));
+        case 6:
+          _context5.next = 8;
+          return _message["default"].find({
+            user: userid
+          });
+        case 8:
+          messages = _context5.sent;
+          console.log(messages); // Assuming this is for debugging; remove in production
+          return _context5.abrupt("return", res.status(200).send({
+            success: true,
+            messages: messages
+          }));
+        case 13:
+          _context5.prev = 13;
+          _context5.t0 = _context5["catch"](2);
+          console.error('Error fetching messages:', _context5.t0);
+          res.status(500).send({
+            error: 'Internal Server Error'
+          });
+        case 17:
+        case "end":
+          return _context5.stop();
+      }
+    }, _callee5, null, [[2, 13]]);
+  }));
+  return function (_x9, _x10) {
+    return _ref5.apply(this, arguments);
+  };
+}());
+client.get('/client/notifications', _authenticateToken["default"], /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(req, res) {
+    var userid, notifications;
+    return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+      while (1) switch (_context6.prev = _context6.next) {
+        case 0:
+          if (!(req.user && req.user._id)) {
+            _context6.next = 13;
+            break;
+          }
+          _context6.prev = 1;
+          userid = req.query.userid;
+          _context6.next = 5;
           return _notification["default"].find({
             user: userid
           });
         case 5:
-          notifications = _context5.sent;
+          notifications = _context6.sent;
           res.status(200).send({
             success: {
               message: 'success',
@@ -243,35 +278,35 @@ client.get('/client/notifications', _authenticateToken["default"], /*#__PURE__*/
               content: notifications
             }
           });
-          _context5.next = 12;
+          _context6.next = 12;
           break;
         case 9:
-          _context5.prev = 9;
-          _context5.t0 = _context5["catch"](1);
-          throw new Error(_context5.t0);
+          _context6.prev = 9;
+          _context6.t0 = _context6["catch"](1);
+          throw new Error(_context6.t0);
         case 12:
-          return _context5.abrupt("return");
+          return _context6.abrupt("return");
         case 13:
           res.status(405).send({
             error: 'not alowed'
           });
         case 14:
         case "end":
-          return _context5.stop();
+          return _context6.stop();
       }
-    }, _callee5, null, [[1, 9]]);
+    }, _callee6, null, [[1, 9]]);
   }));
-  return function (_x9, _x10) {
-    return _ref5.apply(this, arguments);
+  return function (_x11, _x12) {
+    return _ref6.apply(this, arguments);
   };
 }());
 client.post('/client/supportcontact', _authenticateToken["default"], /*#__PURE__*/function () {
-  var _ref6 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(req, res) {
-    return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-      while (1) switch (_context6.prev = _context6.next) {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(req, res) {
+    return _regeneratorRuntime().wrap(function _callee7$(_context7) {
+      while (1) switch (_context7.prev = _context7.next) {
         case 0:
           if (!(req.user && req.user._id)) {
-            _context6.next = 3;
+            _context7.next = 3;
             break;
           }
           _user["default"].createmsg(req.user._id, req.body).then(function (success) {
@@ -283,35 +318,35 @@ client.post('/client/supportcontact', _authenticateToken["default"], /*#__PURE__
               error: error
             });
           });
-          return _context6.abrupt("return");
+          return _context7.abrupt("return");
         case 3:
           res.status(405).send({
             error: 'not alowed'
           });
         case 4:
         case "end":
-          return _context6.stop();
+          return _context7.stop();
       }
-    }, _callee6);
+    }, _callee7);
   }));
-  return function (_x11, _x12) {
-    return _ref6.apply(this, arguments);
+  return function (_x13, _x14) {
+    return _ref7.apply(this, arguments);
   };
 }());
 client.post('/client/joininvestment', _authenticateToken["default"], /*#__PURE__*/function () {
-  var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(req, res) {
+  var _ref8 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(req, res) {
     var newuserinvestment, user, investmentid, amount;
-    return _regeneratorRuntime().wrap(function _callee7$(_context7) {
-      while (1) switch (_context7.prev = _context7.next) {
+    return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+      while (1) switch (_context8.prev = _context8.next) {
         case 0:
           if (!(req.user && req.user._id)) {
-            _context7.next = 7;
+            _context8.next = 7;
             break;
           }
           newuserinvestment = new _userinvestment["default"](_objectSpread(_objectSpread({}, req.body), {}, {
             user: req.user._id
           }));
-          _context7.next = 4;
+          _context8.next = 4;
           return newuserinvestment.save();
         case 4:
           user = newuserinvestment.user, investmentid = newuserinvestment.investmentid, amount = newuserinvestment.amount;
@@ -324,47 +359,12 @@ client.post('/client/joininvestment', _authenticateToken["default"], /*#__PURE__
               error: error
             });
           });
-          return _context7.abrupt("return");
+          return _context8.abrupt("return");
         case 7:
           res.status(405).send({
             error: 'not alowed'
           });
         case 8:
-        case "end":
-          return _context7.stop();
-      }
-    }, _callee7);
-  }));
-  return function (_x13, _x14) {
-    return _ref7.apply(this, arguments);
-  };
-}());
-client.post('/client/addcontact', _authenticateToken["default"], /*#__PURE__*/function () {
-  var _ref8 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(req, res) {
-    return _regeneratorRuntime().wrap(function _callee8$(_context8) {
-      while (1) switch (_context8.prev = _context8.next) {
-        case 0:
-          if (!(req.user && req.user._id)) {
-            _context8.next = 3;
-            break;
-          }
-          _usercontact["default"].createcontact(_objectSpread({
-            userid: req.user._id
-          }, req.body)).then(function (success) {
-            res.status(200).send({
-              success: success
-            });
-          })["catch"](function (error) {
-            res.status(405).send({
-              error: error
-            });
-          });
-          return _context8.abrupt("return");
-        case 3:
-          res.status(405).send({
-            error: 'not alowed'
-          });
-        case 4:
         case "end":
           return _context8.stop();
       }
@@ -374,7 +374,7 @@ client.post('/client/addcontact', _authenticateToken["default"], /*#__PURE__*/fu
     return _ref8.apply(this, arguments);
   };
 }());
-client.get('/client/getcontacts', _authenticateToken["default"], /*#__PURE__*/function () {
+client.post('/client/addcontact', _authenticateToken["default"], /*#__PURE__*/function () {
   var _ref9 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(req, res) {
     return _regeneratorRuntime().wrap(function _callee9$(_context9) {
       while (1) switch (_context9.prev = _context9.next) {
@@ -383,9 +383,9 @@ client.get('/client/getcontacts', _authenticateToken["default"], /*#__PURE__*/fu
             _context9.next = 3;
             break;
           }
-          _usercontact["default"].getusercontacts({
+          _usercontact["default"].createcontact(_objectSpread({
             userid: req.user._id
-          }).then(function (success) {
+          }, req.body)).then(function (success) {
             res.status(200).send({
               success: success
             });
@@ -409,7 +409,7 @@ client.get('/client/getcontacts', _authenticateToken["default"], /*#__PURE__*/fu
     return _ref9.apply(this, arguments);
   };
 }());
-client.post('/client/loanrequest', _authenticateToken["default"], /*#__PURE__*/function () {
+client.get('/client/getcontacts', _authenticateToken["default"], /*#__PURE__*/function () {
   var _ref10 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10(req, res) {
     return _regeneratorRuntime().wrap(function _callee10$(_context10) {
       while (1) switch (_context10.prev = _context10.next) {
@@ -418,7 +418,9 @@ client.post('/client/loanrequest', _authenticateToken["default"], /*#__PURE__*/f
             _context10.next = 3;
             break;
           }
-          _userloan["default"].createuserloan(req.body).then(function (success) {
+          _usercontact["default"].getusercontacts({
+            userid: req.user._id
+          }).then(function (success) {
             res.status(200).send({
               success: success
             });
@@ -442,18 +444,16 @@ client.post('/client/loanrequest', _authenticateToken["default"], /*#__PURE__*/f
     return _ref10.apply(this, arguments);
   };
 }());
-client.get('/client/getuserloans', _authenticateToken["default"], /*#__PURE__*/function () {
+client.post('/client/loanrequest', _authenticateToken["default"], /*#__PURE__*/function () {
   var _ref11 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee11(req, res) {
-    var user;
     return _regeneratorRuntime().wrap(function _callee11$(_context11) {
       while (1) switch (_context11.prev = _context11.next) {
         case 0:
           if (!(req.user && req.user._id)) {
-            _context11.next = 4;
+            _context11.next = 3;
             break;
           }
-          user = req.query.user;
-          _userloan["default"].getuserloans(user).then(function (success) {
+          _userloan["default"].createuserloan(req.body).then(function (success) {
             res.status(200).send({
               success: success
             });
@@ -463,11 +463,11 @@ client.get('/client/getuserloans', _authenticateToken["default"], /*#__PURE__*/f
             });
           });
           return _context11.abrupt("return");
-        case 4:
+        case 3:
           res.status(405).send({
             error: 'not alowed'
           });
-        case 5:
+        case 4:
         case "end":
           return _context11.stop();
       }
@@ -477,7 +477,7 @@ client.get('/client/getuserloans', _authenticateToken["default"], /*#__PURE__*/f
     return _ref11.apply(this, arguments);
   };
 }());
-client.get('/client/getinvestments', _authenticateToken["default"], /*#__PURE__*/function () {
+client.get('/client/getuserloans', _authenticateToken["default"], /*#__PURE__*/function () {
   var _ref12 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee12(req, res) {
     var user;
     return _regeneratorRuntime().wrap(function _callee12$(_context12) {
@@ -488,7 +488,7 @@ client.get('/client/getinvestments', _authenticateToken["default"], /*#__PURE__*
             break;
           }
           user = req.query.user;
-          _userinvestment["default"].getuserinvestments(user).then(function (success) {
+          _userloan["default"].getuserloans(user).then(function (success) {
             res.status(200).send({
               success: success
             });
@@ -512,13 +512,48 @@ client.get('/client/getinvestments', _authenticateToken["default"], /*#__PURE__*
     return _ref12.apply(this, arguments);
   };
 }());
-client.post('/client/joinsavingsplan', _authenticateToken["default"], /*#__PURE__*/function () {
+client.get('/client/getinvestments', _authenticateToken["default"], /*#__PURE__*/function () {
   var _ref13 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee13(req, res) {
+    var user;
     return _regeneratorRuntime().wrap(function _callee13$(_context13) {
       while (1) switch (_context13.prev = _context13.next) {
         case 0:
           if (!(req.user && req.user._id)) {
-            _context13.next = 3;
+            _context13.next = 4;
+            break;
+          }
+          user = req.query.user;
+          _userinvestment["default"].getuserinvestments(user).then(function (success) {
+            res.status(200).send({
+              success: success
+            });
+          })["catch"](function (error) {
+            res.status(405).send({
+              error: error
+            });
+          });
+          return _context13.abrupt("return");
+        case 4:
+          res.status(405).send({
+            error: 'not alowed'
+          });
+        case 5:
+        case "end":
+          return _context13.stop();
+      }
+    }, _callee13);
+  }));
+  return function (_x25, _x26) {
+    return _ref13.apply(this, arguments);
+  };
+}());
+client.post('/client/joinsavingsplan', _authenticateToken["default"], /*#__PURE__*/function () {
+  var _ref14 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee14(req, res) {
+    return _regeneratorRuntime().wrap(function _callee14$(_context14) {
+      while (1) switch (_context14.prev = _context14.next) {
+        case 0:
+          if (!(req.user && req.user._id)) {
+            _context14.next = 3;
             break;
           }
           _usersaving["default"].createsavingsplan(req.body).then(function (success) {
@@ -531,29 +566,29 @@ client.post('/client/joinsavingsplan', _authenticateToken["default"], /*#__PURE_
             });
             throw new Error(error);
           });
-          return _context13.abrupt("return");
+          return _context14.abrupt("return");
         case 3:
           res.status(405).send({
             error: 'not alowed'
           });
         case 4:
         case "end":
-          return _context13.stop();
+          return _context14.stop();
       }
-    }, _callee13);
+    }, _callee14);
   }));
-  return function (_x25, _x26) {
-    return _ref13.apply(this, arguments);
+  return function (_x27, _x28) {
+    return _ref14.apply(this, arguments);
   };
 }());
 client.get('/client/savingsplan', _authenticateToken["default"], /*#__PURE__*/function () {
-  var _ref14 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee14(req, res) {
+  var _ref15 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee15(req, res) {
     var user;
-    return _regeneratorRuntime().wrap(function _callee14$(_context14) {
-      while (1) switch (_context14.prev = _context14.next) {
+    return _regeneratorRuntime().wrap(function _callee15$(_context15) {
+      while (1) switch (_context15.prev = _context15.next) {
         case 0:
           if (!(req.user && req.user._id)) {
-            _context14.next = 4;
+            _context15.next = 4;
             break;
           }
           user = req.query.user;
@@ -567,28 +602,28 @@ client.get('/client/savingsplan', _authenticateToken["default"], /*#__PURE__*/fu
             });
             throw new Error(error);
           });
-          return _context14.abrupt("return");
+          return _context15.abrupt("return");
         case 4:
           res.status(405).send({
             error: 'not alowed'
           });
         case 5:
         case "end":
-          return _context14.stop();
+          return _context15.stop();
       }
-    }, _callee14);
+    }, _callee15);
   }));
-  return function (_x27, _x28) {
-    return _ref14.apply(this, arguments);
+  return function (_x29, _x30) {
+    return _ref15.apply(this, arguments);
   };
 }());
 client.post('/client/deposittosavingsitem', _authenticateToken["default"], /*#__PURE__*/function () {
-  var _ref15 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee15(req, res) {
-    return _regeneratorRuntime().wrap(function _callee15$(_context15) {
-      while (1) switch (_context15.prev = _context15.next) {
+  var _ref16 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee16(req, res) {
+    return _regeneratorRuntime().wrap(function _callee16$(_context16) {
+      while (1) switch (_context16.prev = _context16.next) {
         case 0:
           if (!(req.user && req.user._id)) {
-            _context15.next = 3;
+            _context16.next = 3;
             break;
           }
           _usersaving["default"].deposittosavingsitem(req.body).then(function (success) {
@@ -601,19 +636,19 @@ client.post('/client/deposittosavingsitem', _authenticateToken["default"], /*#__
             });
             throw new Error(error);
           });
-          return _context15.abrupt("return");
+          return _context16.abrupt("return");
         case 3:
           res.status(405).send({
             error: 'not alowed'
           });
         case 4:
         case "end":
-          return _context15.stop();
+          return _context16.stop();
       }
-    }, _callee15);
+    }, _callee16);
   }));
-  return function (_x29, _x30) {
-    return _ref15.apply(this, arguments);
+  return function (_x31, _x32) {
+    return _ref16.apply(this, arguments);
   };
 }());
 var _default = exports["default"] = client;

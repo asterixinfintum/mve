@@ -97,34 +97,29 @@ notificationSchema.statics.markread = function (userid) {
 };
 notificationSchema.statics.createnotification = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(body) {
-    var Note, newnote;
+    var newnote;
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
           _context3.prev = 0;
-          Note = this;
-          newnote = new Note(body);
-          _context3.next = 5;
+          newnote = new this(body); // Directly using 'this' to create a new instance
+          _context3.next = 4;
           return newnote.save();
-        case 5:
+        case 4:
           return _context3.abrupt("return", {
             message: 'success',
             type: 'notification creation',
             content: newnote
           });
-        case 8:
-          _context3.prev = 8;
+        case 7:
+          _context3.prev = 7;
           _context3.t0 = _context3["catch"](0);
-          throw new Error({
-            message: 'error',
-            type: 'notification creation',
-            reason: _context3.t0
-          });
-        case 11:
+          throw new Error("Notification creation failed: ".concat(_context3.t0.message));
+        case 10:
         case "end":
           return _context3.stop();
       }
-    }, _callee3, this, [[0, 8]]);
+    }, _callee3, this, [[0, 7]]);
   }));
   return function (_x4) {
     return _ref3.apply(this, arguments);

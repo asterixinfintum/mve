@@ -44,105 +44,59 @@ var loanSchema = new Schema({
   }
 });
 loanSchema.statics.createloanitem = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(loanbody) {
-    var _this = this;
-    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-      while (1) switch (_context2.prev = _context2.next) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(loanbody) {
+    var newloanitem;
+    return _regeneratorRuntime().wrap(function _callee$(_context) {
+      while (1) switch (_context.prev = _context.next) {
         case 0:
-          return _context2.abrupt("return", new Promise( /*#__PURE__*/function () {
-            var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(resolve, reject) {
-              var LoanItem, newloanitem;
-              return _regeneratorRuntime().wrap(function _callee$(_context) {
-                while (1) switch (_context.prev = _context.next) {
-                  case 0:
-                    _context.prev = 0;
-                    LoanItem = _this;
-                    newloanitem = new LoanItem(loanbody);
-                    _context.next = 5;
-                    return newloanitem.save();
-                  case 5:
-                    resolve({
-                      message: 'success',
-                      type: 'item created',
-                      content: newloanitem
-                    });
-                    _context.next = 11;
-                    break;
-                  case 8:
-                    _context.prev = 8;
-                    _context.t0 = _context["catch"](0);
-                    reject({
-                      message: 'error',
-                      type: 'item creation',
-                      reason: _context.t0
-                    });
-                  case 11:
-                  case "end":
-                    return _context.stop();
-                }
-              }, _callee, null, [[0, 8]]);
-            }));
-            return function (_x2, _x3) {
-              return _ref2.apply(this, arguments);
-            };
-          }()));
-        case 1:
+          _context.prev = 0;
+          newloanitem = new this(loanbody);
+          _context.next = 4;
+          return newloanitem.save();
+        case 4:
+          return _context.abrupt("return", {
+            message: 'success',
+            type: 'item created',
+            content: newloanitem
+          });
+        case 7:
+          _context.prev = 7;
+          _context.t0 = _context["catch"](0);
+          throw new Error("Loan item creation failed: ".concat(_context.t0.message));
+        case 10:
         case "end":
-          return _context2.stop();
+          return _context.stop();
       }
-    }, _callee2);
+    }, _callee, this, [[0, 7]]);
   }));
   return function (_x) {
     return _ref.apply(this, arguments);
   };
 }();
-loanSchema.statics.getloans = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
-  var _this2 = this;
-  return _regeneratorRuntime().wrap(function _callee4$(_context4) {
-    while (1) switch (_context4.prev = _context4.next) {
+loanSchema.statics.getloans = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+  var loans;
+  return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+    while (1) switch (_context2.prev = _context2.next) {
       case 0:
-        return _context4.abrupt("return", new Promise( /*#__PURE__*/function () {
-          var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(resolve, reject) {
-            var LoanItems, loans;
-            return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-              while (1) switch (_context3.prev = _context3.next) {
-                case 0:
-                  _context3.prev = 0;
-                  LoanItems = _this2;
-                  _context3.next = 4;
-                  return LoanItems.find();
-                case 4:
-                  loans = _context3.sent;
-                  resolve({
-                    message: 'success',
-                    type: 'loans retrieval',
-                    content: loans
-                  });
-                  _context3.next = 11;
-                  break;
-                case 8:
-                  _context3.prev = 8;
-                  _context3.t0 = _context3["catch"](0);
-                  reject({
-                    message: 'error',
-                    type: 'loans retrieval',
-                    reason: _context3.t0
-                  });
-                case 11:
-                case "end":
-                  return _context3.stop();
-              }
-            }, _callee3, null, [[0, 8]]);
-          }));
-          return function (_x4, _x5) {
-            return _ref4.apply(this, arguments);
-          };
-        }()));
-      case 1:
+        _context2.prev = 0;
+        _context2.next = 3;
+        return this.find();
+      case 3:
+        loans = _context2.sent;
+        return _context2.abrupt("return", {
+          message: 'success',
+          type: 'loans retrieval',
+          content: loans
+        });
+      case 7:
+        _context2.prev = 7;
+        _context2.t0 = _context2["catch"](0);
+        throw new Error("Error retrieving loans: ".concat(_context2.t0.message));
+      case 10:
       case "end":
-        return _context4.stop();
+        return _context2.stop();
     }
-  }, _callee4);
+  }, _callee2, this, [[0, 7]]);
 }));
 var Loan = mongoose.model('Loan', loanSchema);
 module.exports = Loan;
