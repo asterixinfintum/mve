@@ -2,7 +2,7 @@
   <div>
     <div class="popup-overlay highz" v-if="depositformopen">
       <div class="popup">
-        <div class="halfscreen-width-2">
+        <div class="halfscreen-width-2 mobilewide">
           <div class="overview__transaction--header">
             <div class="overview__transaction--h2 header-label smlabel orange">
               Deposit into your
@@ -126,7 +126,7 @@
       </div>
     </div>
 
-    <div class="usersavings" :class="{ overviewone }">
+    <div class="usersavings mobilewide" :class="{ overviewone }">
       <div class="usersavings__top">
         <div class="usersavings__top--left">
           <span>
@@ -318,6 +318,10 @@ export default {
   width: #{scaleValue(500)};
   padding: #{scaleValue(30)};
 
+  @media only screen and (max-width: 768px) {
+    padding: #{scaleValue(100)};
+  }
+
   &.overviewone {
     width: 100%;
   }
@@ -338,10 +342,19 @@ export default {
         height: #{scaleValue(60)};
         width: #{scaleValue(60)};
 
+        @media only screen and (max-width: 768px) {
+          margin-right: #{scaleValue(20)};
+        }
+
         & svg {
           height: #{scaleValue(30)};
           width: #{scaleValue(30)};
           fill: $primary-orange;
+
+          @media only screen and (max-width: 768px) {
+            height: #{scaleValue(90)};
+            width: #{scaleValue(90)};
+          }
         }
       }
     }
@@ -352,6 +365,11 @@ export default {
         font-size: #{scaleValue(16)};
         margin-bottom: #{scaleValue(10)};
         color: $darker-blue;
+
+        @media only screen and (max-width: 768px) {
+          font-size: #{scaleValue(80)};
+          margin-bottom: #{scaleValue(50)};
+        }
       }
 
       & h3 {
@@ -359,6 +377,10 @@ export default {
         font-size: #{scaleValue(12)};
         opacity: 0.8;
         color: $button-blue;
+
+        @media only screen and (max-width: 768px) {
+          font-size: #{scaleValue(60)};
+        }
       }
     }
   }
@@ -368,13 +390,25 @@ export default {
     justify-content: space-between;
     color: $font-black;
 
+    @media only screen and (max-width: 768px) {
+      margin-top: #{scaleValue(140)};
+    }
+
     &--left {
       font-weight: 500;
+
+      @media only screen and (max-width: 768px) {
+        font-size: #{scaleValue(60)};
+      }
     }
 
     &--right {
       font-weight: 500;
       color: rgba($font-black, 0.5);
+
+      @media only screen and (max-width: 768px) {
+        font-size: #{scaleValue(60)};
+      }
     }
   }
 
@@ -385,6 +419,12 @@ export default {
     overflow: hidden;
     position: relative;
     margin-top: #{scaleValue(20)};
+
+    @media only screen and (max-width: 768px) {
+      height: #{scaleValue(30)};
+      margin-top: #{scaleValue(60)};
+      margin-bottom: #{scaleValue(60)};
+    }
 
     &--background {
       position: absolute;

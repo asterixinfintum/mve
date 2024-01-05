@@ -1,21 +1,33 @@
 .auth {
     display: flex;
 
+    @media only screen and (max-width: 768px) {
+        flex-direction: column;
+    }
+
     &-header {
         font-weight: 500;
         font-size: #{scaleValue(25)};
         margin-top: #{scaleValue(20)};
+
+        @media only screen and (max-width: 768px) {
+            font-size: #{scaleValue(60)};
+            margin-bottom: #{scaleValue(80)};
+        }
     }
 
-    &__left {
+    &__left {}
 
-    }
-    
     &__img {
         width: #{scaleValue(700)};
-        height: #{scaleValue(800)};
         position: relative;
         flex-shrink: 0;
+        height: 100vh;
+
+        @media only screen and (max-width: 768px) {
+            width: 100vw;
+            height: 25vh;
+        }
 
         &::before {
             content: '';
@@ -39,7 +51,12 @@
         padding: #{scaleValue(100)};
         color: $font-black;
         background: rgba($primary-orange, .06);
-        height: #{scaleValue(800)};
+        min-height: 100vh;
         width: #{scaleValue(900)};
+
+        @media only screen and (max-width: 768px) {
+            width: 100vw;
+            min-height: 80vh;
+        }
     }
 }

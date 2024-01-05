@@ -11,140 +11,175 @@ import authenticateToken from '../../utils/authenticateToken';
 const adminauth = express();
 
 adminauth.get('/currentadmin', authenticateToken, async (req, res) => {
-    if (req.user && req.user._id) {
-        const { id } = req.query;
-        const admin = await Admin.findOne({ _id: id });
-
-        if (!admin) {
-            return res.status(405).send({ error: 'not alowed' })
-        }
-
-        return res.status(200).send({ success: { message: 'success', type: 'admin auth', content: admin } });
+    if (!req.user || !req.user._id) {
+        return res.status(401).send({ error: 'Unauthorized access' });
     }
 
-    res.status(405).send({ error: 'not alowed' });
+    const { id } = req.query;
+
+    if (req.user._id !== id) {
+        return res.status(403).send({ error: 'Forbidden access' });
+    }
+
+    try {
+        const foundAdmin = await Admin.findOne({ _id: id });
+
+        if (!foundAdmin) {
+            return res.status(404).send({ error: 'Admin not found' });
+        }
+
+        return res.status(200).send({ success: { message: 'success', type: 'admin auth', content: foundAdmin } });
+    } catch (error) {
+        console.error('Database error:', error);
+        return res.status(500).send({ error: 'Internal Server Error' });
+    }
 });
 
-adminauth.post('/admin/create', (req, res) => {
+adminauth.post('/admin/create', async (req, res) => {
     const { username, password } = req.body;
 
-    Admin.register({ username, password })
-        .then(success => {
-            res.status(200).send({ success })
-        })
-        .catch(error => {
-            res.status(405).send({ error })
-        })
+    if (!username || !password) {
+        return res.status(400).send({ error: 'Username and password are required' });
+    }
+
+    try {
+        const success = await Admin.register({ username, password });
+        res.status(200).send({ success });
+    } catch (error) {
+        console.error('Error creating admin:', error);
+        // Determine if it's a client error (like duplicate username) or a server error
+        const statusCode = error.isClientError ? 400 : 500;
+        res.status(statusCode).send({ error: error.message });
+    }
 });
 
-adminauth.post('/admin/signin', (req, res) => {
+adminauth.post('/admin/signin', async (req, res) => {
     const { username, password } = req.body;
 
-    Admin.login({ username, password })
-        .then(success => {
-            res.status(200).send({ success })
-        })
-        .catch(error => {
-            res.status(405).send({ error })
-        })
+    if (!username || !password) {
+        return res.status(400).send({ error: 'Username and password are required' });
+    }
+
+    try {
+        const success = await Admin.login({ username, password });
+        res.status(200).send({ success });
+    } catch (error) {
+        console.error('Error during admin sign-in:', error);
+        // Here, you might want to provide a generic error message for security reasons
+        res.status(401).send({ error: 'Invalid username or password' });
+    }
 });
 
 adminauth.get('/admin/getusers', authenticateToken, async (req, res) => {
-    if (req.user && req.user._id) {
-        const administrator = await Admin.findOne({ _id: req.user._id });
-
-        if (administrator && administrator.admin) {
-            const useritems = await User.find();
-
-            const userpromises = useritems.map(async user => {
-                const account = await Account.findOne({ _id: user.account });
-                const cards = await Card.find({ user: user._id });
-
-                const result = {
-                    details: user,
-                    account,
-                    cards
-                }
-
-                return result;
-            });
-
-            const users = await Promise.all(userpromises);
-
-            res.status(200).send({
-                success: {
-                    message: 'success',
-                    type: 'platform users',
-                    content: users
-                }
-            })
-        } else {
-            return res.status(405).send({ error })
-        }
-
-        return;
+    if (!req.user || !req.user._id) {
+        return res.status(401).send({ error: 'Unauthorized' });
     }
 
-    res.status(405).send({ error })
-});
-
-adminauth.get('/admin/getuser', authenticateToken, async (req, res) => {
-    if (req.user && req.user._id) {
+    try {
         const administrator = await Admin.findOne({ _id: req.user._id });
 
-        if (administrator && administrator.admin) {
-            const { userid } = req.query;
+        if (!administrator || !administrator.admin) {
+            return res.status(403).send({ error: 'Forbidden: Insufficient privileges' });
+        }
 
-            const user = await User.findOne({ _id: userid });
-            const account = await Account.findOne({ _id: user.account });
-            const cards = await Card.find({ user: user._id });
+        const useritems = await User.find();
+        const users = await Promise.all(useritems.map(async user => {
+            const [account, cards] = await Promise.all([
+                Account.findOne({ _id: user.account }),
+                Card.find({ user: user._id })
+            ]);
 
-            const result = {
+            return {
                 details: user,
                 account,
                 cards
+            };
+        }));
+
+        res.status(200).send({
+            success: {
+                message: 'success',
+                type: 'platform users',
+                content: users
             }
-
-            res.status(200).send({
-                success: {
-                    message: 'success',
-                    type: 'platform users',
-                    content: result
-                }
-            })
-
-        } else {
-            return res.status(405).send({ error })
-        }
-
-        return;
+        });
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        res.status(500).send({ error: 'Internal Server Error' });
     }
-
-    return res.status(405).send({ error })
 });
 
-adminauth.get('/admin/getusertxns', authenticateToken, async (req, res) => {
-    if (req.user && req.user._id) {
+adminauth.get('/admin/getuser', authenticateToken, async (req, res) => {
+    if (!req.user || !req.user._id) {
+        return res.status(401).send({ error: 'Unauthorized' });
+    }
+
+    try {
         const administrator = await Admin.findOne({ _id: req.user._id });
 
-        if (administrator && administrator.admin) {
-            const { userid } = req.query;
-
-            User.getTransactions(userid)
-                .then(success => {
-                    return res.status(200).send({ success });
-                })
-                .catch(error => {
-                    res.status(405).send({ error });
-                });
-        } else {
-            return res.status(405).send({ error })
+        if (!administrator || !administrator.admin) {
+            return res.status(403).send({ error: 'Forbidden: Insufficient privileges' });
         }
 
-        return;
+        const { userid } = req.query;
+        if (!userid) {
+            return res.status(400).send({ error: 'User ID is required' });
+        }
+
+        const user = await User.findOne({ _id: userid });
+        if (!user) {
+            return res.status(404).send({ error: 'User not found' });
+        }
+
+        const [account, cards] = await Promise.all([
+            Account.findOne({ _id: user.account }),
+            Card.find({ user: user._id })
+        ]);
+
+        const result = {
+            details: user,
+            account,
+            cards
+        };
+
+        res.status(200).send({
+            success: {
+                message: 'success',
+                type: 'platform user',
+                content: result
+            }
+        });
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
+});
+
+
+adminauth.get('/admin/getusertxns', authenticateToken, async (req, res) => {
+    if (!req.user || !req.user._id) {
+        return res.status(401).send({ error: 'Unauthorized' });
     }
 
-    return res.status(405).send({ error })
+    try {
+        const administrator = await Admin.findOne({ _id: req.user._id });
+
+        if (!administrator || !administrator.admin) {
+            return res.status(403).send({ error: 'Forbidden: Insufficient privileges' });
+        }
+
+        const { userid } = req.query;
+        if (!userid) {
+            return res.status(400).send({ error: 'User ID is required' });
+        }
+
+        const transactions = await User.getTransactions(userid);
+        res.status(200).send({ success: transactions });
+    } catch (error) {
+        console.error('Error fetching transactions:', error);
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
 });
+
 
 export default adminauth;

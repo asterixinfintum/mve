@@ -98,7 +98,7 @@ export default {
     "interestRate",
     "minimumbalanceallowed",
     "setcurrent",
-    "term",
+    "term"
   ],
   mixins: [global],
 };

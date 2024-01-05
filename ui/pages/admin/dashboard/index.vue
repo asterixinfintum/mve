@@ -49,7 +49,7 @@
             <div class="dashboard__listitem--subject">
               <span>{{
                 limitTextLength(`${user.details.firstname} ${user.details.lastname}`, 25)
-              }}</span>
+              }}</span> <span class="onlineofflineindicator online" v-if="user.details.online"></span><span class="onlineofflineindicator offline" v-if="!user.details.online"></span>
             </div>
             <div class="dashboard__listitem--subject">
               <span>{{ limitTextLength(user.details.email, 17) }}</span>
@@ -72,7 +72,11 @@
             <div class="dashboard__listitem--subject">
               <span></span>
             </div>
-            <div class="dashboard__listitem--subject btns"></div>
+            <div class="dashboard__listitem--subject btns">
+              <span class="redtext" @click.stop="deleteuser(user.details._id)"
+                >delete</span
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -85,10 +89,15 @@ import global from "@/mixins/global";
 
 export default {
   mixins: [global],
+  methods: {
+    deleteuser(id) {
+      this.removeuser(id).then(this.getusers());
+    },
+  },
   data() {
     return {
       searchterm: "",
-      userslist: []
+      userslist: [],
     };
   },
   watch: {
@@ -99,7 +108,7 @@ export default {
       const { users } = this;
 
       if (users.length) {
-        const searchTerm = this.searchterm.trim().toLowerCase()
+        const searchTerm = this.searchterm.trim().toLowerCase();
         const filtered = users.filter(
           (user) =>
             user.details.firstname.trim().toLowerCase().includes(searchTerm) ||

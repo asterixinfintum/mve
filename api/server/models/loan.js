@@ -39,32 +39,24 @@ const loanSchema = new Schema({
 });
 
 loanSchema.statics.createloanitem = async function (loanbody) {
-
-    return new Promise(async (resolve, reject) => {
-        try {
-            const LoanItem = this;
-            const newloanitem = new LoanItem(loanbody);
-
-            await newloanitem.save();
-            resolve({ message: 'success', type: 'item created', content: newloanitem });
-        } catch (error) {
-            reject({ message: 'error', type: 'item creation', reason: error });
-        }
-    })
+    try {
+        const newloanitem = new this(loanbody);
+        await newloanitem.save();
+        return { message: 'success', type: 'item created', content: newloanitem };
+    } catch (error) {
+        throw new Error(`Loan item creation failed: ${error.message}`);
+    }
 }
 
 loanSchema.statics.getloans = async function () {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const LoanItems = this;
-            const loans = await LoanItems.find();
-
-            resolve({ message: 'success', type: 'loans retrieval', content: loans });
-
-        } catch (error) {
-            reject({ message: 'error', type: 'loans retrieval', reason: error });
-        }
-    })
+    try {
+        const loans = await this.find();
+        return { message: 'success', type: 'loans retrieval', content: loans };
+    } catch (error) {
+        // Optionally log the error here for debugging
+        // e.g., console.error('Error retrieving loans:', error);
+        throw new Error(`Error retrieving loans: ${error.message}`);
+    }
 }
 
 const Loan = mongoose.model('Loan', loanSchema);

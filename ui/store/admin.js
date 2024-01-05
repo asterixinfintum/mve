@@ -146,20 +146,25 @@ export const actions = {
             }
         })
     },
-    createnotification({ commit }, notification) {
-        return new Promise(async (resolve, reject) => {
-            const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
+    async createnotification({ commit }, notification) {
+        const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
 
-            if (admintoken) {
-                const data = await posttoserver({ token: admintoken, body: notification, path: `item/createnotification` });
+        if (!admintoken) {
+            throw new Error('No admin token found');
+        }
 
-                if (data.success) {
-                    resolve(data);
-                } else {
-                    reject('error')
-                }
+        try {
+            const data = await posttoserver({ token: admintoken, body: notification, path: `item/createnotification` });
+
+            if (data.success) {
+                return data;
+            } else {
+                throw new Error('Failed to create notification');
             }
-        })
+        } catch (error) {
+            // Consider logging the error or handling it appropriately
+            throw new Error(`Error creating notification: ${error.message || error}`);
+        }
     },
     updateuserprofile({ commit }, body) {
         return new Promise(async (resolve, reject) => {
@@ -225,19 +230,25 @@ export const actions = {
             }
         })
     },
-    createusertransaction({ commit }, body) {
-        return new Promise(async (resolve, reject) => {
-            const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
+    async createusertransaction({ commit }, body) {
+        const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
 
-            const data = await posttoserver({ token: admintoken, body, path: `client/createtransaction` });
+        if (!admintoken) {
+            throw new Error('Admin token not found');
+        }
 
+        try {
+            const data = await posttoserver({ token: admintoken, body, path: 'client/createtransaction' });
 
             if (data.success) {
-                resolve(data)
+                return data;
             } else {
-                reject('error')
+                throw new Error('Transaction creation failed');
             }
-        });
+        } catch (error) {
+            // Handle errors that occur during the post request
+            throw new Error(`Error creating transaction: ${error.message || 'Unknown error'}`);
+        }
     },
     async editusertransaction({ commit }, body) {
         const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
@@ -253,7 +264,7 @@ export const actions = {
             const data = await getfromserver({ token: admintoken, path: `client/messages?userid=${userid}` });
 
             if (data.success) {
-                const msgs = data.success.content;
+                const msgs = data.messages;
                 commit('SET_USER_MSGS', msgs);
             }
         } catch (error) {
@@ -262,22 +273,57 @@ export const actions = {
     },
     async createloanitem({ commit }, body) {
         const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
-
-        await posttoserver({ token: admintoken, body, path: `item/createloan` });
-    },
+    
+        if (!admintoken) {
+            throw new Error('Admin token not found');
+        }
+    
+        try {
+            const response = await posttoserver({ token: admintoken, body, path: 'item/createloan' });
+            // If you need to update the Vuex store, you can do it here
+            // commit('someMutation', response.data);
+            return response;
+        } catch (error) {
+            console.error('Error creating loan item:', error);
+            throw error; // Rethrow if you want to handle it in the calling function
+        }
+    },    
     async createinvestmentitem({ commit }, body) {
         const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
 
-        await posttoserver({ token: admintoken, body, path: `item/createinvestmentplan` });
+        if (!admintoken) {
+            throw new Error('Admin token not found');
+        }
+
+        try {
+            const response = await posttoserver({ token: admintoken, body, path: 'item/createinvestmentplan' });
+
+            // Handle the response as needed, e.g., commit to a Vuex store, or return it
+            // For example, if you need to update the store:
+            // commit('updateInvestmentPlan', response.data);
+
+            // Return the response for further processing if needed
+            return response;
+        } catch (error) {
+            // Handle or log the error appropriately
+            console.error('Error creating investment item:', error);
+            throw error; // Re-throw the error if you want the calling function to handle it
+        }
     },
     async createsavingsitem({ commit }, body) {
+        const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
+
+        if (!admintoken) {
+            throw new Error('Admin token not found');
+        }
+
         try {
-            const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
-
-            await posttoserver({ token: admintoken, body, path: `item/createsavingsplanitem` });
-
+            await posttoserver({ token: admintoken, body, path: 'item/createsavingsplanitem' });
         } catch (error) {
-            return error
+            console.error('Error creating savings item:', error);
+            // Optionally, you can handle the error in some way here
+            // For example, commit to a Vuex store, or rethrow the error
+            throw error; // Rethrow if you want to handle it in the calling function
         }
     },
     async senduseramessage({ commit }, body) {
@@ -299,5 +345,10 @@ export const actions = {
         const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
 
         await posttoserver({ token: admintoken, body, path: `client/edituserinvestment` });
+    },
+    async removeuser({ commit }, id) {
+        const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
+
+        await posttoserver({ token: admintoken, path: `client/remove?id=${id}` });
     }
 }

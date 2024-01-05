@@ -25,6 +25,15 @@
 
         @media only screen and (max-width: 414px) {
             padding: #{scaleValue(80)} #{scaleValue(200)};
+            margin-bottom: #{scaleValue(100)};
+        }
+    }
+
+    &.jumbotron-mobile {
+        @media only screen and (max-width: 414px) {
+            padding: #{scaleValue(60)} #{scaleValue(200)};
+            width: 100%;
+            margin-bottom: #{scaleValue(100)};
         }
     }
 
@@ -49,6 +58,11 @@
 
     &.curved {
         border-radius: 3rem;
+
+        @media only screen and (max-width: 414px) {
+            padding: #{scaleValue(40)} #{scaleValue(100)} !important;
+            border-radius: #{scaleValue(100)} !important;
+        }
     }
 
     &.loanbtn {
@@ -126,6 +140,11 @@ a {
 .flex-default {
     display: flex;
     align-items: center;
+
+    @media only screen and (max-width: 414px) {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
 
 .white-color {
@@ -163,11 +182,21 @@ a {
     color: rgba($primary-orange, .6);
     margin: #{scaleValue(30)} 0;
 
+    @media only screen and (max-width: 768px) {
+        margin-bottom: #{scaleValue(140)};
+        margin-top: #{scaleValue(150)};
+    }
+
     &__item {
         font-size: #{scaleValue(12)};
         cursor: pointer;
         margin-right: #{scaleValue(30)};
         font-weight: 500;
+
+        @media only screen and (max-width: 768px) {
+            font-size: #{scaleValue(55)};
+            margin-right: #{scaleValue(100)};
+        }
     }
 }
 
@@ -263,12 +292,13 @@ a {
         justify-content: center;
         align-items: center;
         height: 100%;
+        width: 5%;
 
         & img {
             opacity: .4;
             object-fit: contain;
-            height: 70%;
-            width: 70%;
+            height: 80%;
+            width: 80%;
         }
     }
 
@@ -283,6 +313,12 @@ a {
         font-size: #{scaleValue(15)};
         border: 1.5px solid rgba($font-black, .5);
         border-radius: #{scaleValue(5)};
+
+        @media only screen and (max-width: 768px) {
+            height: #{scaleValue(200)};
+            font-size: #{scaleValue(60)};
+            padding: #{scaleValue(50)};
+        }
 
         &:focus {
             border: 1.5px solid rgba($button-blue, .5);
@@ -305,6 +341,10 @@ a {
 .flex-default {
     display: flex;
     align-items: center;
+
+    &.spacebetween {
+        justify-content: space-between;
+    }
 }
 
 .checkbox-area {
@@ -320,9 +360,19 @@ a {
 .input-area {
     margin-bottom: #{scaleValue(25)};
 
+    @media only screen and (max-width: 768px) {
+        margin-bottom: #{scaleValue(75)};
+        display: flex;
+        flex-direction: column;
+    }
+
     & label {
         display: inline-block;
         margin-bottom: #{scaleValue(12)};
+
+        @media only screen and (max-width: 768px) {
+            margin-bottom: #{scaleValue(20)};
+        }
     }
 
     &.fullbody {
@@ -333,6 +383,11 @@ a {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-gap: #{scaleValue(12)};
+
+        @media only screen and (max-width: 768px) {
+            display: flex;
+            flex-direction: column;
+        }
     }
 }
 
@@ -376,6 +431,10 @@ a {
     justify-content: center;
     align-items: center;
     z-index: 1000;
+
+    @media only screen and (max-width: 768px) {
+        width: 100vw;
+    }
 }
 
 .popup {
@@ -399,6 +458,10 @@ a {
     width: #{scaleValue(800)};
     height: #{scaleValue(1000)};
     z-index: 3;
+
+    @media only screen and (max-width: 768px) {
+        display: none;
+    }
 
     & figure {
 
@@ -432,6 +495,10 @@ a {
 
 .lowerz {
     z-index: 1 !important;
+
+    @media only screen and (max-width: 768px) {
+        z-index: 3000 !important;
+    }
 }
 
 .relativeposition {
@@ -479,12 +546,20 @@ a {
 
 .halfscreen-width-2 {
     width: #{scaleValue(700)};
+
+    @media only screen and (max-width: 768px) {
+        width: auto;
+    }
 }
 
 a.orange {
     text-decoration: none;
-    font-size:  #{scaleValue(16)};
+    font-size: #{scaleValue(16)};
     border: none;
+
+    @media only screen and (max-width: 768px) {
+        font-size: #{scaleValue(60)};
+    }
 }
 
 .darkerblue {
@@ -494,4 +569,73 @@ a.orange {
 .flex-reverse-column {
     display: flex;
     flex-direction: column-reverse;
+}
+
+.mobile-burger {
+    display: none;
+
+    @media only screen and (max-width: 768px) {
+        display: flex;
+        flex-direction: column;
+
+        &.side-nav {
+
+            @media only screen and (max-width: 768px) {
+                margin-bottom: #{scaleValue(100)};
+            }
+
+            &-header {
+                transform: translateY(#{scaleValue(60)});
+            }
+        }
+
+        & span {
+            display: inline-block;
+            height: #{scaleValue(16)} !important;
+            margin-bottom: #{scaleValue(16)};
+            width: #{scaleValue(120)} !important;
+            border-radius: 3rem !important;
+            background: rgba($font-black, .5);
+        }
+    }
+}
+
+.mobilewide {
+    @media only screen and (max-width: 768px) {
+        width: #{scaleValue(1500)} !important;
+        padding: #{scaleValue(50)} !important;
+    }
+}
+
+.mobileapplyform {
+
+    @media only screen and (max-width: 768px) {
+        opacity: 0;
+        z-index: -1 !important;
+
+        &.applyformopen {
+            opacity: 1;
+            z-index: 3000 !important;
+        }
+    }
+}
+
+.redtext {
+    color: $error-color
+}
+
+.onlineofflineindicator {
+    display: inline-block;
+    height: #{scaleValue(8)};
+    width: #{scaleValue(8)};
+    border-radius: 100%;
+    margin-left: #{scaleValue(10)};
+}
+
+.online {
+    background: $star-green
+}
+
+.offline {
+    background: $error-color;
 }

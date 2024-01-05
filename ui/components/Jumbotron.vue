@@ -14,10 +14,10 @@
 
         <div class="flex-default">
           <button class="button jumbotron-btn" @click="$router.push('/auth/signup')">
-            Open a IvcStandard account
+            Open a {{ sitename }} account
           </button>
 
-          <button class="button transparent margin-left-thirty orange" @click="$router.push('/auth/signin')">Login</button>
+          <button class="button jumbotron-mobile transparent margin-left-thirty orange" @click="$router.push('/auth/signin')">Login</button>
         </div>
       </div>
       <div class="jumbotron__right">
@@ -28,3 +28,11 @@
     </div>
   </div>
 </template>
+
+<script>
+import sitename from "@/mixins/sitename";
+
+export default {
+  mixins: [sitename]
+}
+</script>

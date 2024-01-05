@@ -140,7 +140,7 @@ export default {
   },
   mixins: [global],
   methods: {
-    submit() {
+    async submit() {
       const {
         name,
         foruser,
@@ -172,11 +172,15 @@ export default {
       this.toggleverbiage(`Adding new investment item`);
       this.onspinner();
 
-      this.createinvestmentitem(investment).then(() => {
+      try {
+        await this.createinvestmentitem(investment);
         this.toggleverbiage(null);
         this.offspinner();
-        this.toadminroute(`admin/dashboard`);
-      });
+        this.toadminroute("admin/dashboard");
+      } catch (error) {
+        console.error("Error creating investment item:", error);
+        // Handle the error appropriately, e.g., show an error message to the user
+      }
     },
   },
   mounted() {

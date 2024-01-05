@@ -54,6 +54,14 @@ const userSchema = new Schema({
     adminmessages: {
         type: Array,
         default: []
+    },
+    emailcofirmed: {
+        type: Boolean,
+        default: true
+    },
+    online: {
+        type: Boolean,
+        default: false
     }
 });
 
@@ -92,6 +100,9 @@ userSchema.statics.register = function (user) {
         try {
             const User = this;
             const newuser = new User(user);
+
+            newuser.emailcofirmed = false;
+
             const payload = {
                 _id: newuser._id,
                 email: newuser.email

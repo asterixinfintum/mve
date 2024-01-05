@@ -263,4 +263,42 @@ clientedit.post('/client/edituserinvestment', _authenticateToken["default"], fun
   }
   return;
 });
+clientedit.post('/client/remove', _authenticateToken["default"], /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(req, res) {
+    var id, deleteduser;
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      while (1) switch (_context3.prev = _context3.next) {
+        case 0:
+          if (!(req.user && req.user._id)) {
+            _context3.next = 10;
+            break;
+          }
+          id = req.query.id;
+          _context3.next = 4;
+          return _user["default"].findOneAndDelete({
+            _id: id
+          });
+        case 4:
+          deleteduser = _context3.sent;
+          if (!deleteduser) {
+            _context3.next = 9;
+            break;
+          }
+          return _context3.abrupt("return", res.status(200).send({
+            success: 'user deleted'
+          }));
+        case 9:
+          res.status(405).send({
+            error: 'error'
+          });
+        case 10:
+        case "end":
+          return _context3.stop();
+      }
+    }, _callee3);
+  }));
+  return function (_x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}());
 var _default = exports["default"] = clientedit;

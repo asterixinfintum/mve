@@ -49,14 +49,13 @@ notificationSchema.statics.markread = function (userid) {
 
 notificationSchema.statics.createnotification = async function (body) {
     try {
-        const Note = this;
-        const newnote = new Note(body);
-
+        const newnote = new this(body); // Directly using 'this' to create a new instance
         await newnote.save();
 
         return { message: 'success', type: 'notification creation', content: newnote };
     } catch (error) {
-        throw new Error({ message: 'error', type: 'notification creation', reason: error });
+        // Throwing a standard Error object with a descriptive message
+        throw new Error(`Notification creation failed: ${error.message}`);
     }
 }
 

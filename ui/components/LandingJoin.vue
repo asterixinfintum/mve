@@ -83,6 +83,15 @@
         </div>
     </div>
     <div class="landing__join--trustcopy trust-section">
-        <p>Join more than 8 million people with a IvcStandard bank account</p>
+        <p>Join more than 8 million people with an {{ sitename }} bank account</p>
     </div>
-</div></template>
+</div>
+</template>
+
+<script>
+import sitename from "@/mixins/sitename";
+
+export default {
+  mixins: [sitename]
+}
+</script>

@@ -4,7 +4,7 @@
       <div class="header__top">
         <div class="header__side">
           <div class="header__name" @click="$router.push('/')">
-            <h1>IvcStandard</h1>
+            <h1>{{ sitename }}</h1>
           </div>
         </div>
         <div class="header__side menu" :class="{ sidenavopen }">
@@ -38,7 +38,7 @@
 
           <div class="header__mobilemenu" @click="togglesidenav">
             <div class="header__mobilemenu--logo">
-              <h1>IvcStandard</h1>
+              <h1>{{ sitename }}</h1>
             </div>
             <div>
               <img src="@/assets/imgs/close.svg" />
@@ -55,7 +55,10 @@
 </template>
 
 <script>
+import sitename from "@/mixins/sitename";
+
 export default {
+  mixins: [sitename],
   data() {
     return {
       sidenavopen: false,

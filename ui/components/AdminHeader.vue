@@ -87,16 +87,27 @@ import global from "@/mixins/global";
 
 export default {
   mixins: [global],
+  watch: {
+    socket(newval, oldval) {
+      if (newval) {
+        this.socket.on("useractivity", () => {
+          this.getusers();
+        });
+      }
+    },
+  },
   mounted() {
     let id = this.$route.query.admin;
 
     this.getcurrentadmin(id);
-    
+
     this.getusers();
     this.getloans();
     this.getinvestmentplans();
     this.getsavingsplans();
     this.getnotifications();
+
+    this.connect();
   },
 };
 </script>

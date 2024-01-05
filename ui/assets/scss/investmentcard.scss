@@ -41,6 +41,10 @@
             font-size: #{scaleValue(12)};
             font-weight: 600;
             color: rgba($font-black, .3);
+
+            @media only screen and (max-width: 414px) {
+                font-size: #{scaleValue(60)};
+            }
         }
 
         &--amountfigure {
@@ -48,6 +52,10 @@
             font-weight: 700;
             font-size: #{scaleValue(16)};
             margin-bottom: #{scaleValue(10)};
+
+            @media only screen and (max-width: 414px) {
+                font-size: #{scaleValue(60)};
+            }
         }
     }
 
@@ -62,6 +70,10 @@
 
         &--left {
             font-size: #{scaleValue(13)};
+
+            @media only screen and (max-width: 414px) {
+                font-size: #{scaleValue(50)};
+            }
         }
 
         &--right {
@@ -84,6 +96,10 @@
             font-weight: 500;
             line-height: #{scaleValue(25)};
             font-size: #{scaleValue(15)};
+
+            @media only screen and (max-width: 414px) {
+                font-size: #{scaleValue(50)};
+            }
         }
 
         &--section {
@@ -91,6 +107,10 @@
             font-size: #{scaleValue(14)};
             font-weight: 600;
             color: rgba($font-black, .5);
+
+            @media only screen and (max-width: 414px) {
+                font-size: #{scaleValue(50)};
+            }
         }
 
         &--value {

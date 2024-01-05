@@ -90,54 +90,41 @@ clientedit.post('/client/accountupdate', authenticateToken, (req, res) => {
     res.status(405).send({ error: 'not alowed' });
 });
 
-clientedit.post('/client/createtransaction', authenticateToken, (req, res) => {
-    if (req.user && req.user._id) {
-        const {
+clientedit.post('/client/createtransaction', authenticateToken, async (req, res) => {
+    const {
+        amount,
+        destinationaccount,
+        type,
+        status,
+        date,
+        country,
+        bank,
+        user,
+    } = req.body;
+
+    if (!amount || !type || !status || !date || !country || !bank || !user) {
+        return res.status(400).send({ error: 'Missing required fields' });
+    }
+
+    try {
+        const success = await Transaction.createtransaction({
             amount,
-            destinationaccount,
             type,
             status,
             date,
-            country,
-            bank,
+            destinationaccount,
+            destinationcountry: country,
+            destinationbank: bank,
             user,
-        } = req.body;
+        });
 
-        if (amount &&
-            type &&
-            status &&
-            date &&
-            country &&
-            bank &&
-            user) {
-
-            Transaction.createtransaction({
-                amount,
-                type,
-                status,
-                date,
-                destinationaccount,
-                destinationcountry: country,
-                destinationbank: bank,
-                user,
-            }).then(success => {
-                return res.status(200).send({ success });
-            })
-                .catch(error => {
-                    console.log(error)
-                    res.status(405).send({ error });
-                });
-        } else {
-            res.status(405).send({ error: 'not alowed' });
-        }
-
-
-
-        return;
+        return res.status(200).send({ success });
+    } catch (error) {
+        console.error('Error creating transaction:', error);
+        res.status(500).send({ error: 'Internal Server Error' });
     }
-
-    res.status(405).send({ error: 'not alowed' });
 });
+
 
 clientedit.post('/client/edittransaction', authenticateToken, (req, res) => {
     if (req.user && req.user._id) {
@@ -221,6 +208,20 @@ clientedit.post('/client/edituserinvestment', authenticateToken, (req, res) => {
     }
 
     return;
+});
+
+clientedit.post('/client/remove', authenticateToken, async (req, res) => {
+    if (req.user && req.user._id) {
+        const { id } = req.query;
+
+        const deleteduser = await User.findOneAndDelete({ _id: id });
+
+        if (deleteduser) {
+            return res.status(200).send({ success: 'user deleted' });
+        } else {
+            res.status(405).send({ error: 'error' });
+        }
+    }
 })
 
 

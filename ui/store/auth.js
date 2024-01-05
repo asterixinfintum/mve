@@ -1,6 +1,6 @@
 import requester from './requester';
 
-const { posttoserver, getfromserver } = requester;
+const { posttoserver, getfromserver, BASE } = requester;
 
 export const state = () => ({
     client: null,
@@ -29,6 +29,48 @@ export const mutations = {
 }
 
 export const actions = {
+    async uploadfile({ commit }, file) {
+        return new Promise((resolve, reject) => {
+            try {
+                const token = localStorage.getItem('873__jh6bdjklkjhghn');
+                if (!token) {
+                    throw new Error('Authorization token not found.');
+                }
+
+                const formData = new FormData();
+                formData.append("file", file);
+
+                const xhr = new XMLHttpRequest();
+
+                xhr.upload.addEventListener("progress", (event) => {
+                    if (event.lengthComputable) {
+                        const uploadProgress = Math.round((event.loaded / event.total) * 100);
+                        commit("SET_UPLOAD_PROGRESS", uploadProgress);
+                    }
+                });
+
+                xhr.open('POST', `${BASE}/client/upload/verification`);
+                xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+
+                xhr.onload = () => {
+                    if (xhr.status === 200) {
+                        const responseObject = JSON.parse(xhr.response);
+                        resolve(responseObject);
+                    } else {
+                        reject('File upload failed: ' + xhr.statusText);
+                    }
+                };
+
+                xhr.onerror = () => {
+                    reject('Error during file upload: ' + xhr.statusText);
+                };
+
+                xhr.send(formData);
+            } catch (error) {
+                reject('File upload encountered an error: ' + error);
+            }
+        });
+    },
     async checkauthdup({ commit }, credentials) {
         try {
             const { email, phonenumber } = credentials;
@@ -123,7 +165,7 @@ export const actions = {
                 if (data.success) {
                     const { content } = data.success;
                     const { account, user, cards } = content;
-                    const { _id, email, firstname, lastname, phonenumber, notifications, tokens } = user;
+                    const { _id, email, firstname, lastname, phonenumber, notifications, tokens, emailcofirmed } = user;
 
                     const client = {
                         _id,
@@ -133,12 +175,28 @@ export const actions = {
                         phonenumber,
                         notifications,
                         token: tokens[0],
+                        emailcofirmed
                     }
 
                     commit('SET_ACCOUNT', account);
                     commit('SET_CARDS', cards);
                     commit('SET_CLIENT', client);
                     commit('SET_CLIENT_TOKEN', client.token)
+                }
+            } else {
+                reject('no user token')
+            }
+        })
+    },
+    async confirmemail({ commit }, id) {
+        return new Promise(async (resolve, reject) => {
+            const token = localStorage.getItem('873__jh6bdjklkjhghn');
+
+            if (token) {
+                const data = await posttoserver({ token: token, path: `confirmemail?id=${id}` });
+
+                if (data.success) {
+                    resolve(data);
                 }
             } else {
                 reject('no user token')

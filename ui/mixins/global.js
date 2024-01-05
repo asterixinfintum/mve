@@ -1,7 +1,15 @@
 import { mapActions, mapState, mapMutations } from 'vuex';
 
+import requester from "@/store/requester";
+import io from "socket.io-client";
+
 export default {
     extends: 'layouts/default',
+    head() {
+        return {
+            title: requester.BASE.includes('mung') ? 'Munger Capital' : 'Ivcstandard'
+        }
+    },
     data() {
         return {
             confirmationmsg: null,
@@ -10,7 +18,10 @@ export default {
             msgpopupopen: false,
             profilebody: false,
             errorMessage: null,
-            successMessage: null
+            successMessage: null,
+            applyformopen: false,
+            BASE_URL: requester.BASE,
+            socket: null
         }
     },
     computed: {
@@ -114,16 +125,16 @@ export default {
         },
         adminid() {
             const id = this.$route.query.admin;
-      
+
             if (id) {
-              return id;
+                return id;
             }
-      
+
             return null
-          }
+        }
     },
     methods: {
-        ...mapActions('auth', ['checkauthdup', 'register', 'login', 'logout', 'showautherror', 'removeautherror', 'getcurrentclient']),
+        ...mapActions('auth', ['checkauthdup', 'register', 'login', 'logout', 'showautherror', 'removeautherror', 'getcurrentclient', 'uploadfile', 'confirmemail']),
         ...mapActions('loading', ['triggerloading', 'endloading', 'onspinner', 'offspinner', 'toggleverbiage', 'setdonemsg']),
         ...mapActions('admin', [
             'adminentry',
@@ -145,7 +156,8 @@ export default {
             'editusertransaction',
             'edituserloan',
             'editusersaving',
-            'edituserinvestment'
+            'edituserinvestment',
+            'removeuser'
         ]),
         ...mapActions('client', [
             'createtransfer',
@@ -168,6 +180,21 @@ export default {
 
             if (client) {
                 return this.$router.push(`/${route}?user=${client._id}`)
+            }
+        },
+        connect(userid) {
+            if (userid) {
+                let socket = io(`${this.BASE_URL}`, {
+                    query: {
+                        userid,
+                    },
+                });
+
+                this.socket = socket;
+            } else {
+                let socket = io(`${this.BASE_URL}`);
+
+                this.socket = socket;
             }
         },
         closeErrorSuccess() {
@@ -193,7 +220,8 @@ export default {
             return this.currntroute.includes(val) ? true : false
         },
         isOnlyLetters(input) {
-            return /^[A-Za-z]+$/.test(input);
+            const str = `${input}`.trim().replace(/\s+/g, '');
+            return /^[A-Za-z]+$/.test(str);
         },
         returnSpecifiedArrLength(arr, length) {
             if (arr.length > length) {
@@ -318,10 +346,16 @@ export default {
         triggerlogout() {
             this.onspinner();
             this.logout()
-              .then(() =>{
-                this.offspinner();
-                this.$router.push('/');
-              })
-          },
+                .then(() => {
+                    this.offspinner();
+                    this.$router.push('/');
+                })
+        },
+        openapplyform() {
+            this.applyformopen = true;
+        },
+        closeapplyform() {
+            this.applyformopen = false
+        }
     }
 }

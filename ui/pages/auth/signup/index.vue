@@ -17,7 +17,7 @@
         <div class="auth__right">
           <div class="overview__transaction--header">
             <h1 class="auth-header">
-              Sign up for a <span class="orange">IvcStandard</span> account
+              Sign up for a <span class="orange">{{ sitename }}</span> account
             </h1>
           </div>
 
@@ -240,9 +240,10 @@
 
 <script>
 import auth from "@/mixins/auth";
+import sitename from "@/mixins/sitename";
 
 export default {
-  mixins: [auth],
+  mixins: [auth, sitename],
   methods: {
     callcheckdup() {
       const { checkauthdup, email, phonenumber } = this;

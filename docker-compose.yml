@@ -24,3 +24,11 @@ services:
     build: ./api
     environment:
       - PORT=8001
+      
+  nuxt-app:
+    build: ./ui
+    container_name: nuxt-app
+    restart: always
+    environment:
+      - PORT=4000
+    command: 'npm run start'

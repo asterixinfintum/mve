@@ -1,4 +1,5 @@
 import express from 'express';
+import multer from "multer";
 
 import User from '../../models/user';
 import Account from '../../models/account';
@@ -14,6 +15,18 @@ import UserSaving from '../models/usersaving';
 import authenticateToken from '../../utils/authenticateToken';
 
 const client = express();
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/'); // Destination folder
+    },
+    filename: function (req, file, cb) {
+        // Preserve the original file name and extension
+        cb(null, file.originalname);
+    }
+});
+
+const upload = multer({ storage: storage });
 
 client.get('/currentclient', authenticateToken, async (req, res) => {
 
@@ -96,21 +109,27 @@ client.post('/client/viewnotifications', authenticateToken, async (req, res) => 
 });
 
 
-/*client.get('/client/messages', authenticateToken, async (req, res) => {
-    if (req.user && req.user._id) {
-        try {
-            const { userid } = req.query;
-
-            const messages = await Messages.find({ user: userid });
-
-            console.log(messages)
-        } catch (error) {
-            throw new Error(error);
-        }
+client.get('/client/messages', authenticateToken, async (req, res) => {
+    if (!req.user || !req.user._id) {
+        return res.status(401).send({ error: 'Unauthorized' });
     }
 
-    res.status(405).send({ error: 'not alowed' });
-});*/
+    try {
+        const { userid } = req.query;
+        if (!userid) {
+            return res.status(400).send({ error: 'User ID is required' });
+        }
+
+        const messages = await Message.find({ user: userid });
+        console.log(messages); // Assuming this is for debugging; remove in production
+
+        return res.status(200).send({ success: true, messages });
+    } catch (error) {
+        console.error('Error fetching messages:', error);
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
+});
+
 
 client.get('/client/notifications', authenticateToken, async (req, res) => {
     if (req.user && req.user._id) {
@@ -308,6 +327,18 @@ client.post('/client/deposittosavingsitem', authenticateToken, async (req, res) 
     }
 
     res.status(405).send({ error: 'not alowed' });
-})
+});
+
+client.post('/client/upload/verification', authenticateToken, upload.single('file'), (req, res) => {
+    if (req.user && req.user._id) {
+        if (req.file) {
+            res.status(200).send({ success: 'file uploaded successfully' });
+        }
+
+        return;
+    }
+
+    res.status(405).send({ error: 'not alowed' });
+});
 
 export default client;

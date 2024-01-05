@@ -25,8 +25,16 @@
             </div>
 
             <div class="landingoffers-centerbtn">
-                <button class="button jumbotron-btn" @click="$router.push('/auth/signup')">Open a IvcStandard account</button>
+                <button class="button jumbotron-btn" @click="$router.push('/auth/signup')">Open a {{ sitename }} account</button>
             </div>
         </div>
     </div>
 </template>
+
+<script>
+import sitename from "@/mixins/sitename";
+
+export default {
+  mixins: [sitename]
+}
+</script>

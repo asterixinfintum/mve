@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'ivcstandard',
+    title: '',
     htmlAttrs: {
       lang: 'Berc'
     },
@@ -26,6 +26,10 @@ export default {
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap'
       },
+      {
+        src: 'https://cdn.socket.io/4.0.0/socket.io.min.js',
+        type: 'text/javascript'
+      }
     ],
   },
 
@@ -35,7 +39,9 @@ export default {
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    '~/plugins/socket.js'
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

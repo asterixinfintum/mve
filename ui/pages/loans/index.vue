@@ -110,8 +110,8 @@
 
         <div class="padding-top-bottom"></div>
 
-        <div class="popup-overlay lowerz" v-if="current">
-          <div class="displaycard__applyform">
+        <div class="popup-overlay lowerz mobileapplyform" v-if="current" @click.stop="closeapplyform" :class="{ applyformopen }">
+          <div class="displaycard__applyform" @click.stop="openapplyform">
             <div class="overview__transaction--header">
               <div
                 class="overview__transaction--h2 header-label displaycard__applyform--header"
@@ -273,7 +273,7 @@ export default {
       if (
         amount !== 0 &&
         totalrepayment !== 0 &&
-        account.balance > current.minimumbalanceallowed
+        account.balance >= current.minimumbalanceallowed
       ) {
         return true;
       }
@@ -342,7 +342,7 @@ export default {
         minimumbalanceallowed,
         interestRate,
         term,
-      });
+      }, 'initialrender');
     },
     setcurrent({
       name,
@@ -353,7 +353,7 @@ export default {
       minimumbalanceallowed,
       interestRate,
       term,
-    }) {
+    }, initialrender) {
       this.current = {
         name,
         requirements,
@@ -364,6 +364,10 @@ export default {
         interestRate,
         term,
       };
+
+      if (!initialrender) {
+        this.openapplyform()
+      }
     },
   },
 };

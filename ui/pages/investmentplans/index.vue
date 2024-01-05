@@ -106,8 +106,8 @@
 
         <div class="padding-top-bottom"></div>
 
-        <div class="popup-overlay lowerz" v-if="current">
-          <div class="displaycard__applyform investment">
+        <div class="popup-overlay lowerz mobileapplyform" v-if="current" @click.stop="closeapplyform" :class="{ applyformopen }">
+          <div class="displaycard__applyform investment" @click.stop="openapplyform">
             <div class="overview__transaction--header">
               <div
                 class="overview__transaction--h2 header-label displaycard__applyform--header"
@@ -364,7 +364,7 @@ export default {
         requirements,
         returnpercentage,
         durationofinvestment,
-      });
+      }, 'initialrender');
     },
     setcurrent({
       name,
@@ -375,7 +375,7 @@ export default {
       requirements,
       returnpercentage,
       durationofinvestment,
-    }) {
+    }, initialrender) {
       this.current = {
         name,
         description,
@@ -386,6 +386,10 @@ export default {
         returnpercentage,
         durationofinvestment,
       };
+
+      if (!initialrender) {
+        this.openapplyform()
+      }
     },
   },
 };

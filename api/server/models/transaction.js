@@ -11,13 +11,11 @@ const transactionSchema = new Schema({
     type: {
         type: String,
         required: true,
-        //enum: ['deposit', 'withdrawal', 'transfer']
     },
     status: {
         type: String,
         required: true,
-        default: 'pending',
-        // enum: ['success', 'pending', 'failed', 'in review']
+        default: 'pending'
     },
     destinationbank: {
         type: String,
@@ -48,42 +46,41 @@ transactionSchema.statics.createtransaction = async function ({
     destinationaccount,
     user
 }) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const Transaction = this;
-            const amnt = parseFloat(`${amount}`.replace(/,/g, ''), 10);
+    try {
+        const amnt = parseFloat(`${amount}`.replace(/,/g, ''), 10);
+        // Consider adding validation for `amnt` here
 
-            const newtransaction = new Transaction({
-                amount: amnt,
-                type,
-                status,
-                date,
-                destinationcountry,
-                destinationbank,
-                destinationaccount,
-                user
-            });
+        const newtransaction = new this({
+            amount: amnt,
+            type,
+            status,
+            date,
+            destinationcountry,
+            destinationbank,
+            destinationaccount,
+            user
+        });
 
-            const account = await Account.findOne({ user });
-
-            const transactions = [newtransaction._id, ...account.transactions];
-
-            account.transactions = transactions
-
-            if (type === 'deposit') {
-                let balance = parseFloat(account.balance);
-                let newbalance = balance += amnt;
-                account.balance = newbalance;
-            }
-
-            await newtransaction.save();
-            await account.save();
-
-            resolve({ message: 'success', type: 'balance update', content: { account, newtransaction } });
-        } catch (error) {
-            reject({ message: 'error', type: 'transaction creation', reason: error });
+        const account = await Account.findOne({ user });
+        if (!account) {
+            throw new Error('Account not found');
         }
-    });
+
+        account.transactions.unshift(newtransaction._id);
+
+        if (type === 'deposit') {
+            account.balance += amnt; // Assumes balance is already a number
+        }
+
+        // Consider using a transaction here
+        await newtransaction.save();
+        await account.save();
+
+        return { message: 'success', type: 'balance update', content: { account, newtransaction } };
+    } catch (error) {
+        // Throwing a standard Error object with a descriptive message
+        throw new Error(`Transaction creation failed: ${error.message}`);
+    }
 }
 
 transactionSchema.statics.updatetransaction = async function ({

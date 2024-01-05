@@ -9,9 +9,10 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "lightweight-charts": "^4.0.1",
     "core-js": "^3.25.3",
+    "lightweight-charts": "^4.0.1",
     "nuxt": "^2.15.8",
+    "socket.io-client": "^4.7.3",
     "vue": "^2.7.10",
     "vue-server-renderer": "^2.7.10",
     "vue-template-compiler": "^2.7.10"

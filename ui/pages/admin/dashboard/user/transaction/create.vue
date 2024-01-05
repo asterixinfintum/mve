@@ -167,25 +167,31 @@ export default {
 
       return (this.amount = characters);
     },
-    createtransaction() {
+    async createtransaction() {
       const { amount, type, status, date, country, bank, destinationaccount } = this;
 
       this.toggleverbiage(`Updating ${this.userprofile.details.firstname}'s profile`);
       this.onspinner();
-      this.createusertransaction({
-        amount,
-        type,
-        status,
-        date,
-        country,
-        bank,
-        destinationaccount,
-        user: this.userid,
-      }).then(() => {
+
+      try {
+        await this.createusertransaction({
+          amount,
+          type,
+          status,
+          date,
+          country,
+          bank,
+          destinationaccount,
+          user: this.userid,
+        });
+
         this.toggleverbiage(null);
         this.offspinner();
         this.toadminroute(`admin/dashboard/user/${this.userid}`);
-      });
+      } catch (error) {
+        console.error("Error in transaction creation:", error);
+        // Handle the error appropriately, perhaps show an error message to the user
+      }
     },
   },
   computed: {

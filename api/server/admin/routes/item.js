@@ -9,147 +9,126 @@ import SavingsPlan from '../../models/savingsplan';
 import Notification from '../../models/notification';
 import Message from '../../models/message';
 
+import { getIO, initSocketIO }from '../../socket';
+
 const item = express();
 
-item.post('/item/createloan', authenticateToken, (req, res) => {
-    if (req.user && req.user._id) {
-
-        Loan.createloanitem(req.body)
-            .then(success => {
-                res.status(200).send({ success })
-            })
-            .catch(error => {
-                res.status(405).send({ error })
-            });
-
-        return;
+item.post('/item/createloan', authenticateToken, async (req, res) => {
+    if (!req.user || !req.user._id) {
+        return res.status(401).send({ error: 'Unauthorized' });
     }
 
-    res.status(405).send({ error: 'not alowed' });
+    try {
+        const success = await Loan.createloanitem(req.body);
+        res.status(200).send({ success });
+    } catch (error) {
+        console.error('Error creating loan item:', error);
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
 });
 
-item.get('/item/loans', authenticateToken, (req, res) => {
-    if (req.user && req.user._id) {
-
-        Loan.getloans()
-            .then(success => {
-                res.status(200).send({ success })
-            })
-            .catch(error => {
-                res.status(405).send({ error })
-            });
-
-        return;
+item.get('/item/loans', authenticateToken, async (req, res) => {
+    if (!req.user || !req.user._id) {
+        return res.status(401).send({ error: 'Unauthorized' });
     }
 
-    res.status(405).send({ error: 'not alowed' });
+    try {
+        const success = await Loan.getloans();
+        res.status(200).send({ success });
+    } catch (error) {
+        console.error('Error retrieving loans:', error);
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
 });
 
-item.get('/item/investments', authenticateToken, (req, res) => {
-    if (req.user && req.user._id) {
-
-        InvestmentPlan.getinvestmentplans()
-            .then(success => {
-                res.status(200).send({ success })
-            })
-            .catch(error => {
-                res.status(405).send({ error })
-            });
-
-        return;
+item.get('/item/investments', authenticateToken, async (req, res) => {
+    if (!req.user || !req.user._id) {
+        return res.status(401).send({ error: 'Unauthorized' });
     }
 
-    res.status(405).send({ error: 'not alowed' });
-})
-
-item.post('/item/createinvestmentplan', authenticateToken, (req, res) => {
-    if (req.user && req.user._id) {
-
-        InvestmentPlan.createinvestmentplan(req.body)
-            .then(success => {
-                res.status(200).send({ success })
-            })
-            .catch(error => {
-                console.log(error)
-                res.status(405).send({ error })
-            });
-
-        return;
+    try {
+        const success = await InvestmentPlan.getinvestmentplans();
+        res.status(200).send({ success });
+    } catch (error) {
+        console.error('Error retrieving investment plans:', error);
+        res.status(500).send({ error: 'Internal Server Error' });
     }
-
-    res.status(405).send({ error: 'not alowed' });
 });
 
-item.post('/item/createsavingsplanitem', authenticateToken, (req, res) => {
-    if (req.user && req.user._id) {
-
-        SavingsPlan.createsavingsitem(req.body)
-            .then(success => {
-                res.status(200).send({ success })
-            })
-            .catch(error => {
-                res.status(405).send({ error })
-            });
-
-        return;
+item.post('/item/createinvestmentplan', authenticateToken, async (req, res) => {
+    if (!req.user || !req.user._id) {
+        return res.status(401).send({ error: 'Unauthorized' });
     }
 
-    res.status(405).send({ error: 'not alowed' });
+    try {
+        const success = await InvestmentPlan.createinvestmentplan(req.body);
+        res.status(200).send({ success });
+    } catch (error) {
+        console.error('Error creating investment plan:', error);
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
 });
 
-item.get('/item/savingsplans', authenticateToken, (req, res) => {
-    if (req.user && req.user._id) {
-
-        SavingsPlan.getsavingsitems()
-            .then(success => {
-                res.status(200).send({ success })
-            })
-            .catch(error => {
-                res.status(405).send({ error })
-            });
-
-        return;
+item.post('/item/createsavingsplanitem', authenticateToken, async (req, res) => {
+    if (!req.user || !req.user._id) {
+        return res.status(401).send({ error: 'Unauthorized' });
     }
 
-    res.status(405).send({ error: 'not alowed' });
-})
-
-item.post('/item/createnotification', authenticateToken, (req, res) => {
-    if (req.user && req.user._id) {
-
-        Notification.createnotification(req.body)
-            .then(success => {
-                res.status(200).send({ success })
-            })
-            .catch(error => {
-                res.status(405).send({ error })
-            });
-
-        return;
+    try {
+        const success = await SavingsPlan.createsavingsitem(req.body);
+        res.status(200).send({ success });
+    } catch (error) {
+        console.error('Error creating savings plan item:', error);
+        res.status(500).send({ error: 'Internal Server Error' });
     }
-
-    res.status(405).send({ error: 'not alowed' })
 });
 
-item.post('/item/createmessage', authenticateToken, (req, res) => {
-    if (req.user && req.user._id) {
-        Message.addadminmessage(req.body)
-            .then(success => {
-                res.status(200).send({ success })
-            })
-            .catch(error => {
-                res.status(405).send({ error })
-            });
-
-        return
+item.get('/item/savingsplans', authenticateToken, async (req, res) => {
+    if (!req.user || !req.user._id) {
+        return res.status(401).send({ error: 'Unauthorized' });
     }
 
-    res.status(405).send({ error: 'not alowed' });
-})
+    try {
+        const success = await SavingsPlan.getsavingsitems();
+        res.status(200).send({ success });
+    } catch (error) {
+        console.error('Error getting savings plans:', error);
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
+});
 
-/*item.get('/items', authenticateToken, async (req, res) => {
-    res.status(200).send({ success: { message: 'success', type: 'admin notifications get', content: [] } })
-});*/
+item.post('/item/createnotification', authenticateToken, async (req, res) => {
+    if (!req.user || !req.user._id) {
+        return res.status(401).send({ error: 'Unauthorized' });
+    }
+
+    try {
+        const success = await Notification.createnotification(req.body);
+
+        //console.log(success);
+
+        getIO().emit('notification', { userid: success.content.user});
+
+        res.status(200).send({ success });
+    } catch (error) {
+        console.error('Error creating notification:', error);
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
+});
+
+item.post('/item/createmessage', authenticateToken, async (req, res) => {
+    if (!req.user || !req.user._id) {
+        return res.status(401).send({ error: 'Unauthorized' });
+    }
+
+    try {
+        const success = await Message.addadminmessage(req.body);
+        res.status(200).send({ success });
+    } catch (error) {
+        console.error('Error creating message:', error);
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
+});
 
 item.put('/item/update', authenticateToken, (req, res) => {
     if (req.user && req.user._id) {

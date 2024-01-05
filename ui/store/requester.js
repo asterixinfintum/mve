@@ -3,7 +3,7 @@ function getCurrentPageDomain() {
         // Check if the code is running on the client side
         const currentURL = window.location.href;
         const url = new URL(currentURL);
-        return url.protocol + '//' + url.hostname;
+        return url.protocol + '//' + 'api.' + url.hostname;
     } else {
         // Handle server-side rendering (optional)
         return ''; // You can return a default value or handle it differently for SSR
@@ -12,9 +12,9 @@ function getCurrentPageDomain() {
 
 let BASE = getCurrentPageDomain();
 
-//console.log(BASE);
+console.log(BASE, 'check for the name here');
 
-if (BASE === 'http://localhost') {
+if (BASE.includes('localhost')) {
     BASE = `http://localhost:8081`
 } else {
     BASE = getCurrentPageDomain();
@@ -79,5 +79,6 @@ async function getfromserver({ token, path }) {
 
 export default {
     posttoserver,
-    getfromserver
+    getfromserver,
+    BASE
 };

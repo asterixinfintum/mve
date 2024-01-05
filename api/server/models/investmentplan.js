@@ -38,20 +38,15 @@ const investmentplanSchema = new Schema({
 });
 
 investmentplanSchema.statics.createinvestmentplan = async function (investementbody) {
-
-    return new Promise(async (resolve, reject) => {
-        try {
-            const InvestmentItem = this;
-
-            const newinvestmemtitem = new InvestmentItem(investementbody);
-
-            await newinvestmemtitem.save();
-            resolve({ message: 'success', type: 'item created', content: newinvestmemtitem });
-        } catch (error) {
-            console.log(error)
-            reject({ message: 'error', type: 'item creation', reason: error });
-        }
-    })
+    try {
+        const newinvestmemtitem = new this(investementbody);
+        await newinvestmemtitem.save();
+        return { message: 'success', type: 'item created', content: newinvestmemtitem };
+    } catch (error) {
+        // You can log the error here if needed
+        // e.g., logger.error('Error creating investment item:', error);
+        throw new Error(`Item creation failed: ${error.message}`);
+    }
 }
 
 investmentplanSchema.statics.getinvestmentplans = async function () {

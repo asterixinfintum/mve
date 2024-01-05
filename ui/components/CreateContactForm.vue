@@ -99,6 +99,10 @@ export default {
 .createmessage {
   width: #{scaleValue(400)};
 
+  @media only screen and (max-width: 768px) {
+    width: #{scaleValue(1500)} !important;
+  }
+
   &__form {
     width: 100%;
   }

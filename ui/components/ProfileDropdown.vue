@@ -65,12 +65,22 @@ export default {
 
   border-radius: #{scaleValue(10)};
 
+  @media only screen and (max-width: 768px) {
+    width: #{scaleValue(1400)};
+    right: #{scaleValue(-200)};
+  }
+
   &__item {
     padding: #{scaleValue(15)} #{scaleValue(15)};
     border-bottom: 1px solid rgba($font-black, 0.4);
     font-size: #{scaleValue(13)};
     transition: all 0.5s ease;
     display: flex;
+
+    @media only screen and (max-width: 768px) {
+      padding: #{scaleValue(70)} #{scaleValue(70)};
+      font-size: #{scaleValue(60)};
+    }
 
     &:last-child {
       border: none;
@@ -80,6 +90,10 @@ export default {
       fill: rgba($font-black, 0.4);
       height: #{scaleValue(20)};
       width: #{scaleValue(20)};
+
+      @media only screen and (max-width: 768px) {
+        margin-right: #{scaleValue(70)};
+      }
     }
 
     &:hover {

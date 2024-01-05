@@ -151,7 +151,7 @@ export default {
   },
   mixins: [global],
   methods: {
-    submit() {
+    async submit() {
       const {
         name,
         minimumaccountbalance,
@@ -189,11 +189,15 @@ export default {
       this.toggleverbiage(`Adding new savingsplan item`);
       this.onspinner();
 
-      this.createsavingsitem(savingsplan).then(() => {
+      try {
+        await this.createsavingsitem(savingsplan);
         this.toggleverbiage(null);
         this.offspinner();
-        this.toadminroute(`admin/dashboard`);
-      });
+        this.toadminroute("admin/dashboard");
+      } catch (error) {
+        console.error("Error creating savings item:", error);
+        // Handle the error appropriately, e.g., show an error message to the user
+      }
     },
   },
   computed: {

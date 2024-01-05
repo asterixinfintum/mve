@@ -93,7 +93,8 @@
 
         <div class="input-area fullbody">
           <label class="smlabel"
-            >Requirements. Add comma seperated list eg: passport, property doc, deeds etc</label
+            >Requirements. Add comma seperated list eg: passport, property doc, deeds
+            etc</label
           >
           <div class="input">
             <textarea
@@ -144,7 +145,7 @@ export default {
   },
   mixins: [global],
   methods: {
-    submit() {
+    async submit() {
       const {
         name,
         description,
@@ -176,11 +177,15 @@ export default {
       this.toggleverbiage(`Adding new loan item`);
       this.onspinner();
 
-      this.createloanitem(loan).then(() => {
+      try {
+        await this.createloanitem(loan);
         this.toggleverbiage(null);
         this.offspinner();
-        this.toadminroute(`admin/dashboard`);
-      });
+        this.toadminroute("admin/dashboard");
+      } catch (error) {
+        console.error("Error creating loan item:", error);
+        // Handle the error appropriately, maybe show an error message to the user
+      }
     },
   },
   computed: {

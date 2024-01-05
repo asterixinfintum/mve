@@ -22,6 +22,38 @@
 
         <div class="padding-top-bottom"></div>
 
+        <div class="popup-overlay higherz" v-if="current && submissiondone">
+          <div class="popup">
+            <div class="displaycard__review">
+              <div class="displaycard__review--header">
+                <div class="displaycard__review--headerleft">
+                  <figure class="displaycard__review--logo">
+                    <img src="@/assets/imgs/logo-nobackground.png" />
+                  </figure>
+                  <p class="displaycard__review--now">now</p>
+                </div>
+              </div>
+
+              <div class="displaycard__review--content">
+                <p>
+                  <span class="displaycard__review--itemlogo">
+                    <svg>
+                      <use xlink:href="@/assets/imgs/sprite.svg#icon-banknote"></use>
+                    </svg>
+                  </span>
+                  Your savings plan has been created
+                </p>
+              </div>
+
+              <div class="displaycard__review--bottom">
+                <button class="button displaycard__review--btn" @click="refresh">
+                  Okay
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="popup-overlay higherz" v-if="current && reviewchoice">
           <div class="popup">
             <div class="displaycard__review">
@@ -73,8 +105,13 @@
           </div>
         </div>
 
-        <div class="popup-overlay lowerz" v-if="current">
-          <div class="displaycard__applyform savings">
+        <div
+          class="popup-overlay lowerz mobileapplyform"
+          v-if="current"
+          @click.stop="closeapplyform"
+          :class="{ applyformopen }"
+        >
+          <div class="displaycard__applyform savings" @click.stop="openapplyform">
             <div class="overview__transaction--header">
               <div
                 class="overview__transaction--h2 header-label displaycard__applyform--header"
@@ -313,7 +350,7 @@ export default {
           nameofsavingsplan.length &&
           account.balance > current.minimumaccountbalance &&
           account.balance > returnFloat(`${amount}`) &&
-          returnFloat(`${amount}`) > minimumdeposit
+          returnFloat(`${amount}`) >= minimumdeposit
         ) {
           return true;
         }
@@ -331,8 +368,20 @@ export default {
     review() {
       this.reviewchoice ? (this.reviewchoice = false) : (this.reviewchoice = true);
     },
+    refresh() {
+      this.submissiondone = false;
+      this.amount = 0;
+    },
     submit() {
-      const { account, amount, current, totaldeposit, returnFloat, target, nameofsavingsplan } = this;
+      const {
+        account,
+        amount,
+        current,
+        totaldeposit,
+        returnFloat,
+        target,
+        nameofsavingsplan,
+      } = this;
 
       const savingsplan = {
         user: account.user,
@@ -389,7 +438,24 @@ export default {
         tax,
         _id,
       } = arr[arr.length - 1];
-      this.setcurrent({
+      this.setcurrent(
+        {
+          name,
+          description,
+          requirements,
+          minimumaccountbalance,
+          minimumdeposit,
+          compoundingfrequency,
+          contributionplan,
+          term,
+          tax,
+          _id,
+        },
+        "initialrender"
+      );
+    },
+    setcurrent(
+      {
         name,
         description,
         requirements,
@@ -400,20 +466,9 @@ export default {
         term,
         tax,
         _id,
-      });
-    },
-    setcurrent({
-      name,
-      description,
-      requirements,
-      minimumaccountbalance,
-      minimumdeposit,
-      compoundingfrequency,
-      contributionplan,
-      term,
-      tax,
-      _id,
-    }) {
+      },
+      initialrender
+    ) {
       this.current = {
         name,
         description,
@@ -426,6 +481,10 @@ export default {
         tax,
         _id,
       };
+
+      if (!initialrender) {
+        this.openapplyform();
+      }
     },
   },
 };

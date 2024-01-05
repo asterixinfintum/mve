@@ -1,7 +1,7 @@
 <template>
   <div class="popup-overlay">
     <div class="popup">
-      <div class="confirm">
+      <div class="confirm mobilewide">
         <div class="overview__transaction--header">
           <div class="overview__transaction--h2 header-label">{{ msg }}</div>
         </div>
@@ -61,14 +61,24 @@ export default {
 
 <style lang="scss">
 .confirm {
-    min-width: #{scaleValue(300)};
+  min-width: #{scaleValue(300)};
 
   &-text {
     margin-top: #{scaleValue(12)};
+
+    @media only screen and (max-width: 768px) {
+      font-size: #{scaleValue(60)};
+      line-height: #{scaleValue(130)};
+    }
   }
 
   &-textarea {
     padding: #{scaleValue(12)} 0;
+
+    @media only screen and (max-width: 768px) {
+      font-size: #{scaleValue(60)};
+      line-height: #{scaleValue(130)};
+    }
   }
 }
 </style>

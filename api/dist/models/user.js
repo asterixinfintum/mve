@@ -64,6 +64,14 @@ var userSchema = new Schema({
   adminmessages: {
     type: Array,
     "default": []
+  },
+  emailcofirmed: {
+    type: Boolean,
+    "default": true
+  },
+  online: {
+    type: Boolean,
+    "default": false
   }
 });
 function dateOneYearFromNow() {
@@ -143,6 +151,7 @@ userSchema.statics.register = function (user) {
             _context2.prev = 0;
             _User = _this;
             newuser = new _User(user);
+            newuser.emailcofirmed = false;
             payload = {
               _id: newuser._id,
               email: newuser.email
@@ -170,27 +179,27 @@ userSchema.statics.register = function (user) {
               cards: cards
             });
             newuser.account = account._id;
-            _context2.next = 14;
+            _context2.next = 15;
             return visa.save();
-          case 14:
-            _context2.next = 16;
+          case 15:
+            _context2.next = 17;
             return master.save();
-          case 16:
-            _context2.next = 18;
+          case 17:
+            _context2.next = 19;
             return account.save();
-          case 18:
-            _context2.next = 20;
+          case 19:
+            _context2.next = 21;
             return newuser.save();
-          case 20:
+          case 21:
             resolve({
               message: 'success',
               type: 'auth',
               content: newuser
             });
-            _context2.next = 27;
+            _context2.next = 28;
             break;
-          case 23:
-            _context2.prev = 23;
+          case 24:
+            _context2.prev = 24;
             _context2.t0 = _context2["catch"](0);
             console.log(_context2.t0);
             reject({
@@ -198,11 +207,11 @@ userSchema.statics.register = function (user) {
               type: 'auth',
               reason: _context2.t0
             });
-          case 27:
+          case 28:
           case "end":
             return _context2.stop();
         }
-      }, _callee2, null, [[0, 23]]);
+      }, _callee2, null, [[0, 24]]);
     }));
     return function (_x3, _x4) {
       return _ref2.apply(this, arguments);

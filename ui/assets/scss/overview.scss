@@ -25,7 +25,13 @@ $overview-area-padding: #{scaleValue(30)};
         }
     }
 
-    &__content {}
+    &__content {
+
+        @media only screen and (max-width: 768px) {
+            padding-top: #{scaleValue(350)};
+            width: auto;
+        }
+    }
 
     &__body {
         display: flex;
@@ -34,6 +40,10 @@ $overview-area-padding: #{scaleValue(30)};
         position: relative;
         flex-grow: 0;
         z-index: 3;
+
+        @media only screen and (max-width: 768px) {
+            flex-direction: column;
+        }
     }
 
     &__card {
@@ -43,13 +53,25 @@ $overview-area-padding: #{scaleValue(30)};
         margin-bottom: #{scaleValue(40)};
         position: relative;
 
+        @media only screen and (max-width: 768px) {
+            height: #{scaleValue(1200)};
+            //background: red;
+            width: 100%;
+        }
+
         &--img {
             position: relative;
             height: #{scaleValue(200)};
             width: 100%;
             transform: translateX(#{scaleValue(-16)});
             margin-top: #{scaleValue(20)};
-            transform: translateX(#{scaleValue(.5)})
+            transform: translateX(#{scaleValue(.5)});
+
+            @media only screen and (max-width: 768px) {
+                width: 100%;
+                height: #{scaleValue(1000)};
+                overflow: hidden;
+            }
         }
 
         &--background {
@@ -57,14 +79,26 @@ $overview-area-padding: #{scaleValue(30)};
             height: 100%;
             position: absolute;
             width: 100%;
+
+            @media only screen and (max-width: 768px) {
+                width: 97%;
+                border-radius: 1rem;
+                transform: translateX(#{scaleValue(26)});
+            }
         }
 
         &--platformlogo {
             position: absolute;
-            left:#{scaleValue(21)};
+            left: #{scaleValue(21)};
             top: #{scaleValue(37)};
             height: #{scaleValue(40)};
             width: #{scaleValue(40)};
+
+            @media only screen and (max-width: 768px) {
+                height: #{scaleValue(200)};
+                width: #{scaleValue(200)};
+                left: #{scaleValue(40)};
+            }
 
             & img {
                 object-fit: cover;
@@ -80,6 +114,11 @@ $overview-area-padding: #{scaleValue(30)};
             bottom: #{scaleValue(37)};
             height: #{scaleValue(40)};
             width: #{scaleValue(60)};
+
+            @media only screen and (max-width: 768px) {
+                height: #{scaleValue(300)};
+                width: #{scaleValue(300)};
+            }
 
             & img {
                 object-fit: contain;
@@ -100,6 +139,12 @@ $overview-area-padding: #{scaleValue(30)};
             color: $font-white;
             padding: #{scaleValue(20)};
             padding-top: #{scaleValue(100)};
+
+            @media only screen and (max-width: 768px) {
+                width: 99%;
+                padding: #{scaleValue(50)};
+                padding-top: #{scaleValue(300)};
+            }
         }
 
         &--textarea {
@@ -115,16 +160,28 @@ $overview-area-padding: #{scaleValue(30)};
                 &.name {
                     color: $primary-orange;
                     font-size: #{scaleValue(15)};
+
+                    @media only screen and (max-width: 768px) {
+                        font-size: #{scaleValue(65)};
+                    }
                 }
 
                 &.date {
                     font-size: #{scaleValue(14)};
                     opacity: .6;
+
+                    @media only screen and (max-width: 768px) {
+                        font-size: #{scaleValue(50)};
+                    }
                 }
 
                 &.cardnum {
                     font-size: #{scaleValue(16)};
                     opacity: .6;
+
+                    @media only screen and (max-width: 768px) {
+                        font-size: #{scaleValue(70)};
+                    }
                 }
             }
         }
@@ -158,6 +215,10 @@ $overview-area-padding: #{scaleValue(30)};
         flex-grow: 0;
         height: #{scaleValue(920)};
         background: $font-white;
+
+        @media only screen and (max-width: 768px) {
+            height: auto;
+        }
     }
 
     &__savings {
@@ -178,9 +239,32 @@ $overview-area-padding: #{scaleValue(30)};
             flex-direction: column;
             line-height: #{scaleValue(23)};
 
+            @media only screen and (max-width: 768px) {
+                margin-bottom: #{scaleValue(150)};
+            }
+
+            &.column-savedto {
+                @media only screen and (max-width: 768px) {
+                    margin-bottom: #{scaleValue(30)};
+                }
+            }
+
+
+
             & label {
                 opacity: .7;
                 margin-bottom: #{scaleValue(8)};
+
+                @media only screen and (max-width: 768px) {
+                    margin-bottom: #{scaleValue(100)};
+                }
+
+                &.nobottom-mobile {
+
+                    @media only screen and (max-width: 768px) {
+                        margin-bottom: 0;
+                    }
+                }
             }
         }
     }
@@ -188,10 +272,22 @@ $overview-area-padding: #{scaleValue(30)};
     &__savingbottom {
         line-height: #{scaleValue(40)};
 
+
+        &--spent {
+            @media only screen and (max-width: 768px) {
+                font-size: #{scaleValue(80)} !important;
+            }
+        }
+
         &--head {
             display: flex;
             justify-content: space-between;
             margin-bottom: #{scaleValue(30)};
+
+            @media only screen and (max-width: 768px) {
+                margin-top: #{scaleValue(40)};
+                margin-bottom: #{scaleValue(100)};
+            }
 
             & svg {
                 height: #{scaleValue(20)};
@@ -236,16 +332,27 @@ $overview-area-padding: #{scaleValue(30)};
         width: #{scaleValue(115)};
         padding: #{scaleValue(20)};
 
+        @media only screen and (max-width: 768px) {
+            height: #{scaleValue(700)};
+            width: #{scaleValue(470)};
+            padding: #{scaleValue(80)};
+        }
+
         & span {
 
             &.normblack {
-                font-size: #{scaleValue(13)};
+                //font-size: #{scaleValue(60)};
             }
 
             & svg {
                 fill: rgba($primary-orange, .5);
                 height: #{scaleValue(15)};
                 width: #{scaleValue(15)};
+
+                @media only screen and (max-width: 768px) {
+                    height: #{scaleValue(100)};
+                    width: #{scaleValue(100)};
+                }
             }
         }
     }
@@ -262,10 +369,20 @@ $overview-area-padding: #{scaleValue(30)};
         & button {
             font-size: #{scaleValue(13)};
 
+            @media only screen and (max-width: 768px) {
+                font-size: #{scaleValue(60)};
+            }
+
             &:hover {
                 font-size: #{scaleValue(13)};
                 background: rgba($primary-orange, .4);
                 font-weight: 300;
+            }
+        }
+
+        &--haveanaccount {
+            @media only screen and (max-width: 768px) {
+                font-size: #{scaleValue(60)};
             }
         }
     }
@@ -276,11 +393,21 @@ $overview-area-padding: #{scaleValue(30)};
 
     &__righttop {
         display: flex;
+
+        @media only screen and (max-width: 768px) {
+            flex-direction: column;
+        }
     }
 
     &__imgslider {
         width: #{scaleValue(270)};
         height: #{scaleValue(300)};
+        margin-bottom: #{scaleValue(20)};
+
+        @media only screen and (max-width: 768px) {
+            width: 99%;
+            height: #{scaleValue(1200)};
+        }
 
         &--textarea {
             position: absolute;
@@ -293,6 +420,12 @@ $overview-area-padding: #{scaleValue(30)};
             padding: #{scaleValue(20)};
             font-size: #{scaleValue(15)};
             line-height: #{scaleValue(24)};
+
+            @media only screen and (max-width: 768px) {
+                font-size: #{scaleValue(70)};
+                line-height: #{scaleValue(100)};
+                padding: #{scaleValue(80)};
+            }
         }
 
         &--slide {
@@ -301,6 +434,11 @@ $overview-area-padding: #{scaleValue(30)};
             overflow: hidden;
             width: #{scaleValue(270)};
             height: #{scaleValue(300)};
+
+            @media only screen and (max-width: 768px) {
+                width: 100%;
+                height: #{scaleValue(1200)};
+            }
         }
 
         &--fig {
@@ -313,6 +451,11 @@ $overview-area-padding: #{scaleValue(30)};
             border-radius: #{scaleValue(13)};
             transition: all .5s ease;
             cursor: pointer;
+
+            @media only screen and (max-width: 768px) {
+                width: 100%;
+                height: #{scaleValue(1200)};
+            }
 
             &::before {
                 content: '';
@@ -362,6 +505,11 @@ $overview-area-padding: #{scaleValue(30)};
         border-radius: $border-radius;
         margin-right: #{scaleValue(19)};
 
+        @media only screen and (max-width: 768px) {
+            height: #{scaleValue(2300)} !important;
+            width: 99%;
+        }
+
         &.quickcontacts {
             min-height: #{scaleValue(100)};
             height: #{scaleValue(200)};
@@ -369,6 +517,12 @@ $overview-area-padding: #{scaleValue(30)};
 
         &--list {
             margin-top: #{scaleValue(40)};
+        }
+
+        &--h2 {
+            @media only screen and (max-width: 768px) {
+                margin-bottom: #{scaleValue(100)};
+            }
         }
     }
 
@@ -384,10 +538,18 @@ $overview-area-padding: #{scaleValue(30)};
 
         &.item-area {
 
+            @media only screen and (max-width: 768px) {
+                line-height: #{scaleValue(130)};
+            }
+
             & span {
                 font-size: #{scaleValue(15)};
                 display: flex;
                 align-items: center;
+
+                @media only screen and (max-width: 768px) {
+                    font-size: #{scaleValue(60)};
+                }
 
                 &.status {
 
@@ -396,9 +558,38 @@ $overview-area-padding: #{scaleValue(30)};
                         display: inline-block;
                         padding: #{scaleValue(5)};
                         font-size: #{scaleValue(13)};
+
+                        @media only screen and (max-width: 768px) {
+                            font-size: #{scaleValue(60)};
+                        }
                     }
                 }
             }
+        }
+
+        &.mobile {
+
+
+            @media only screen and (max-width: 768px) {
+                display: flex;
+                flex-direction: column;
+                margin-top: #{scaleValue(40)};
+            }
+
+            & span.mobilelabel {
+                display: none;
+
+                @media only screen and (max-width: 768px) {
+                    display: inline-block;
+                    margin-right: #{scaleValue(40)};
+                }
+            }
+        }
+    }
+
+    &__transaction--list-header {
+        @media only screen and (max-width: 768px) {
+            display: none;
         }
     }
 
@@ -406,6 +597,10 @@ $overview-area-padding: #{scaleValue(30)};
         height: #{scaleValue(599)};
         border-radius: $border-radius;
         overflow: hidden;
+
+        @media only screen and (max-width: 768px) {
+            height: auto;
+        }
     }
 
     &__savingsplans {
@@ -413,16 +608,28 @@ $overview-area-padding: #{scaleValue(30)};
         border-radius: $border-radius;
         overflow: hidden;
 
+        @media only screen and (max-width: 768px) {
+            height: auto !important;
+        }
+
         &--content {
             height: #{scaleValue(599)};
-            padding-bottom:  #{scaleValue(100)};
+            padding-bottom: #{scaleValue(100)};
             overflow-x: hidden;
             overflow-y: scroll;
+
+            @media only screen and (max-width: 768px) {
+                height: auto !important;
+            }
         }
     }
 
     &__rightbottom {
         display: flex;
+
+        @media only screen and (max-width: 768px) {
+            flex-direction: column;
+        }
     }
 
     &__quickcontacts {
@@ -519,6 +726,12 @@ $overview-area-padding: #{scaleValue(30)};
 
         width: #{scaleValue(390)};
 
+        @media only screen and (max-width: 768px) {
+            height: #{scaleValue(1900)};
+            width: 100%;
+            padding: #{scaleValue(100)} #{scaleValue(100)};
+        }
+
         &--area {
             display: flex;
             justify-content: space-between;
@@ -526,10 +739,22 @@ $overview-area-padding: #{scaleValue(30)};
             margin-bottom: #{scaleValue(30)};
             align-items: center;
 
+            @media only screen and (max-width: 768px) {
+                margin-bottom: #{scaleValue(200)};
+            }
+
             & p {
+
+                @media only screen and (max-width: 768px) {
+                    font-size: #{scaleValue(55)};
+                }
 
                 &.balancefigure {
                     font-size: #{scaleValue(25)};
+
+                    @media only screen and (max-width: 768px) {
+                        font-size: #{scaleValue(100)};
+                    }
                 }
             }
 
@@ -542,6 +767,11 @@ $overview-area-padding: #{scaleValue(30)};
                         height: #{scaleValue(25)};
                         width: #{scaleValue(25)};
                         margin-right: #{scaleValue(10)};
+
+                        @media only screen and (max-width: 768px) {
+                            height: #{scaleValue(70)};
+                            width: #{scaleValue(70)};
+                        }
                     }
                 }
             }
@@ -552,6 +782,17 @@ $overview-area-padding: #{scaleValue(30)};
 
                 & span.savingsaggregate {
                     margin-left: #{scaleValue(33)};
+
+
+                }
+            }
+
+            &.mobile {
+
+                @media only screen and (max-width: 768px) {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    margin-bottom: 0;
                 }
             }
         }
@@ -569,6 +810,11 @@ $overview-area-padding: #{scaleValue(30)};
             justify-content: center;
             align-self: center;
 
+            @media only screen and (max-width: 768px) {
+                height: #{scaleValue(100)};
+                width: #{scaleValue(100)};
+            }
+
             & img {
                 object-fit: cover;
                 height: 100%;
@@ -581,6 +827,12 @@ $overview-area-padding: #{scaleValue(30)};
             font-size: #{scaleValue(14)};
             font-weight: 400;
             opacity: .9;
+
+            @media only screen and (max-width: 768px) {
+                font-size: #{scaleValue(60)};
+                padding: #{scaleValue(30)} #{scaleValue(60)} !important;
+                border-radius: 3rem !important;
+            }
 
             & span {
                 display: inline-block;
@@ -595,10 +847,19 @@ $overview-area-padding: #{scaleValue(30)};
                     background: $font-white;
                     margin-right: #{scaleValue(10)};
 
+                    @media only screen and (max-width: 768px) {
+                        margin-right: #{scaleValue(40)};
+                    }
+
                     & svg {
                         height: #{scaleValue(14)};
                         width: #{scaleValue(14)};
                         margin: 0;
+
+                        @media only screen and (max-width: 768px) {
+                            height: #{scaleValue(60)} !important;
+                            width: #{scaleValue(60)} !important;
+                        }
                     }
                 }
             }
@@ -642,10 +903,21 @@ $overview-area-padding: #{scaleValue(30)};
         height: 100%;
         border-radius: #{scaleValue(5)};
         padding: #{scaleValue(30)};
+
+        @media only screen and (max-width: 768px) {
+            padding: #{scaleValue(60)};
+        }
     }
 
     &__tranxs {
         width: #{scaleValue(700)};
+
+        @media only screen and (max-width: 768px) {
+            height: auto !important;
+            width: 99%;
+            margin-top: #{scaleValue(40)};
+            margin-bottom: #{scaleValue(40)};
+        }
     }
 
     &__tranx {
@@ -668,6 +940,11 @@ $overview-area-padding: #{scaleValue(30)};
             background: rgba($primary-orange, .1);
             border-radius: #{scaleValue(5)};
 
+            @media only screen and (max-width: 768px) {
+                width: #{scaleValue(80)};
+                height: #{scaleValue(80)};
+            }
+
             & img {
                 object-fit: cover;
                 height: 70%;
@@ -686,14 +963,31 @@ $overview-area-padding: #{scaleValue(30)};
         align-items: center;
         padding-bottom: #{scaleValue(20)};
 
+        @media only screen and (max-width: 768px) {
+            width: #{scaleValue(1300)};
+            align-items: flex-end;
+        }
+
         &--bottommargin {
             display: flex;
             margin-bottom: #{scaleValue(10)};
+
+            @media only screen and (max-width: 768px) {
+                font-size: #{scaleValue(50)};
+                margin-bottom: #{scaleValue(40)};
+            }
         }
 
         &--right {
             display: flex;
             align-items: center;
+
+            @media only screen and (max-width: 768px) {
+                width: #{scaleValue(600)};
+                display: flex;
+                justify-content: space-between;
+                ;
+            }
         }
 
         &--normblack {

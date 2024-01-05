@@ -14,6 +14,11 @@
         font-size: #{scaleValue(17)};
         color: $font-black;
         margin-bottom: #{scaleValue(5)};
+
+        @media only screen and (max-width: 768px) {
+          font-size: #{scaleValue(60)};
+          text-transform: capitalize;
+        }
       }
   
       &--para {
@@ -22,6 +27,11 @@
         line-height: #{scaleValue(23)};
         color: $font-black;
         margin-bottom: #{scaleValue(5)};
+
+        @media only screen and (max-width: 768px) {
+          font-size: #{scaleValue(55)};
+          line-height: #{scaleValue(60)};
+        }
       }
   
       &--date {
@@ -30,6 +40,12 @@
         line-height: #{scaleValue(23)};
         color: rgba($font-black, .5);
         margin-bottom: #{scaleValue(5)};
+
+        @media only screen and (max-width: 768px) {
+          font-size: #{scaleValue(40)};
+          margin-top: #{scaleValue(20)};
+          margin-bottom: #{scaleValue(20)};
+        }
       }
     }
   
@@ -37,7 +53,7 @@
       position: absolute;
       top: #{scaleValue(30)};
       right: 0;
-      width: #{scaleValue(500)};
+      width: #{scaleValue(700)};
       height: #{scaleValue(300)};
       background: $font-white;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -46,6 +62,14 @@
       overflow-x: hidden;
   
       border-radius: #{scaleValue(10)};
+
+      @media only screen and (max-width: 768px) {
+        width: #{scaleValue(1200)};
+        height: #{scaleValue(1000)};
+        right: #{scaleValue(-400)};
+        padding: #{scaleValue(50)};
+        z-index: 400;
+      }
     }
   
     &.popup-version {

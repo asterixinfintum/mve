@@ -114,7 +114,7 @@
                 <p>Balance</p>
                 <p class="balancefigure">${{ formatNumber(account.balance, 15) }}</p>
               </div>
-              <div class="overview__orangebox--area">
+              <div class="overview__orangebox--area mobile">
                 <div class="overview__savingstop--card">
                   <label class="smlabel white fontweight-4">Currency</label>
                   <span class="normblack">USD/US Dollar</span>
@@ -142,14 +142,14 @@
                 </div>
               </div>
               <div class="overview__orangebox--area column">
-                <div class="overview__savingstop--card">
+                <div class="overview__savingstop--card column-savedto">
                   <div class="flex-default">
                     <span class="walletsvg">
                       <svg>
                         <use xlink:href="@/assets/imgs/sprite.svg#icon-wallet"></use>
                       </svg>
                     </span>
-                    <label class="smlabel white fontweight-4"
+                    <label class="smlabel white fontweight-4 nobottom-mobile"
                       >Savings Target Reached</label
                     >
                   </div>
@@ -407,12 +407,7 @@
                     >
                       Save as draft
                     </button>-->
-                      <button
-                        class="button orange-btn fontweight-3 half-flex-space"
-                        v-if="allowsubmit"
-                      >
-                        Save as draft
-                      </button>
+
                       <button
                         class="button orange-btn-faint fontweight-3 half-flex-space"
                         v-if="!allowsubmit"
@@ -453,7 +448,10 @@
                   </div>
 
                   <div class="overview__savingsplans">
-                    <div v-if="savingsplns.length" class="overview__savingsplans--content">
+                    <div
+                      v-if="savingsplns.length"
+                      class="overview__savingsplans--content"
+                    >
                       <div
                         class=""
                         v-for="{ usersaving, savingsplanname } in savingsplns"
@@ -555,24 +553,22 @@ export default {
     this.sliderrun();
   },
   watch: {
-    nameofbnk(newval, oldval) {
-      const { isOnlyLetters } = this;
+    client(newval, oldval) {
+      if (newval) {
+        if (this.$route.query.confirm) {
+          this.confirmemail(this.client._id).then(() => {
+            if (!this.client.emailcofirmed) {
+              this.getcurrentclient(this.client._id);
+              //this.$router.push(`/overview/${client._id}`)
+            }
+          }).catch(() => {
 
-      if (isOnlyLetters(newval)) {
-        return (this.nameofbnkerror = false);
+          })
+        }
       }
-
-      return (this.nameofbnkerror = true);
     },
-    country(newval, oldval) {
-      const { isOnlyLetters } = this;
-
-      if (isOnlyLetters(newval)) {
-        return (this.countryerror = false);
-      }
-
-      return (this.countryerror = true);
-    },
+    nameofbnk(newval, oldval) {},
+    country(newval, oldval) {},
     amounttosend(newval, oldval) {
       const { isOnlyNumbers } = this;
 

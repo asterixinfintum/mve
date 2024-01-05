@@ -125,8 +125,10 @@ export default {
           this.setcurrent({ name, requirement, description, _id });
         }
       } else {
-        const { name, requirement, description, _id } = newval[0];
-        this.setcurrent({ name, requirement, description, _id });
+        if (newval.length) {
+          const { name, requirement, description, _id } = newval[0];
+          this.setcurrent({ name, requirement, description, _id });
+        }
       }
     },
   },

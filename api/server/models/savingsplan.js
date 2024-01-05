@@ -53,27 +53,24 @@ const savingsplanSchema = new Schema({
 
 savingsplanSchema.statics.createsavingsitem = async function (savingsplan) {
     try {
-        const SavingsPln = this;
-
-        const newsavingsitem = new SavingsPln(savingsplan);
-
+        const newsavingsitem = new this(savingsplan);
         await newsavingsitem.save();
-
-        return { message: 'success', type: 'item created', content: newsavingsitem }
+        return { message: 'success', type: 'item created', content: newsavingsitem };
     } catch (error) {
-        return { message: 'error', type: 'item creation', reason: error }
+        // Optionally, you can log the error here
+        // e.g., console.error('Error creating savings item:', error);
+        throw new Error(`Item creation failed: ${error.message}`);
     }
 }
 
 savingsplanSchema.statics.getsavingsitems = async function () {
     try {
-        const SavingsPln = this;
-
-        const savingsplans = await SavingsPln.find();
-
-        return { message: 'success', type: 'savings items get', content: savingsplans }
+        const savingsplans = await this.find();
+        return { message: 'success', type: 'savings items get', content: savingsplans };
     } catch (error) {
-        return { message: 'error', type: 'savings items get', reason: error }
+        // Optionally, log the error here for debugging
+        // e.g., console.error('Error getting savings items:', error);
+        throw new Error(`Error getting savings items: ${error.message}`);
     }
 }
 

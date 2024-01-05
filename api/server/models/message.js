@@ -14,7 +14,7 @@ const messageSchema = new Schema({
         required: true
     },
     content: {
-        type: String, 
+        type: String,
         required: true
     },
     adminmsg: {
@@ -25,17 +25,15 @@ const messageSchema = new Schema({
 
 messageSchema.statics.addadminmessage = async function (body) {
     try {
-        const MessageCreate = this;
-
-        const newmessage = new MessageCreate(body);
-
+        const newmessage = new this(body); // Directly use 'this' to create a new instance
         await newmessage.save();
 
         return { message: 'success', type: 'message create', content: newmessage };
     } catch (error) {
-        throw new Error({ message: 'error', type: 'message create', reason: error }); 
+        // Throwing a standard Error object with a descriptive message
+        throw new Error(`Message creation failed: ${error.message}`);
     }
-}  
+}
 
 const Message = mongoose.model('Message', messageSchema);
 

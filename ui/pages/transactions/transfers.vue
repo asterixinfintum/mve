@@ -24,21 +24,30 @@
           </div>
 
           <div
-            class="overview__transaction--list-item transactions-page item-area bordered"
+            class="overview__transaction--list-item transactions-page item-area bordered mobile"
             v-for="clienttransaction in transfers"
           >
-            <span class="subject fontweight-5 capitalise">{{
-              clienttransaction.type
-            }}</span>
-            <span class="date smlabel">{{ formatDate(clienttransaction.date) }}</span>
+            <span class="subject fontweight-5 capitalise"
+              ><span class="mobilelabel">Subject:</span>{{ clienttransaction.type }}</span
+            >
+            <span class="date smlabel"
+              ><span class="mobilelabel">Date:</span
+              >{{ formatDate(clienttransaction.date) }}</span
+            >
             <span class="status">
-              <label class="success capitalise">{{ clienttransaction.status }}</label>
+              <label class="capitalise"
+                ><span class="mobilelabel">Status:</span
+                ><label class="success">{{ clienttransaction.status }}</label></label
+              >
             </span>
-            <span class="amount fontweight-5">{{
-              limitTextLength(clienttransaction.destinationbank, 10)
-            }}</span>
             <span class="amount fontweight-5"
-              >${{ formatNumber(clienttransaction.amount, 10) }}</span
+              ><span class="mobilelabel">Destination:</span
+              >{{ limitTextLength(clienttransaction.destinationbank, 10) }}</span
+            >
+            <span class="amount fontweight-5"
+              ><span class="mobilelabel">Amount:</span>${{
+                formatNumber(clienttransaction.amount, 10)
+              }}</span
             >
           </div>
         </div>

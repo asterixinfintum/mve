@@ -6,7 +6,6 @@
 
     &.loan {
         background: $offer-pink;
-        width: #{scaleValue(600)};
     }
 
     &.investment {
@@ -31,6 +30,11 @@
         position: relative;
 
         display: flex;
+
+        @media only screen and (max-width: 768px) {
+            flex-direction: column;
+            padding: #{scaleValue(120)} #{scaleValue(60)} !important;
+        }
     }
 
     &__base {
@@ -41,6 +45,11 @@
             border-radius: #{scaleValue(25)};
             overflow: hidden;
             position: relative;
+
+            @media only screen and (max-width: 768px) {
+                height: #{scaleValue(700)};
+                width: #{scaleValue(700)};
+            }
 
             &::before {
                 content: '';
@@ -94,11 +103,19 @@
                 font-size: #{scaleValue(13)};
                 font-weight: 400;
                 margin-bottom: #{scaleValue(8)};
+
+                @media only screen and (max-width: 768px) {
+                    font-size: #{scaleValue(60)};
+                }
             }
 
             & span {
                 font-size: #{scaleValue(15)};
                 font-weight: 500;
+
+                @media only screen and (max-width: 768px) {
+                    font-size: #{scaleValue(50)};
+                }
             }
         }
     }
@@ -106,16 +123,28 @@
     &__balance {
         margin-top: #{scaleValue(25)};
 
+        @media only screen and (max-width: 768px) {
+            margin-bottom: #{scaleValue(100)};
+        }
+
         & span {
 
             &.balancelabel {
                 font-size: #{scaleValue(12)};
                 color: rgba($font-black, .5);
+
+                @media only screen and (max-width: 768px) {
+                    font-size: #{scaleValue(65)};
+                }
             }
 
             &.balance {
                 color: $star-green;
                 font-size: #{scaleValue(15)};
+
+                @media only screen and (max-width: 768px) {
+                    font-size: #{scaleValue(70)};
+                }
             }
         }
     }
@@ -123,12 +152,21 @@
     &__rightbase {
         padding-bottom: #{scaleValue(80)};
 
+        @media only screen and (max-width: 768px) {
+            margin-top: #{scaleValue(60)};
+        }
+
         &--p {
             font-size: #{scaleValue(13)};
             line-height: #{scaleValue(17)};
             padding: #{scaleValue(13)};
 
             min-height: #{scaleValue(150)};
+
+            @media only screen and (max-width: 768px) {
+                font-size: #{scaleValue(55)};
+                line-height: #{scaleValue(85)};
+            }
         }
 
         &--btnsvg {
@@ -145,6 +183,11 @@
                 height: #{scaleValue(15)};
                 width: #{scaleValue(15)};
                 fill: $button-blue;
+
+                @media only screen and (max-width: 768px) {
+                    height: #{scaleValue(100)} !important;
+                    width: #{scaleValue(100)} !important;
+                }
             }
         }
 
@@ -163,6 +206,13 @@
 
             display: flex;
             align-items: center;
+
+            @media only screen and (max-width: 768px) {
+                font-size: #{scaleValue(50)};
+                padding: #{scaleValue(30)};
+                bottom: #{scaleValue(60)};
+                right: #{scaleValue(60)};
+            }
         }
     }
 
@@ -175,9 +225,21 @@
         align-items: center;
         margin-bottom: #{scaleValue(35)};
 
+        @media only screen and (max-width: 768px) {
+            flex-direction: column;
+            align-items: flex-start;
+
+            line-height: #{scaleValue(100)};
+        }
+
         &--logo {
             height: #{scaleValue(25)};
             width: #{scaleValue(25)};
+
+            @media only screen and (max-width: 768px) {
+                height: #{scaleValue(60)};
+                width: #{scaleValue(60)};
+            }
 
             & img {
                 object-fit: cover;
@@ -199,12 +261,20 @@
         justify-content: center;
         background: $grey-background;
         text-transform: capitalize;
+
+        @media only screen and (max-width: 768px) {
+            font-size: #{scaleValue(70)};
+        }
     }
 
     &__interest {
         margin-left: #{scaleValue(10)};
         font-size: #{scaleValue(10)};
         font-weight: 500;
+
+        @media only screen and (max-width: 768px) {
+            font-size: #{scaleValue(50)};
+        }
     }
 
     &__applyform {
@@ -218,6 +288,12 @@
         padding: #{scaleValue(20)};
         background: $offer-pink;
 
+        @media only screen and (max-width: 768px) {
+            width: #{scaleValue(1600)};
+            right: 0;
+            padding: #{scaleValue(60)};
+        }
+
         &.investment {
             background: $star-green;
         }
@@ -225,13 +301,21 @@
         &.savings {
             background: rgba($primary-orange, 1);
             height: #{scaleValue(600)};
-            //overflow: scroll;
             transform: scale(.9) translateY(#{scaleValue(-40)});
+
+            @media only screen and (max-width: 768px) {
+                height: auto;
+            }
 
         }
 
         &--header {
             font-size: #{scaleValue(17)} !important;
+
+            @media only screen and (max-width: 768px) {
+                font-size: #{scaleValue(80)} !important;
+                margin-bottom: #{scaleValue(70)}
+            }
         }
     }
 
@@ -239,6 +323,11 @@
         background: $font-white;
         border-radius: #{scaleValue(20)};
         padding: #{scaleValue(20)};
+
+        @media only screen and (max-width: 768px) {
+            padding: #{scaleValue(100)};
+            padding-top: #{scaleValue(200)};
+        }
     }
 
     &__rangeinput {
@@ -252,6 +341,11 @@
         -webkit-transition: .2s;
         transition: opacity .2s;
 
+        @media only screen and (max-width: 768px) {
+            height: #{scaleValue(30)};
+            margin-bottom: #{scaleValue(120)};
+        }
+
         &::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
@@ -260,6 +354,11 @@
             border-radius: 100%;
             background: $button-blue;
             cursor: pointer;
+
+            @media only screen and (max-width: 768px) {
+                width: #{scaleValue(80)};
+                height: #{scaleValue(80)};
+            }
         }
     }
 
@@ -273,17 +372,29 @@
         margin: #{scaleValue(20)} 0;
         position: relative;
 
+        @media only screen and (max-width: 768px) {
+            line-height: #{scaleValue(100)};
+        }
+
         & label {
             display: inline-block;
             margin-bottom: #{scaleValue(10)};
             color: rgba($font-black, .8);
             font-size: #{scaleValue(12)};
+
+            @media only screen and (max-width: 768px) {
+                font-size: #{scaleValue(60)};
+            }
         }
 
         & p {
             color: $button-blue;
             font-weight: 500;
             font-size: #{scaleValue(17)};
+
+            @media only screen and (max-width: 768px) {
+                font-size: #{scaleValue(60)};
+            }
         }
 
         &--maximum {
@@ -298,11 +409,19 @@
 
                 &.label {
                     font-size: #{scaleValue(12)};
-                    color: rgba($font-black, .5)
+                    color: rgba($font-black, .5);
+
+                    @media only screen and (max-width: 768px) {
+                        font-size: #{scaleValue(60)};
+                    }
                 }
 
                 &.key {
                     font-size: #{scaleValue(12)};
+
+                    @media only screen and (max-width: 768px) {
+                        font-size: #{scaleValue(60)};
+                    }
                 }
             }
         }
@@ -319,6 +438,10 @@
 
         &--label {
             font-size: #{scaleValue(13)};
+
+            @media only screen and (max-width: 768px) {
+                font-size: #{scaleValue(60)};
+            }
         }
 
         &--balance {
@@ -328,6 +451,10 @@
             display: inline-block;
             border-radius: #{scaleValue(6)};
             margin-top: #{scaleValue(15)};
+
+            @media only screen and (max-width: 768px) {
+                font-size: #{scaleValue(40)};
+            }
         }
     }
 
@@ -354,6 +481,11 @@
     &__review {
         width: #{scaleValue(400)};
 
+        @media only screen and (max-width: 768px) {
+            width: #{scaleValue(1500)} !important;
+            padding: #{scaleValue(50)} !important;
+        }
+
         &--header {
             display: flex;
             justify-content: space-between;
@@ -369,6 +501,11 @@
             height: #{scaleValue(15)};
             width: #{scaleValue(15)};
 
+            @media only screen and (max-width: 768px) {
+                height: #{scaleValue(100)};
+                width: #{scaleValue(100)};
+            }
+
             & img {
                 object-fit: cover;
                 height: 100%;
@@ -380,6 +517,10 @@
             font-size: #{scaleValue(15)};
             margin-left: #{scaleValue(12)};
             font-weight: 500;
+
+            @media only screen and (max-width: 768px) {
+                font-size: #{scaleValue(60)};
+            }
         }
 
         &--headerright {
@@ -397,10 +538,20 @@
             background: $background;
             cursor: pointer;
 
+            @media only screen and (max-width: 768px) {
+                height: #{scaleValue(120)};
+                width: #{scaleValue(120)};
+            }
+
             & svg {
                 height: #{scaleValue(20)};
                 width: #{scaleValue(20)};
                 fill: rgba($font-black, .5);
+
+                @media only screen and (max-width: 768px) {
+                    height: #{scaleValue(100)};
+                    width: #{scaleValue(100)};
+                }
             }
         }
 
@@ -408,6 +559,13 @@
             font-size: #{scaleValue(14)};
             line-height: #{scaleValue(23)};
             margin-top: #{scaleValue(23)};
+
+            @media only screen and (max-width: 768px) {
+                font-size: #{scaleValue(60)};
+                line-height: #{scaleValue(120)};
+                margin-top: #{scaleValue(100)};
+                margin-bottom: #{scaleValue(100)};
+            }
         }
 
         &--itemlogo {
@@ -425,6 +583,10 @@
 
         &--btn {
             font-size: #{scaleValue(13)};
+
+            @media only screen and (max-width: 768px) {
+                font-size: #{scaleValue(50)};
+            }
         }
     }
 

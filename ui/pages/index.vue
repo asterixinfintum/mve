@@ -28,7 +28,7 @@
               </p>
             </div>
             <div class="curvedoffer__copy--btn">
-             <!-- <button class="button">Saving with IvcStandard</button>-->
+             <!-- <button class="button">Saving with {{ sitename }}</button>-->
             </div>
           </div>
         </div>
@@ -63,7 +63,7 @@
             <h3 class="curvedoffer__copy--h3">Manage</h3>
             <div class="curvedoffer__copy--content">
               <p>
-                Pay Direct Debits through IvcStandard and we’ll tell you if they’re higher for
+                Pay Direct Debits through {{ sitename }} and we’ll tell you if they’re higher for
                 the upcoming month. So no nasty surprises..
               </p>
             </div>
@@ -86,12 +86,12 @@
               </p>
 
               <p>
-                IvcStandard Premium is £15 per month • 6 month minimum • Must be aged 18-69 •
+                {{ sitename }} Premium is £15 per month • 6 month minimum • Must be aged 18-69 •
                 Ts&Cs apply
               </p>
             </div>
             <div class="curvedoffer__copy--btn">
-              <!--<button class="button">Explore IvcStandard Premium</button>-->
+              <!--<button class="button">Explore {{ sitename }} Premium</button>-->
             </div>
           </div>
         </div>
@@ -113,12 +113,12 @@
               </p>
 
               <p>
-                IvcStandard Plus is £5 per month • 3 month minimum • Must be aged 18+ • Ts&Cs
+                {{ sitename }} Plus is £5 per month • 3 month minimum • Must be aged 18+ • Ts&Cs
                 apply
               </p>
             </div>
             <div class="curvedoffer__copy--btn">
-              <!--<button class="button">Explore IvcStandard Plus</button>-->
+              <!--<button class="button">Explore {{ sitename }} Plus</button>-->
             </div>
           </div>
         </div>
@@ -131,16 +131,16 @@
             </figure>
           </div>
           <div class="curvedoffer__copy">
-            <h3 class="curvedoffer__copy--h3">Using IvcStandard abroad</h3>
+            <h3 class="curvedoffer__copy--h3">Using {{ sitename }} abroad</h3>
             <div class="curvedoffer__copy--content">
               <p>
-                Use IvcStandard anywhere in the world that accepts Mastercard. We don't charge
+                Use {{ sitename }} anywhere in the world that accepts Mastercard. We don't charge
                 any fees for paying abroad and we pass Mastercard's exchange ratedirectly
                 onto you, without sneaky fees or extra charges.
               </p>
             </div>
             <div class="curvedoffer__copy--btn">
-             <!-- <button class="button">Travelling with IvcStandard</button>-->
+             <!-- <button class="button">Travelling with {{ sitename }}</button>-->
             </div>
           </div>
         </div>
@@ -155,12 +155,12 @@
           </div>
           <div class="curvedoffer__copy">
             <h3 class="curvedoffer__copy--h3 white-color">
-              Credit with a dash of IvcStandard magic
+              Credit with a dash of {{ sitename }} magic
             </h3>
 
             <div class="curvedoffer__copy--content">
               <p class="white-color">
-                Use IvcStandard Flex to get more time to pay for pretty much anything. It’s 0%
+                Use {{ sitename }} Flex to get more time to pay for pretty much anything. It’s 0%
                 interest when you pay in full on your next payment date or in 3 monthly
                 payments. For more wiggle room it’s 29% APR representative (variable) when
                 you pay in 6 or 12 monthly payments.
@@ -168,7 +168,7 @@
             </div>
 
             <div class="curvedoffer__copy--btn">
-              <!--<button class="button">Explore IvcStandard Flex</button>-->
+              <!--<button class="button">Explore {{ sitename }} Flex</button>-->
             </div>
 
             <div class="curvedoffer__copy--content">
@@ -206,7 +206,7 @@
             </div>
 
             <div class="curvedoffer__copy--btn">
-              <!--<button class="button">Borrowing with IvcStandard</button>-->
+              <!--<button class="button">Borrowing with {{ sitename }}</button>-->
             </div>
 
             <div class="curvedoffer__copy--content">
@@ -437,7 +437,7 @@
 
       <footer class="footer">
        <!-- <div class="footer__header">
-          <h4>IvcStandard</h4>
+          <h4>{{ sitename }}</h4>
         </div>
         <div class="footer__top">
           <div class="footer__links">
@@ -472,8 +472,8 @@
         <div class="footer__bottom">
           <h3 class="footer__bottom--h3">Existing customers can get help via the app</h3>
           <p class="footer__bottom--p">
-            IvcStandard Bank Limited is a company registered in England and Wales (No.09446231).
-            IvcStandard Bank Limited is authorised by the Prudential Regulation Authority and
+            {{ sitename }} Bank Limited is a company registered in England and Wales (No.09446231).
+            {{ sitename }} Bank Limited is authorised by the Prudential Regulation Authority and
             regulated by the Financial Conduct Authority and the Prudential Regulation
             Authority. Our financial Services Register number is 730427. Our address is
             Broadwalk House, 5 Appold St, London EC2A 2AG.
@@ -483,3 +483,11 @@
     </div>
   </div>
 </template>
+
+<script>
+import sitename from "@/mixins/sitename";
+
+export default {
+  mixins: [sitename]
+}
+</script>

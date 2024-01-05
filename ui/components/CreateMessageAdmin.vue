@@ -79,7 +79,7 @@ export default {
     };
   },
   methods: {
-    callcreatemessage() {
+    async callcreatemessage() {
       const { label, content, userid } = this;
 
       const message = {
@@ -92,14 +92,19 @@ export default {
       this.toggleverbiage("Creating User Message");
       this.onspinner();
 
-      this.senduseramessage(message).then(() => {
+      try {
+        await this.senduseramessage(message);
         this.toggleverbiage(null);
         this.offspinner();
 
         if (this.userid) {
           this.togglemessageform();
         }
-      });
+      } catch (error) {
+        // Handle the error appropriately
+        console.error("Error in handleSendMessage:", error);
+        // Perhaps show an error notification to the user
+      }
     },
   },
   computed: {

@@ -55,9 +55,7 @@
             </div>
 
             <div class="overview__withddep" v-if="!allowsubmit">
-              <button
-                class="button orange-btn-faint fontweight-3 half-flex-space curved"
-              >
+              <button class="button orange-btn-faint fontweight-3 half-flex-space curved">
                 Add Notification
               </button>
             </div>
@@ -81,7 +79,7 @@ export default {
     };
   },
   methods: {
-    callcreatenotification() {
+    async callcreatenotification() {
       const { label, description, userid } = this;
 
       const notification = {
@@ -94,15 +92,21 @@ export default {
       this.toggleverbiage("Creating notification");
       this.onspinner();
 
-      this.createnotification(notification).then(() => {
+      try {
+        await this.createnotification(notification);
+
         this.toggleverbiage(null);
         this.offspinner();
 
         if (this.userid) {
           this.togglenotform();
-          this.getusernotifications(this.user);
+          await this.getusernotifications(this.user);
         }
-      });
+      } catch (error) {
+        // Handle the error appropriately
+        console.error("Error in handleCreateNotification:", error);
+        // Maybe display an error message to the user
+      }
     },
   },
   computed: {
