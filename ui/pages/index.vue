@@ -392,7 +392,7 @@
                 What people say about are saying about us
               </h3>
             </div>
-            <div class="curvedoffer__reviewsgrid" v-if="sitename === 'Munger Capital'">
+            <div class="curvedoffer__reviewsgrid" v-if="sitename && sitename !== 'Ivcstandard'">
               <figure>
                 <img src="@/assets/imgs/mungreview/reviewone.png" />
               </figure>
@@ -417,7 +417,7 @@
               </figure>
             </div>
 
-            <div class="curvedoffer__reviewsgrid" v-if="sitename === 'Ivcstandard'">
+            <div class="curvedoffer__reviewsgrid" v-if="sitename && sitename === 'Ivcstandard'">
               <figure>
                 <img src="@/assets/imgs/ivcsreview/reviewone.png" />
               </figure>
