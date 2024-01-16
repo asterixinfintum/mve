@@ -38,7 +38,7 @@ const corsOptions = {
   allowedHeaders: 'Content-Type,Authorization'
 };
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 const io = socket(server, {
   cors: {
