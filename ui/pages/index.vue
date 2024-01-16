@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="landing" v-if="loaded">
+    <div class="landing">
       <Header />
       <Announcement />
       <Jumbotron />
