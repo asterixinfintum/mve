@@ -3,15 +3,18 @@
     <div class="dashboard overview">
       <AdminHeader />
 
-      <div v-if="currentloan">
+      <div v-if="currentitem">
         <SidePopup
           :header="header"
           :text="text"
           :buttontext="buttontext"
-          :current="currentloan"
+          :current="currentitem"
           :btntext="'Edit'"
           :deletebtn="'Delete'"
           :admin="true"
+          :updatemethod="updatemethod"
+          :deletemethod="deletesavingsplan"
+          :itemid="currentitem"
         />
       </div>
 
@@ -90,7 +93,7 @@ export default {
       header: "",
       text: "",
       buttontext: "",
-      currentloan: "",
+      currentitem: "",
     };
   },
   mixins: [global],
@@ -134,7 +137,21 @@ export default {
     setcurrent({ name, requirement, description, _id }) {
       this.header = name;
       this.text = description;
-      this.currentloan = _id;
+      this.currentitem = _id;
+    },
+    async deletesavingsplan() {
+      const { currentitem } = this;
+
+      await this.deleteitem({ currentitem: currentitem, type: "savingsplan" });
+
+      this.getsavingsplans();
+    },
+    updatemethod() {
+      const { currentadmin, toadminroute, currentitem } = this;
+
+      return toadminroute(
+        `admin/dashboard/savingsplans/edit?currentitem=${currentitem}`
+      );
     },
   },
 };

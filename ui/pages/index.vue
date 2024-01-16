@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="landing">
+    <div class="landing" v-if="loaded">
       <Header />
       <Announcement />
       <Jumbotron />
@@ -28,7 +28,7 @@
               </p>
             </div>
             <div class="curvedoffer__copy--btn">
-             <!-- <button class="button">Saving with {{ sitename }}</button>-->
+              <!-- <button class="button">Saving with {{ sitename }}</button>-->
             </div>
           </div>
         </div>
@@ -63,8 +63,8 @@
             <h3 class="curvedoffer__copy--h3">Manage</h3>
             <div class="curvedoffer__copy--content">
               <p>
-                Pay Direct Debits through {{ sitename }} and we’ll tell you if they’re higher for
-                the upcoming month. So no nasty surprises..
+                Pay Direct Debits through {{ sitename }} and we’ll tell you if they’re
+                higher for the upcoming month. So no nasty surprises..
               </p>
             </div>
           </div>
@@ -86,8 +86,8 @@
               </p>
 
               <p>
-                {{ sitename }} Premium is £15 per month • 6 month minimum • Must be aged 18-69 •
-                Ts&Cs apply
+                {{ sitename }} Premium is £15 per month • 6 month minimum • Must be aged
+                18-69 • Ts&Cs apply
               </p>
             </div>
             <div class="curvedoffer__copy--btn">
@@ -113,8 +113,8 @@
               </p>
 
               <p>
-                {{ sitename }} Plus is £5 per month • 3 month minimum • Must be aged 18+ • Ts&Cs
-                apply
+                {{ sitename }} Plus is £5 per month • 3 month minimum • Must be aged 18+ •
+                Ts&Cs apply
               </p>
             </div>
             <div class="curvedoffer__copy--btn">
@@ -134,13 +134,13 @@
             <h3 class="curvedoffer__copy--h3">Using {{ sitename }} abroad</h3>
             <div class="curvedoffer__copy--content">
               <p>
-                Use {{ sitename }} anywhere in the world that accepts Mastercard. We don't charge
-                any fees for paying abroad and we pass Mastercard's exchange ratedirectly
-                onto you, without sneaky fees or extra charges.
+                Use {{ sitename }} anywhere in the world that accepts Mastercard. We don't
+                charge any fees for paying abroad and we pass Mastercard's exchange
+                ratedirectly onto you, without sneaky fees or extra charges.
               </p>
             </div>
             <div class="curvedoffer__copy--btn">
-             <!-- <button class="button">Travelling with {{ sitename }}</button>-->
+              <!-- <button class="button">Travelling with {{ sitename }}</button>-->
             </div>
           </div>
         </div>
@@ -160,10 +160,10 @@
 
             <div class="curvedoffer__copy--content">
               <p class="white-color">
-                Use {{ sitename }} Flex to get more time to pay for pretty much anything. It’s 0%
-                interest when you pay in full on your next payment date or in 3 monthly
-                payments. For more wiggle room it’s 29% APR representative (variable) when
-                you pay in 6 or 12 monthly payments.
+                Use {{ sitename }} Flex to get more time to pay for pretty much anything.
+                It’s 0% interest when you pay in full on your next payment date or in 3
+                monthly payments. For more wiggle room it’s 29% APR representative
+                (variable) when you pay in 6 or 12 monthly payments.
               </p>
             </div>
 
@@ -269,7 +269,9 @@
               </p>
 
               <div class="curvedoffer__copy--btn">
-                <button class="button" @click="$router.push('/auth/signup')">Sign up</button>
+                <button class="button" @click="$router.push('/auth/signup')">
+                  Sign up
+                </button>
               </div>
             </div>
           </div>
@@ -390,28 +392,53 @@
                 What people say about are saying about us
               </h3>
             </div>
-            <div class="curvedoffer__reviewsgrid">
+            <div class="curvedoffer__reviewsgrid" v-if="sitename === 'Munger Capital'">
               <figure>
-                <img src="@/assets/imgs/reviewone.jpeg" />
+                <img src="@/assets/imgs/mungreview/reviewone.png" />
               </figure>
 
               <figure>
-                <img src="@/assets/imgs/reviewtwo.jpeg" />
+                <img src="@/assets/imgs/mungreview/reviewtwo.png" />
               </figure>
 
               <figure>
-                <img src="@/assets/imgs/reviewthree.jpeg" />
+                <img src="@/assets/imgs/mungreview/reviewthree.png" />
               </figure>
 
               <figure>
-                <img src="@/assets/imgs/reviewfour.jpeg" />
+                <img src="@/assets/imgs/mungreview/reviewfour.png" />
               </figure>
 
               <figure>
-                <img src="@/assets/imgs/review5.jpeg" />
+                <img src="@/assets/imgs/mungreview/reviewfive.png" />
               </figure>
               <figure>
-                <img src="@/assets/imgs/reviewsix.jpeg" />
+                <img src="@/assets/imgs/mungreview/reviewsix.png" />
+              </figure>
+            </div>
+
+            <div class="curvedoffer__reviewsgrid" v-if="sitename === 'Ivcstandard'">
+              <figure>
+                <img src="@/assets/imgs/ivcsreview/reviewone.png" />
+              </figure>
+
+              <figure>
+                <img src="@/assets/imgs/ivcsreview/reviewtwo.png" />
+              </figure>
+
+              <figure>
+                <img src="@/assets/imgs/ivcsreview/reviewthree.png" />
+              </figure>
+
+              <figure>
+                <img src="@/assets/imgs/ivcsreview/reviewfour.png" />
+              </figure>
+
+              <figure>
+                <img src="@/assets/imgs/ivcsreview/reviewfive.png" />
+              </figure>
+              <figure>
+                <img src="@/assets/imgs/ivcsreview/reviewsix.png" />
               </figure>
             </div>
           </div>
@@ -436,7 +463,7 @@
       </div>
 
       <footer class="footer">
-       <!-- <div class="footer__header">
+        <!-- <div class="footer__header">
           <h4>{{ sitename }}</h4>
         </div>
         <div class="footer__top">
@@ -472,11 +499,11 @@
         <div class="footer__bottom">
           <h3 class="footer__bottom--h3">Existing customers can get help via the app</h3>
           <p class="footer__bottom--p">
-            {{ sitename }} Bank Limited is a company registered in England and Wales (No.09446231).
-            {{ sitename }} Bank Limited is authorised by the Prudential Regulation Authority and
-            regulated by the Financial Conduct Authority and the Prudential Regulation
-            Authority. Our financial Services Register number is 730427. Our address is
-            Broadwalk House, 5 Appold St, London EC2A 2AG.
+            {{ sitename }} Bank Limited is a company registered in England and Wales
+            (No.09446231). {{ sitename }} Bank Limited is authorised by the Prudential
+            Regulation Authority and regulated by the Financial Conduct Authority and the
+            Prudential Regulation Authority. Our financial Services Register number is
+            730427. Our address is Broadwalk House, 5 Appold St, London EC2A 2AG.
           </p>
         </div>
       </footer>
@@ -488,6 +515,16 @@
 import sitename from "@/mixins/sitename";
 
 export default {
-  mixins: [sitename]
-}
+  data() {
+    return {
+      loaded: false,
+    };
+  },
+  mixins: [sitename],
+  mounted() {
+    window.onload = () => {
+      this.loaded = true;
+    };
+  },
+};
 </script>

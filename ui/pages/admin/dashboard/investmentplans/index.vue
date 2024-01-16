@@ -12,6 +12,9 @@
           :btntext="'Edit'"
           :deletebtn="'Delete'"
           :admin="true"
+          :updatemethod="updatemethod"
+          :deletemethod="deleteinvestmentplan"
+          :itemid="currentitem"
         />
       </div>
 
@@ -39,7 +42,7 @@
 
         <div
           class="loans__body"
-          v-for="{ name, requirement, description } in userid
+          v-for="{ name, requirement, description, _id } in userid
             ? userinvestmentitems
             : investmentplans"
         >
@@ -68,7 +71,7 @@
             <div class="overview__withddep">
               <button
                 class="button orange-btn fontweight-3 half-flex-space loanbtn curved"
-                @click="setcurrent({ name, requirement, description })"
+                @click="setcurrent({ name, requirement, description, _id })"
               >
                 Details
               </button>
@@ -137,6 +140,20 @@ export default {
       this.header = name;
       this.text = description;
       this.currentitem = _id;
+    },
+    async deleteinvestmentplan() {
+      const { currentitem } = this;
+
+      await this.deleteitem({ currentitem: currentitem, type: "investmentplan" });
+
+      this.getinvestmentplans();
+    },
+    updatemethod() {
+      const { currentadmin, toadminroute, currentitem } = this;
+
+      return toadminroute(
+        `admin/dashboard/investmentplans/edit?currentitem=${currentitem}`
+      );
     },
   },
 };

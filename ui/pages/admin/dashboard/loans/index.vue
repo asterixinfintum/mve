@@ -12,6 +12,9 @@
           :btntext="'Edit'"
           :deletebtn="'Delete'"
           :admin="true"
+          :updatemethod="updatemethod"
+          :deletemethod="deleteloan"
+          :itemid="currentloan"
         />
       </div>
 
@@ -138,6 +141,18 @@ export default {
       this.header = name;
       this.text = description;
       this.currentloan = _id;
+    },
+    async deleteloan() {
+      const { currentloan } = this;
+
+      await this.deleteitem({ currentitem: currentloan, type: "loan" });
+
+      this.getloans();
+    },
+    updatemethod() {
+      const { currentadmin, toadminroute, currentloan } = this;
+
+      return toadminroute(`admin/dashboard/loans/edit?currentloan=${currentloan}`);
     },
   },
 };
