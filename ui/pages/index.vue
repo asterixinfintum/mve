@@ -392,7 +392,7 @@
                 What people say about are saying about us
               </h3>
             </div>
-            <div class="curvedoffer__reviewsgrid" v-if="sitename && sitename !== 'Ivcstandard'">
+            <div class="curvedoffer__reviewsgrid" v-if="sitelabel && sitelabel === 'Munger'">
               <figure>
                 <img src="@/assets/imgs/mungreview/reviewone.png" />
               </figure>
@@ -516,5 +516,20 @@ import sitenamemixin from "@/mixins/sitename";
 
 export default {
   mixins: [sitenamemixin],
+  data() {
+    return {
+      sitelabel: null
+    }
+  },
+  watch: {
+
+  },
+  mounted() {
+    if (this.sitename) {
+      if (this.sitename !== 'Ivcstandard') {
+        return this.sitelabel = 'Munger'
+      }
+    }
+  }
 };
 </script>
