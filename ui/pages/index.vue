@@ -512,13 +512,9 @@
 </template>
 
 <script>
-import sitename from "@/mixins/sitename";
+import sitenamemixin from "@/mixins/sitename";
 
 export default {
-  data() {
-    return {};
-  },
-  mixins: [sitename],
-  mounted() {},
+  mixins: [sitenamemixin],
 };
 </script>
