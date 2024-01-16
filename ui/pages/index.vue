@@ -516,15 +516,9 @@ import sitename from "@/mixins/sitename";
 
 export default {
   data() {
-    return {
-      loaded: false,
-    };
+    return {};
   },
   mixins: [sitename],
-  mounted() {
-    window.onload = () => {
-      this.loaded = true;
-    };
-  },
+  mounted() {},
 };
 </script>
