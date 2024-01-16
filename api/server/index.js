@@ -87,7 +87,7 @@ app.use(client);
 app.use(clientedit);
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(staticPath, 'index.html'));
+  //res.sendFile(path.join(staticPath, 'index.html'));
 });
 
 const PORT = process.env.PORT || 8081;

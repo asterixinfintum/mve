@@ -214,7 +214,7 @@ export default {
     socket(newval, oldval) {
       if (newval) {
         this.socket.on("notification", (data) => {
-          console.log('Notification received:', data.userid);
+          //console.log('Notification received:', data.userid);
           if (this.client) {
             if (this.client._id === data.userid) {
               console.log('get notofications');
