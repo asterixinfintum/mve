@@ -32,7 +32,13 @@ app.use(express.urlencoded({
   extended: false
 }));
 
-app.use(cors());
+const corsOptions = {
+  origin: [`${process.env.baseurl}`, `${process.env.wwwbaseurl}`],// Replace with your frontend domain
+  methods: 'GET,POST,PUT,DELETE',
+  allowedHeaders: 'Content-Type,Authorization'
+};
+
+app.use(cors(corsOptions));
 
 const io = socket(server, {
   cors: {
