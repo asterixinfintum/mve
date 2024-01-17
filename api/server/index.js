@@ -25,25 +25,35 @@ const server = http.createServer(app);
 
 import mongoose from 'mongoose';
 
-app.use(express.static(path.join(__dirname, '../public/ui')));
+const allowedOrigins = [`${process.env.baseurl}`, `${process.env.wwwbaseurl}`, "http://localhost:3000"]; // Add your domains here
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+  allowedHeaders: 'Content-Type, Authorization',
+  credentials: true,
+  optionsSuccessStatus: 200 // For legacy browser support
+};
+
+app.use(cors(corsOptions));
+
+//app.use(express.static(path.join(__dirname, '../public/ui')));
 //app.use(express.static('uploads'));
-const staticPath = path.join(__dirname, '../public/ui');
+//const staticPath = path.join(__dirname, '../public/ui');
 app.use(express.urlencoded({
   extended: false
 }));
 
-const corsOptions = {
-  origin: [`${process.env.baseurl}`, `${process.env.wwwbaseurl}`],// Replace with your frontend domain
-  methods: 'GET,POST,PUT,DELETE',
-  allowedHeaders: 'Content-Type,Authorization'
-};
-
-app.use(cors());
-
 const io = socket(server, {
   cors: {
-    origin: [`${process.env.baseurl}`, `${process.env.wwwbaseurl}`],
-    methods: ["GET", "POST"],
+    origin: allowedOrigins,
+    methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
     allowedHeaders: ["Authorization"],
     credentials: true
   }
