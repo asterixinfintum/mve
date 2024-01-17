@@ -1,6 +1,6 @@
 import requester from './requester';
 
-const { posttoserver, getfromserver } = requester;
+const { posttoserver, getfromserver, BASE } = requester;
 
 export const state = () => ({
     currentadmin: null,
@@ -273,11 +273,11 @@ export const actions = {
     },
     async createloanitem({ commit }, body) {
         const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
-    
+
         if (!admintoken) {
             throw new Error('Admin token not found');
         }
-    
+
         try {
             const response = await posttoserver({ token: admintoken, body, path: 'item/createloan' });
             // If you need to update the Vuex store, you can do it here
@@ -287,7 +287,85 @@ export const actions = {
             console.error('Error creating loan item:', error);
             throw error; // Rethrow if you want to handle it in the calling function
         }
-    },    
+    },
+    async updateloanitem({ commit }, body) {
+        const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
+
+        if (!admintoken) {
+            throw new Error('Admin token not found');
+        }
+
+        try {
+            const response = await posttoserver({ token: admintoken, body, path: 'item/updateloan' });
+
+            return response;
+        } catch (error) {
+            console.error("Error editing loan item:", error);
+        }
+    },
+    async updateinvestmentitem({ commit }, body) {
+        const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
+
+        if (!admintoken) {
+            throw new Error('Admin token not found');
+        }
+
+        try {
+            const response = await posttoserver({ token: admintoken, body, path: 'item/updateinvestmentitem' });
+
+            return response;
+        } catch (error) {
+            console.error("Error editing loan item:", error);
+        }
+    },
+    async updatesavingsitem({ commit }, body) {
+        const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
+
+        if (!admintoken) {
+            throw new Error('Admin token not found');
+        }
+
+        try {
+            const response = await posttoserver({ token: admintoken, body, path: 'item/updatesavingsitem' });
+
+            return response;
+        } catch (error) {
+            console.error("Error editing loan item:", error);
+        }
+    },
+    async deleteitem({ commit }, body) {
+        const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
+
+        if (!admintoken) {
+            throw new Error('Admin token not found');
+        }
+
+        try {
+            const { currentitem, type } = body;
+
+            const url = `${BASE}/item/delete?id=${currentitem}&type=${type}`;
+
+            const options = {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${admintoken}`
+                }
+            };
+
+            const response = await fetch(url, options);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Success:', data);
+            return data;
+        } catch (error) {
+            console.error("Error deleting item:", error);
+        }
+    },
     async createinvestmentitem({ commit }, body) {
         const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
 

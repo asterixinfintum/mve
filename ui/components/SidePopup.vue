@@ -16,15 +16,15 @@
           <div class="overview__withddep" v-if="admin">
             <button
               class="button orange-btn fontweight-3 half-flex-space loanbtn curved"
-              
+              @click="updatemethod"
             >
               {{ btntext }}
             </button>
 
             <button
               class="button orange-btn fontweight-3 half-flex-space loanbtn curved"
-              
               v-if="deletebtn"
+              @click="deletemethod"
             >
               {{ deletebtn }}
             </button>
@@ -58,7 +58,19 @@ import global from "@/mixins/global";
 
 export default {
   mixins: [global],
-  props: ["header", "text", "buttontext", "current", "btntext", "deletebtn", "admin", "type"],
+  props: [
+    "header",
+    "text",
+    "buttontext",
+    "current",
+    "btntext",
+    "deletebtn",
+    "admin",
+    "type",
+    "updatemethod",
+    "deletemethod",
+    "itemid",
+  ],
 };
 </script>
 

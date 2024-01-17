@@ -9,7 +9,7 @@ import SavingsPlan from '../../models/savingsplan';
 import Notification from '../../models/notification';
 import Message from '../../models/message';
 
-import { getIO, initSocketIO }from '../../socket';
+import { getIO, initSocketIO } from '../../socket';
 
 const item = express();
 
@@ -26,6 +26,100 @@ item.post('/item/createloan', authenticateToken, async (req, res) => {
         res.status(500).send({ error: 'Internal Server Error' });
     }
 });
+
+item.post('/item/updateloan', authenticateToken, async (req, res) => {
+    if (!req.user || !req.user._id) {
+        return res.status(401).send({ error: 'Unauthorized' });
+    }
+
+    const loanupdate = req.body;
+
+    try {
+        const loan = await Loan.findOne({ _id: loanupdate.loanid });
+
+        if (loan) {
+            Loan.findByIdAndUpdate(loanupdate.loanid, loanupdate, { new: true }, (err, doc) => {
+                if (err) {
+                    console.error(err, 'error here');
+                }
+
+                if (doc) {
+                    res.status(201).send({ successmessage: 'Document updated successfully' });
+                } else {
+                    res.status(404).send({ error: 'No such loan' });
+                }
+            })
+        } else {
+            res.status(404).send({ error: 'No such loan' });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
+});
+
+item.post('/item/updateinvestmentitem', authenticateToken, async (req, res) => {
+    if (!req.user || !req.user._id) {
+        return res.status(401).send({ error: 'Unauthorized' });
+    }
+
+    const investmentitemupdate = req.body;
+
+    try {
+        const investmentitem = await InvestmentPlan.findOne({ _id: investmentitemupdate.investmentitemid });
+
+        if (investmentitem) {
+            InvestmentPlan.findByIdAndUpdate(investmentitemupdate.investmentitemid, investmentitemupdate, { new: true }, (err, doc) => {
+                if (err) {
+                    console.error(err, 'error here');
+                }
+
+                if (doc) {
+                    res.status(201).send({ successmessage: 'Document updated successfully' });
+                } else {
+                    res.status(404).send({ error: 'No such investmentitem' });
+                }
+            });
+        } else {
+            res.status(404).send({ error: 'No such investment item' });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
+});
+
+item.post('/item/updatesavingsitem', authenticateToken, async (req, res) => {
+    if (!req.user || !req.user._id) {
+        return res.status(401).send({ error: 'Unauthorized' });
+    }
+
+    const savingsplanupdate = req.body;
+
+    try {
+        const savingsitem = await SavingsPlan.findOne({ _id: savingsplanupdate.savingsplanid });
+
+        if (savingsitem) {
+            SavingsPlan.findByIdAndUpdate(savingsplanupdate.savingsplanid, savingsplanupdate, { new: true }, (err, doc) => {
+                if (err) {
+                    console.error(err, 'error here');
+                }
+
+                if (doc) {
+                    res.status(201).send({ successmessage: 'Document updated successfully' });
+                } else {
+                    res.status(404).send({ error: 'No such investmentitem' });
+                }
+            });
+        } else {
+            res.status(404).send({ error: 'No such saving plan' });
+        }
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
+})
 
 item.get('/item/loans', authenticateToken, async (req, res) => {
     if (!req.user || !req.user._id) {
@@ -107,7 +201,7 @@ item.post('/item/createnotification', authenticateToken, async (req, res) => {
 
         //console.log(success);
 
-        getIO().emit('notification', { userid: success.content.user});
+        getIO().emit('notification', { userid: success.content.user });
 
         res.status(200).send({ success });
     } catch (error) {

@@ -13,3 +13,5 @@ export default {
     
 }
 </script>
+
+//v-if="!client.emailcofirmed"
