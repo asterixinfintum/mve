@@ -15,7 +15,7 @@ let BASE = getCurrentPageDomain();
 console.log(BASE, 'check for the name here');
 
 if (BASE.includes('localhost')) {
-    BASE = `https://api.mungercapital.com`;//`http://localhost:8081`
+    BASE = `http://localhost:8081`;//`http://localhost:8081`
 } else {
     BASE = getCurrentPageDomain();
 }

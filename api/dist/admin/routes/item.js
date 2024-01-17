@@ -60,9 +60,9 @@ item.post('/item/createloan', _authenticateToken["default"], /*#__PURE__*/functi
     return _ref.apply(this, arguments);
   };
 }());
-item.get('/item/loans', _authenticateToken["default"], /*#__PURE__*/function () {
+item.post('/item/updateloan', _authenticateToken["default"], /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(req, res) {
-    var success;
+    var loanupdate, loan;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
@@ -74,36 +74,58 @@ item.get('/item/loans', _authenticateToken["default"], /*#__PURE__*/function () 
             error: 'Unauthorized'
           }));
         case 2:
-          _context2.prev = 2;
-          _context2.next = 5;
-          return _loan["default"].getloans();
-        case 5:
-          success = _context2.sent;
-          res.status(200).send({
-            success: success
+          loanupdate = req.body;
+          _context2.prev = 3;
+          _context2.next = 6;
+          return _loan["default"].findOne({
+            _id: loanupdate.loanid
           });
-          _context2.next = 13;
+        case 6:
+          loan = _context2.sent;
+          if (loan) {
+            _loan["default"].findByIdAndUpdate(loanupdate.loanid, loanupdate, {
+              "new": true
+            }, function (err, doc) {
+              if (err) {
+                console.error(err, 'error here');
+              }
+              if (doc) {
+                res.status(201).send({
+                  successmessage: 'Document updated successfully'
+                });
+              } else {
+                res.status(404).send({
+                  error: 'No such loan'
+                });
+              }
+            });
+          } else {
+            res.status(404).send({
+              error: 'No such loan'
+            });
+          }
+          _context2.next = 14;
           break;
-        case 9:
-          _context2.prev = 9;
-          _context2.t0 = _context2["catch"](2);
-          console.error('Error retrieving loans:', _context2.t0);
+        case 10:
+          _context2.prev = 10;
+          _context2.t0 = _context2["catch"](3);
+          console.log(_context2.t0);
           res.status(500).send({
             error: 'Internal Server Error'
           });
-        case 13:
+        case 14:
         case "end":
           return _context2.stop();
       }
-    }, _callee2, null, [[2, 9]]);
+    }, _callee2, null, [[3, 10]]);
   }));
   return function (_x3, _x4) {
     return _ref2.apply(this, arguments);
   };
 }());
-item.get('/item/investments', _authenticateToken["default"], /*#__PURE__*/function () {
+item.post('/item/updateinvestmentitem', _authenticateToken["default"], /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(req, res) {
-    var success;
+    var investmentitemupdate, investmentitem;
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
@@ -115,36 +137,58 @@ item.get('/item/investments', _authenticateToken["default"], /*#__PURE__*/functi
             error: 'Unauthorized'
           }));
         case 2:
-          _context3.prev = 2;
-          _context3.next = 5;
-          return _investmentplan["default"].getinvestmentplans();
-        case 5:
-          success = _context3.sent;
-          res.status(200).send({
-            success: success
+          investmentitemupdate = req.body;
+          _context3.prev = 3;
+          _context3.next = 6;
+          return _investmentplan["default"].findOne({
+            _id: investmentitemupdate.investmentitemid
           });
-          _context3.next = 13;
+        case 6:
+          investmentitem = _context3.sent;
+          if (investmentitem) {
+            _investmentplan["default"].findByIdAndUpdate(investmentitemupdate.investmentitemid, investmentitemupdate, {
+              "new": true
+            }, function (err, doc) {
+              if (err) {
+                console.error(err, 'error here');
+              }
+              if (doc) {
+                res.status(201).send({
+                  successmessage: 'Document updated successfully'
+                });
+              } else {
+                res.status(404).send({
+                  error: 'No such investmentitem'
+                });
+              }
+            });
+          } else {
+            res.status(404).send({
+              error: 'No such investment item'
+            });
+          }
+          _context3.next = 14;
           break;
-        case 9:
-          _context3.prev = 9;
-          _context3.t0 = _context3["catch"](2);
-          console.error('Error retrieving investment plans:', _context3.t0);
+        case 10:
+          _context3.prev = 10;
+          _context3.t0 = _context3["catch"](3);
+          console.log(_context3.t0);
           res.status(500).send({
             error: 'Internal Server Error'
           });
-        case 13:
+        case 14:
         case "end":
           return _context3.stop();
       }
-    }, _callee3, null, [[2, 9]]);
+    }, _callee3, null, [[3, 10]]);
   }));
   return function (_x5, _x6) {
     return _ref3.apply(this, arguments);
   };
 }());
-item.post('/item/createinvestmentplan', _authenticateToken["default"], /*#__PURE__*/function () {
+item.post('/item/updatesavingsitem', _authenticateToken["default"], /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(req, res) {
-    var success;
+    var savingsplanupdate, savingsitem;
     return _regeneratorRuntime().wrap(function _callee4$(_context4) {
       while (1) switch (_context4.prev = _context4.next) {
         case 0:
@@ -156,34 +200,56 @@ item.post('/item/createinvestmentplan', _authenticateToken["default"], /*#__PURE
             error: 'Unauthorized'
           }));
         case 2:
-          _context4.prev = 2;
-          _context4.next = 5;
-          return _investmentplan["default"].createinvestmentplan(req.body);
-        case 5:
-          success = _context4.sent;
-          res.status(200).send({
-            success: success
+          savingsplanupdate = req.body;
+          _context4.prev = 3;
+          _context4.next = 6;
+          return _savingsplan["default"].findOne({
+            _id: savingsplanupdate.savingsplanid
           });
-          _context4.next = 13;
+        case 6:
+          savingsitem = _context4.sent;
+          if (savingsitem) {
+            _savingsplan["default"].findByIdAndUpdate(savingsplanupdate.savingsplanid, savingsplanupdate, {
+              "new": true
+            }, function (err, doc) {
+              if (err) {
+                console.error(err, 'error here');
+              }
+              if (doc) {
+                res.status(201).send({
+                  successmessage: 'Document updated successfully'
+                });
+              } else {
+                res.status(404).send({
+                  error: 'No such investmentitem'
+                });
+              }
+            });
+          } else {
+            res.status(404).send({
+              error: 'No such saving plan'
+            });
+          }
+          _context4.next = 14;
           break;
-        case 9:
-          _context4.prev = 9;
-          _context4.t0 = _context4["catch"](2);
-          console.error('Error creating investment plan:', _context4.t0);
+        case 10:
+          _context4.prev = 10;
+          _context4.t0 = _context4["catch"](3);
+          console.log(_context4.t0);
           res.status(500).send({
             error: 'Internal Server Error'
           });
-        case 13:
+        case 14:
         case "end":
           return _context4.stop();
       }
-    }, _callee4, null, [[2, 9]]);
+    }, _callee4, null, [[3, 10]]);
   }));
   return function (_x7, _x8) {
     return _ref4.apply(this, arguments);
   };
 }());
-item.post('/item/createsavingsplanitem', _authenticateToken["default"], /*#__PURE__*/function () {
+item.get('/item/loans', _authenticateToken["default"], /*#__PURE__*/function () {
   var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(req, res) {
     var success;
     return _regeneratorRuntime().wrap(function _callee5$(_context5) {
@@ -199,7 +265,7 @@ item.post('/item/createsavingsplanitem', _authenticateToken["default"], /*#__PUR
         case 2:
           _context5.prev = 2;
           _context5.next = 5;
-          return _savingsplan["default"].createsavingsitem(req.body);
+          return _loan["default"].getloans();
         case 5:
           success = _context5.sent;
           res.status(200).send({
@@ -210,7 +276,7 @@ item.post('/item/createsavingsplanitem', _authenticateToken["default"], /*#__PUR
         case 9:
           _context5.prev = 9;
           _context5.t0 = _context5["catch"](2);
-          console.error('Error creating savings plan item:', _context5.t0);
+          console.error('Error retrieving loans:', _context5.t0);
           res.status(500).send({
             error: 'Internal Server Error'
           });
@@ -224,7 +290,7 @@ item.post('/item/createsavingsplanitem', _authenticateToken["default"], /*#__PUR
     return _ref5.apply(this, arguments);
   };
 }());
-item.get('/item/savingsplans', _authenticateToken["default"], /*#__PURE__*/function () {
+item.get('/item/investments', _authenticateToken["default"], /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(req, res) {
     var success;
     return _regeneratorRuntime().wrap(function _callee6$(_context6) {
@@ -240,7 +306,7 @@ item.get('/item/savingsplans', _authenticateToken["default"], /*#__PURE__*/funct
         case 2:
           _context6.prev = 2;
           _context6.next = 5;
-          return _savingsplan["default"].getsavingsitems();
+          return _investmentplan["default"].getinvestmentplans();
         case 5:
           success = _context6.sent;
           res.status(200).send({
@@ -251,7 +317,7 @@ item.get('/item/savingsplans', _authenticateToken["default"], /*#__PURE__*/funct
         case 9:
           _context6.prev = 9;
           _context6.t0 = _context6["catch"](2);
-          console.error('Error getting savings plans:', _context6.t0);
+          console.error('Error retrieving investment plans:', _context6.t0);
           res.status(500).send({
             error: 'Internal Server Error'
           });
@@ -265,7 +331,7 @@ item.get('/item/savingsplans', _authenticateToken["default"], /*#__PURE__*/funct
     return _ref6.apply(this, arguments);
   };
 }());
-item.post('/item/createnotification', _authenticateToken["default"], /*#__PURE__*/function () {
+item.post('/item/createinvestmentplan', _authenticateToken["default"], /*#__PURE__*/function () {
   var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(req, res) {
     var success;
     return _regeneratorRuntime().wrap(function _callee7$(_context7) {
@@ -281,37 +347,32 @@ item.post('/item/createnotification', _authenticateToken["default"], /*#__PURE__
         case 2:
           _context7.prev = 2;
           _context7.next = 5;
-          return _notification["default"].createnotification(req.body);
+          return _investmentplan["default"].createinvestmentplan(req.body);
         case 5:
           success = _context7.sent;
-          //console.log(success);
-
-          (0, _socket.getIO)().emit('notification', {
-            userid: success.content.user
-          });
           res.status(200).send({
             success: success
           });
-          _context7.next = 14;
+          _context7.next = 13;
           break;
-        case 10:
-          _context7.prev = 10;
+        case 9:
+          _context7.prev = 9;
           _context7.t0 = _context7["catch"](2);
-          console.error('Error creating notification:', _context7.t0);
+          console.error('Error creating investment plan:', _context7.t0);
           res.status(500).send({
             error: 'Internal Server Error'
           });
-        case 14:
+        case 13:
         case "end":
           return _context7.stop();
       }
-    }, _callee7, null, [[2, 10]]);
+    }, _callee7, null, [[2, 9]]);
   }));
   return function (_x13, _x14) {
     return _ref7.apply(this, arguments);
   };
 }());
-item.post('/item/createmessage', _authenticateToken["default"], /*#__PURE__*/function () {
+item.post('/item/createsavingsplanitem', _authenticateToken["default"], /*#__PURE__*/function () {
   var _ref8 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(req, res) {
     var success;
     return _regeneratorRuntime().wrap(function _callee8$(_context8) {
@@ -327,7 +388,7 @@ item.post('/item/createmessage', _authenticateToken["default"], /*#__PURE__*/fun
         case 2:
           _context8.prev = 2;
           _context8.next = 5;
-          return _message["default"].addadminmessage(req.body);
+          return _savingsplan["default"].createsavingsitem(req.body);
         case 5:
           success = _context8.sent;
           res.status(200).send({
@@ -338,7 +399,7 @@ item.post('/item/createmessage', _authenticateToken["default"], /*#__PURE__*/fun
         case 9:
           _context8.prev = 9;
           _context8.t0 = _context8["catch"](2);
-          console.error('Error creating message:', _context8.t0);
+          console.error('Error creating savings plan item:', _context8.t0);
           res.status(500).send({
             error: 'Internal Server Error'
           });
@@ -350,6 +411,134 @@ item.post('/item/createmessage', _authenticateToken["default"], /*#__PURE__*/fun
   }));
   return function (_x15, _x16) {
     return _ref8.apply(this, arguments);
+  };
+}());
+item.get('/item/savingsplans', _authenticateToken["default"], /*#__PURE__*/function () {
+  var _ref9 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(req, res) {
+    var success;
+    return _regeneratorRuntime().wrap(function _callee9$(_context9) {
+      while (1) switch (_context9.prev = _context9.next) {
+        case 0:
+          if (!(!req.user || !req.user._id)) {
+            _context9.next = 2;
+            break;
+          }
+          return _context9.abrupt("return", res.status(401).send({
+            error: 'Unauthorized'
+          }));
+        case 2:
+          _context9.prev = 2;
+          _context9.next = 5;
+          return _savingsplan["default"].getsavingsitems();
+        case 5:
+          success = _context9.sent;
+          res.status(200).send({
+            success: success
+          });
+          _context9.next = 13;
+          break;
+        case 9:
+          _context9.prev = 9;
+          _context9.t0 = _context9["catch"](2);
+          console.error('Error getting savings plans:', _context9.t0);
+          res.status(500).send({
+            error: 'Internal Server Error'
+          });
+        case 13:
+        case "end":
+          return _context9.stop();
+      }
+    }, _callee9, null, [[2, 9]]);
+  }));
+  return function (_x17, _x18) {
+    return _ref9.apply(this, arguments);
+  };
+}());
+item.post('/item/createnotification', _authenticateToken["default"], /*#__PURE__*/function () {
+  var _ref10 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee10(req, res) {
+    var success;
+    return _regeneratorRuntime().wrap(function _callee10$(_context10) {
+      while (1) switch (_context10.prev = _context10.next) {
+        case 0:
+          if (!(!req.user || !req.user._id)) {
+            _context10.next = 2;
+            break;
+          }
+          return _context10.abrupt("return", res.status(401).send({
+            error: 'Unauthorized'
+          }));
+        case 2:
+          _context10.prev = 2;
+          _context10.next = 5;
+          return _notification["default"].createnotification(req.body);
+        case 5:
+          success = _context10.sent;
+          //console.log(success);
+
+          (0, _socket.getIO)().emit('notification', {
+            userid: success.content.user
+          });
+          res.status(200).send({
+            success: success
+          });
+          _context10.next = 14;
+          break;
+        case 10:
+          _context10.prev = 10;
+          _context10.t0 = _context10["catch"](2);
+          console.error('Error creating notification:', _context10.t0);
+          res.status(500).send({
+            error: 'Internal Server Error'
+          });
+        case 14:
+        case "end":
+          return _context10.stop();
+      }
+    }, _callee10, null, [[2, 10]]);
+  }));
+  return function (_x19, _x20) {
+    return _ref10.apply(this, arguments);
+  };
+}());
+item.post('/item/createmessage', _authenticateToken["default"], /*#__PURE__*/function () {
+  var _ref11 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee11(req, res) {
+    var success;
+    return _regeneratorRuntime().wrap(function _callee11$(_context11) {
+      while (1) switch (_context11.prev = _context11.next) {
+        case 0:
+          if (!(!req.user || !req.user._id)) {
+            _context11.next = 2;
+            break;
+          }
+          return _context11.abrupt("return", res.status(401).send({
+            error: 'Unauthorized'
+          }));
+        case 2:
+          _context11.prev = 2;
+          _context11.next = 5;
+          return _message["default"].addadminmessage(req.body);
+        case 5:
+          success = _context11.sent;
+          res.status(200).send({
+            success: success
+          });
+          _context11.next = 13;
+          break;
+        case 9:
+          _context11.prev = 9;
+          _context11.t0 = _context11["catch"](2);
+          console.error('Error creating message:', _context11.t0);
+          res.status(500).send({
+            error: 'Internal Server Error'
+          });
+        case 13:
+        case "end":
+          return _context11.stop();
+      }
+    }, _callee11, null, [[2, 9]]);
+  }));
+  return function (_x21, _x22) {
+    return _ref11.apply(this, arguments);
   };
 }());
 item.put('/item/update', _authenticateToken["default"], function (req, res) {

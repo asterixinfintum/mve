@@ -31,17 +31,34 @@ if (process.env.NODE_ENV !== 'production') {
 }
 var app = (0, _express["default"])();
 var server = _http["default"].createServer(app);
-app.use(_express["default"]["static"](_path["default"].join(__dirname, '../public/ui')));
+var allowedOrigins = ["".concat(process.env.baseurl), "".concat(process.env.wwwbaseurl), "http://localhost:3000"]; // Add your domains here
+
+var corsOptions = {
+  origin: function origin(_origin, callback) {
+    if (!_origin || allowedOrigins.includes(_origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+  allowedHeaders: 'Content-Type, Authorization',
+  credentials: true,
+  optionsSuccessStatus: 200 // For legacy browser support
+};
+
+app.use((0, _cors["default"])(corsOptions));
+
+//app.use(express.static(path.join(__dirname, '../public/ui')));
 //app.use(express.static('uploads'));
-var staticPath = _path["default"].join(__dirname, '../public/ui');
+//const staticPath = path.join(__dirname, '../public/ui');
 app.use(_express["default"].urlencoded({
   extended: false
 }));
-app.use((0, _cors["default"])());
 var io = (0, _socket["default"])(server, {
   cors: {
-    origin: ["".concat(process.env.baseurl), "".concat(process.env.wwwbaseurl)],
-    methods: ["GET", "POST"],
+    origin: allowedOrigins,
+    methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
     allowedHeaders: ["Authorization"],
     credentials: true
   }
@@ -103,9 +120,6 @@ app.use(_adminauth["default"]);
 app.use(_item["default"]);
 app.use(_client["default"]);
 app.use(_client2["default"]);
-app.get('*', function (req, res) {
-  res.sendFile(_path["default"].join(staticPath, 'index.html'));
-});
 var PORT = process.env.PORT || 8081;
 function getIO() {
   if (!ioInstance) {
