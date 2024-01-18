@@ -96,11 +96,12 @@
           <span>Items remaining: {{ remainingItems }}</span>
         </div>
 
-        <div class="dashboard__list--pagination">
+        <div class="dashboard__list--pagination wrap">
           <span
             v-for="pageNumber in pageNumbers"
             :class="{ current: currentPage === pageNumber }"
             @click="getuserbatch(pageNumber)"
+            class="paginator"
             >{{ pageNumber }}</span
           >
         </div>

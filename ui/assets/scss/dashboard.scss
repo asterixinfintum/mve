@@ -11,6 +11,10 @@
         &--pagination {
             padding: #{scaleValue(20)} 0;
             display: flex;
+            
+            &.wrap {
+                flex-wrap: wrap;
+            }
 
             & span {
                 font-size: #{scaleValue(13)};
@@ -23,6 +27,10 @@
                 &.current {
                     background: $primary-orange;
                     color: #f2f8f3 !important;
+                }
+
+                &.paginator {
+                    margin-bottom: #{scaleValue(20)}
                 }
             }
         }
