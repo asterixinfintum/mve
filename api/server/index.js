@@ -126,7 +126,7 @@ mongoose.connect(`${process.env.DB}`, {
       return error;
     }
 
-    initSocketIO();
+    //initSocketIO();
 
     return console.log(`server started on port here now ${PORT}`);
   });

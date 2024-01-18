@@ -8,7 +8,11 @@ export const state = () => ({
     users: [],
     user: null,
     usertxns: [],
-    usermsgs: []
+    usermsgs: [],
+    totalPages: 0,
+    remainingItems: 0,
+    pageNumbers: [],
+    currentitemdetails: null
 });
 
 export const mutations = {
@@ -29,6 +33,18 @@ export const mutations = {
     },
     SET_USER_MSGS(state, data) {
         state.usermsgs = data;
+    },
+    SET_TOTAL_USERS(state, data) {
+        state.totalPages = data;
+    },
+    SET_REMAINING_ITEMS(state, data) {
+        state.remainingItems = data;
+    },
+    SET_PAGE_NUMBERS(state, data) {
+        state.pageNumbers = data;
+    },
+    SET_CURRENTITEM_DETAILS(state, data) {
+        state.currentitemdetails = data;
     }
 }
 
@@ -101,17 +117,20 @@ export const actions = {
             }
         });
     },
-    getusers({ commit }) {
+    getusers({ commit }, currentPage) {
         return new Promise(async (resolve, reject) => {
             const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
 
             if (admintoken) {
-                const data = await getfromserver({ token: admintoken, path: 'admin/getusers' });
+                const data = await getfromserver({ token: admintoken, path: `admin/getusers?currentPageQuery=${currentPage}` });
 
                 if (data.success) {
                     const users = data.success.content;
                     //console.log(users);
                     commit('SET_USERS', users);
+                    commit('SET_TOTAL_USERS', data.success.totalItems);
+                    commit('SET_REMAINING_ITEMS', data.success.remainingItems);
+                    commit('SET_PAGE_NUMBERS', data.success.pageNumbers);
                 }
             }
         })
@@ -360,11 +379,25 @@ export const actions = {
             }
 
             const data = await response.json();
-            console.log('Success:', data);
+            //console.log('Success:', data);
             return data;
         } catch (error) {
             console.error("Error deleting item:", error);
         }
+    },
+    async getitemdetails({ commit }, body) {
+        const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
+
+        if (!admintoken) {
+            throw new Error('Admin token not found');
+        }
+
+        const { currentitem, type } = body;
+
+        const data = await getfromserver({ token: admintoken, path: `item/get?id=${currentitem}&type=${type}` });
+        //console.log(data.item);
+        commit('SET_CURRENTITEM_DETAILS', data.item)
+        //return response;
     },
     async createinvestmentitem({ commit }, body) {
         const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');

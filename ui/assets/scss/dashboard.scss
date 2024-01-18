@@ -6,7 +6,27 @@
         padding: #{scaleValue(50)};
     }
 
-    &__list {}
+    &__list {
+
+        &--pagination {
+            padding: #{scaleValue(20)} 0;
+            display: flex;
+
+            & span {
+                font-size: #{scaleValue(13)};
+                border: 1px solid rgba($font-black, .8);
+                cursor: pointer;
+                padding: #{scaleValue(6)} #{scaleValue(8)};
+                display: inline-block;
+                margin-right: #{scaleValue(13)};
+
+                &.current {
+                    background: $primary-orange;
+                    color: #f2f8f3 !important;
+                }
+            }
+        }
+    }
 
     &__listitem {
         display: grid;

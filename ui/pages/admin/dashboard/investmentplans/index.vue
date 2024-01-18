@@ -119,6 +119,8 @@ export default {
       this.foruser = this.userid;
       this.getuser(this.userid);
     }
+
+    this.getinvestmentplans();
   },
   watch: {
     investmentplans(newval, oldval) {

@@ -82,27 +82,50 @@ adminauth.get('/admin/getusers', authenticateToken, async (req, res) => {
             return res.status(403).send({ error: 'Forbidden: Insufficient privileges' });
         }
 
-        const useritems = await User.find();
-        const users = await Promise.all(useritems.map(async user => {
-            const [account, cards] = await Promise.all([
-                Account.findOne({ _id: user.account }),
-                Card.find({ user: user._id })
-            ]);
+        const { currentPageQuery } = req.query;
 
-            return {
-                details: user,
-                account,
-                cards
-            };
-        }));
+        if (currentPageQuery) {
+            const totalItems = await User.countDocuments();
+            const itemsPerPage = 10;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            let currentPage = Math.max(currentPageQuery, 1);
 
-        res.status(200).send({
-            success: {
-                message: 'success',
-                type: 'platform users',
-                content: users
+            if (totalPages > 0) {
+                currentPage = Math.min(currentPage, totalPages);
             }
-        });
+
+            const skip = (currentPage - 1) * itemsPerPage;
+            const remainingItems = Math.max(totalItems - (currentPage * itemsPerPage), 0);
+
+            const pageNumbers = [...Array(totalPages).keys()].map(i => i + 1);
+
+            const useritems = await User.find().select('_id firstname lastname email phonenumber account').skip(skip).limit(itemsPerPage);
+
+            const users = await Promise.all(useritems.map(async user => {
+                const [account, cards] = await Promise.all([
+                    Account.findOne({ _id: user.account }),
+                    Card.find({ user: user._id })
+                ]);
+
+                return {
+                    details: user,
+                    account,
+                    cards
+                };
+            }));
+
+            res.status(200).send({
+                success: {
+                    message: 'success',
+                    type: 'platform users',
+                    content: users,
+                    totalPages,
+                    remainingItems,
+                    pageNumbers,
+                    totalItems
+                }
+            });
+        }
     } catch (error) {
         console.error('Error fetching users:', error);
         res.status(500).send({ error: 'Internal Server Error' });

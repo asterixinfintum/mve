@@ -166,15 +166,9 @@ export default {
       }
     },
     currentinvestmentitem() {
-      const { investmentplans } = this;
+      const { currentitemdetails } = this;
 
-      const currentitem = this.$route.query.currentitem;
-
-      const investmentplan = investmentplans.find(
-        (investmentplan) => investmentplan._id === currentitem
-      );
-
-      return investmentplan;
+      return currentitemdetails;
     },
     allowsubmit() {
       const {
@@ -216,7 +210,7 @@ export default {
         minimumdeposit,
         duration,
         unit,
-        investmentitemid
+        investmentitemid,
       } = this;
 
       const requirementsarray = requirements.split(", ");
@@ -249,6 +243,16 @@ export default {
         console.error("Error editing loan item:", error);
       }
     },
+  },
+  mounted() {
+    if (this.userid) {
+      this.foruser = this.userid;
+      this.getuser(this.userid);
+    }
+    
+    const currentitem = this.$route.query.currentitem;
+
+    this.getitemdetails({ type: "investmentplan", currentitem });
   },
 };
 </script>

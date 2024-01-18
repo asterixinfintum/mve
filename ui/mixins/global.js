@@ -52,7 +52,8 @@ export default {
             quickcontacts: state => state.client.quickcontacts,
             userloans: state => state.client.userloans,
             userinvestments: state => state.client.userinvestments,
-            usersavingsplans: state => state.client.usersavingsplans
+            usersavingsplans: state => state.client.usersavingsplans,
+            currentitemdetails: state => state.admin.currentitemdetails
         }),
         user() {
             return this.$route.query.user ? this.$route.query.user : this.$route.params.overview;
@@ -161,7 +162,8 @@ export default {
             'edituserloan',
             'editusersaving',
             'edituserinvestment',
-            'removeuser'
+            'removeuser',
+            'getitemdetails'
         ]),
         ...mapActions('client', [
             'createtransfer',

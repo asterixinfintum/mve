@@ -324,4 +324,34 @@ item.delete('/item/delete', authenticateToken, (req, res) => {
     res.status(405).send({ error: 'not alowed' })
 });
 
+item.get('/item/get', authenticateToken, async (req, res) => {
+    if (!req.user || !req.user._id) {
+        return res.status(401).send({ error: 'Unauthorized' });
+    }
+
+    const { type, id } = req.query;
+
+    try {
+        if (type === 'loan') {
+            const loan = await Loan.findOne({ _id: id });
+
+            res.status(200).send({ item: loan });
+        }
+
+        if (type === 'investmentplan') {
+            const investmentitem = await InvestmentPlan.findOne({ _id: id });
+
+            res.status(200).send({ item: investmentitem });
+        }
+
+        if (type === 'savingsplan') {
+            const savingsitem = await SavingsPlan.findOne({ _id: id });
+
+            res.status(200).send({ item: savingsitem });
+        }
+    } catch (error) {
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
+})
+
 export default item

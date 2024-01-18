@@ -384,7 +384,7 @@
         </div>
       </div>
 
-      <div class="curvedoffer" id="reviews">
+     <!-- <div class="curvedoffer" id="reviews">
         <div class="curvedoffer__body top-margin">
           <div class="curvedoffer__reviews">
             <div class="curvedoffer__copy no-flex">
@@ -415,9 +415,9 @@
               <figure>
                 <img src="@/assets/imgs/mungreview/reviewsix.png" />
               </figure>
-            </div>
+            </div>-->
 
-            <!--<div class="curvedoffer__reviewsgrid">
+            <div class="curvedoffer__reviewsgrid">
               <figure>
                 <img src="@/assets/imgs/ivcsreview/reviewone.png" />
               </figure>
@@ -440,7 +440,7 @@
               <figure>
                 <img src="@/assets/imgs/ivcsreview/reviewsix.png" />
               </figure>
-            </div>-->
+            </div>
           </div>
         </div>
       </div>

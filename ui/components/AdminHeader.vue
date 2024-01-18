@@ -91,7 +91,7 @@ export default {
     socket(newval, oldval) {
       if (newval) {
         this.socket.on("useractivity", () => {
-          this.getusers();
+          
         });
       }
     },
@@ -101,13 +101,13 @@ export default {
 
     this.getcurrentadmin(id);
 
-    this.getusers();
-    this.getloans();
-    this.getinvestmentplans();
-    this.getsavingsplans();
-    this.getnotifications();
+   // this.getusers();
+    //this.getloans();
+    //this.getinvestmentplans();
+    //this.getsavingsplans();
+    //this.getnotifications();
 
-    this.connect();
+    //this.connect();
   },
 };
 </script>

@@ -217,7 +217,6 @@ export default {
           //console.log('Notification received:', data.userid);
           if (this.client) {
             if (this.client._id === data.userid) {
-              console.log('get notofications');
               this.getusernotifications(data.userid);
             }
           }
@@ -228,10 +227,10 @@ export default {
       if (newval) {
         if (process) {
           if (process.client) {
-            this.connect(newval._id);
+            //this.connect(newval._id);
           }
         } else {
-          this.connect(newval._id);
+          //this.connect(newval._id);
         }
       } else {
         if (this.socket) {
@@ -259,7 +258,7 @@ export default {
     this.getloans();
     this.getinvestmentplans();
     this.getsavingsplans();
-    this.getnotifications();
+    //this.getnotifications();
   },
   methods: {
     togglesidenav() {

@@ -231,15 +231,9 @@ export default {
       }
     },
     currentsavingsitem() {
-      const { savingsplans } = this;
+      const { currentitemdetails } = this;
 
-      const currentitem = this.$route.query.currentitem;
-
-      const savingsplan = savingsplans.find(
-        (savingsplan) => savingsplan._id === currentitem
-      );
-
-      return savingsplan;
+      return currentitemdetails;
     },
     allowsubmit() {
       const {
@@ -278,6 +272,10 @@ export default {
       this.foruser = this.userid;
       this.getuser(this.userid);
     }
+
+    const currentitem = this.$route.query.currentitem;
+
+    this.getitemdetails({ type: "savingsplan", currentitem });
   },
 };
 </script>

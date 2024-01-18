@@ -131,6 +131,8 @@ export default {
     },
   },
   mounted() {
+    this.getloans();
+    
     if (this.userid) {
       this.foruser = this.userid;
       this.getuser(this.userid);

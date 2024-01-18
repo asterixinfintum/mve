@@ -140,7 +140,7 @@ export default {
       termduration: "",
       termunit: "",
       foruser: null,
-      loanid: null
+      loanid: null,
     };
   },
   mixins: [global],
@@ -155,7 +155,7 @@ export default {
         this.interestRate = newval.interestRate;
         this.termduration = newval.term.duration;
         this.termunit = newval.term.unit;
-        this.loanid = newval._id
+        this.loanid = newval._id;
       }
     },
   },
@@ -170,13 +170,9 @@ export default {
       }
     },
     currentloan() {
-      const { loans } = this;
+      const { currentitemdetails } = this;
 
-      const currentloanid = this.$route.query.currentloan;
-
-      const currentloan = loans.find((loan) => loan._id === currentloanid);
-
-      return currentloan;
+      return currentitemdetails;
     },
     allowsubmit() {
       const {
@@ -223,7 +219,7 @@ export default {
         termduration,
         termunit,
         foruser,
-        loanid
+        loanid,
       } = this;
 
       const requirementsarray = requirements.split(", ");
@@ -262,6 +258,10 @@ export default {
       this.foruser = this.userid;
       this.getuser(this.userid);
     }
+
+    const currentloanid = this.$route.query.currentloan
+
+    this.getitemdetails({ type: "loan", currentitem: currentloanid });
   },
 };
 </script>

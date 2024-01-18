@@ -97,6 +97,9 @@ export default {
     };
   },
   mixins: [global],
+  mounted() {
+    this.getsavingsplans();
+  },
   computed: {
     userid() {
       let userid = this.$route.query.user;
@@ -149,9 +152,7 @@ export default {
     updatemethod() {
       const { currentadmin, toadminroute, currentitem } = this;
 
-      return toadminroute(
-        `admin/dashboard/savingsplans/edit?currentitem=${currentitem}`
-      );
+      return toadminroute(`admin/dashboard/savingsplans/edit?currentitem=${currentitem}`);
     },
   },
 };

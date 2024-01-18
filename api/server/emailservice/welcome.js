@@ -1,5 +1,7 @@
 require('dotenv').config();
 
+import User from '.././models/user';
+
 import send from './send';
 
 const platformname = process.env.PLATFORM === 'MUNG' ? 'Munger Capital' : 'Ivc Standard'
@@ -82,8 +84,29 @@ const welcome = ({ email, firstname, userid }) => {
         };
 
         send({ template })
-            .then(result => {
+            .then(async result => {
                 console.log("Email sent successfully:", result);
+                try {
+                    // Use await with findByIdAndUpdate and handle the result with a variable
+                    const updatedUser = await User.findByIdAndUpdate(
+                        userid,
+                        { emailconfirmed: false },
+                        { new: true }
+                    );
+
+                    // Check if a document was found and updated
+                    if (updatedUser) {
+                        res.status(201).send({ successmessage: 'User updated successfully' });
+                    } else {
+                        // If no document was found, updatedUser will be null
+                        res.status(404).send({ error: 'No such user' });
+                    }
+                } catch (err) {
+                    // If there's an error in the query, it will be caught here
+                    console.error(err, 'error here in user confirm update');
+                    res.status(500).send({ error: 'Internal server error' });
+                }
+
             })
             .catch(error => {
                 console.error(error.message);

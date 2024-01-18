@@ -10,6 +10,10 @@
       </div>
 
       <div class="dashboard__content">
+        <div class="dashboard__list--pagination">
+          <span>Total Users: {{ totalUsers }}</span>
+        </div>
+
         <div class="dashboard__list">
           <div class="dashboard__listitem dashboard__listitem--headerarea">
             <div class="dashboard__listitem--subject">
@@ -49,7 +53,15 @@
             <div class="dashboard__listitem--subject">
               <span>{{
                 limitTextLength(`${user.details.firstname} ${user.details.lastname}`, 25)
-              }}</span> <span class="onlineofflineindicator online" v-if="user.details.online"></span><span class="onlineofflineindicator offline" v-if="!user.details.online"></span>
+              }}</span>
+              <span
+                class="onlineofflineindicator online"
+                v-if="user.details.online"
+              ></span
+              ><span
+                class="onlineofflineindicator offline"
+                v-if="!user.details.online"
+              ></span>
             </div>
             <div class="dashboard__listitem--subject">
               <span>{{ limitTextLength(user.details.email, 17) }}</span>
@@ -79,25 +91,57 @@
             </div>
           </div>
         </div>
+
+        <div class="dashboard__list--pagination">
+          <span>Items remaining: {{ remainingItems }}</span>
+        </div>
+
+        <div class="dashboard__list--pagination">
+          <span
+            v-for="pageNumber in pageNumbers"
+            :class="{ current: currentPage === pageNumber }"
+            @click="getuserbatch(pageNumber)"
+            >{{ pageNumber }}</span
+          >
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions, mapState, mapMutations } from "vuex";
+
 import global from "@/mixins/global";
 
 export default {
+  mounted() {
+    const { currentPage } = this;
+    this.getusers(currentPage);
+  },
+  computed: {
+    ...mapState({
+      totalUsers: (state) => state.admin.totalPages,
+      remainingItems: (state) => state.admin.remainingItems,
+      pageNumbers: (state) => state.admin.pageNumbers,
+    }),
+  },
   mixins: [global],
   methods: {
     deleteuser(id) {
       this.removeuser(id).then(this.getusers());
+    },
+    getuserbatch(batch) {
+      this.currentPage = batch;
+      this.searchterm = "";
+      this.getusers(this.currentPage);
     },
   },
   data() {
     return {
       searchterm: "",
       userslist: [],
+      currentPage: 1,
     };
   },
   watch: {
