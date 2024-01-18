@@ -150,9 +150,8 @@ _mongoose["default"].connect("".concat(process.env.DB), {
                   }
                   return _context2.abrupt("return", error);
                 case 2:
-                  initSocketIO();
                   return _context2.abrupt("return", console.log("server started on port here now ".concat(PORT)));
-                case 4:
+                case 3:
                 case "end":
                   return _context2.stop();
               }

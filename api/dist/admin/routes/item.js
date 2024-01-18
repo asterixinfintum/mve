@@ -651,4 +651,80 @@ item["delete"]('/item/delete', _authenticateToken["default"], function (req, res
     error: 'not alowed'
   });
 });
+item.get('/item/get', _authenticateToken["default"], /*#__PURE__*/function () {
+  var _ref12 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee12(req, res) {
+    var _req$query3, type, id, loan, investmentitem, savingsitem;
+    return _regeneratorRuntime().wrap(function _callee12$(_context12) {
+      while (1) switch (_context12.prev = _context12.next) {
+        case 0:
+          if (!(!req.user || !req.user._id)) {
+            _context12.next = 2;
+            break;
+          }
+          return _context12.abrupt("return", res.status(401).send({
+            error: 'Unauthorized'
+          }));
+        case 2:
+          _req$query3 = req.query, type = _req$query3.type, id = _req$query3.id;
+          _context12.prev = 3;
+          if (!(type === 'loan')) {
+            _context12.next = 9;
+            break;
+          }
+          _context12.next = 7;
+          return _loan["default"].findOne({
+            _id: id
+          });
+        case 7:
+          loan = _context12.sent;
+          res.status(200).send({
+            item: loan
+          });
+        case 9:
+          if (!(type === 'investmentplan')) {
+            _context12.next = 14;
+            break;
+          }
+          _context12.next = 12;
+          return _investmentplan["default"].findOne({
+            _id: id
+          });
+        case 12:
+          investmentitem = _context12.sent;
+          res.status(200).send({
+            item: investmentitem
+          });
+        case 14:
+          if (!(type === 'savingsplan')) {
+            _context12.next = 19;
+            break;
+          }
+          _context12.next = 17;
+          return _savingsplan["default"].findOne({
+            _id: id
+          });
+        case 17:
+          savingsitem = _context12.sent;
+          res.status(200).send({
+            item: savingsitem
+          });
+        case 19:
+          _context12.next = 24;
+          break;
+        case 21:
+          _context12.prev = 21;
+          _context12.t0 = _context12["catch"](3);
+          res.status(500).send({
+            error: 'Internal Server Error'
+          });
+        case 24:
+        case "end":
+          return _context12.stop();
+      }
+    }, _callee12, null, [[3, 21]]);
+  }));
+  return function (_x23, _x24) {
+    return _ref12.apply(this, arguments);
+  };
+}());
 var _default = exports["default"] = item;
