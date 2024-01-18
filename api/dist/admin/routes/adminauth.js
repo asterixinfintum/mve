@@ -218,10 +218,22 @@ adminauth.get('/admin/getusers', _authenticateToken["default"], /*#__PURE__*/fun
           }
           _context6.next = 12;
           return _user["default"].find({
-            firstname: {
-              $regex: searchquery,
-              $options: 'i'
-            }
+            $or: [{
+              firstname: {
+                $regex: searchquery,
+                $options: 'i'
+              }
+            }, {
+              lastname: {
+                $regex: searchquery,
+                $options: 'i'
+              }
+            }, {
+              email: {
+                $regex: searchquery,
+                $options: 'i'
+              }
+            }]
           }).select('_id firstname lastname email phonenumber account');
         case 12:
           useritems = _context6.sent;
@@ -239,10 +251,22 @@ adminauth.get('/admin/getusers', _authenticateToken["default"], /*#__PURE__*/fun
           });
           _context6.next = 23;
           return _user["default"].find({
-            firstname: {
-              $regex: searchquery,
-              $options: 'i'
-            }
+            $or: [{
+              firstname: {
+                $regex: searchquery,
+                $options: 'i'
+              }
+            }, {
+              lastname: {
+                $regex: searchquery,
+                $options: 'i'
+              }
+            }, {
+              email: {
+                $regex: searchquery,
+                $options: 'i'
+              }
+            }]
           }).select('_id firstname lastname email phonenumber account').skip(skip).limit(itemsPerPage);
         case 23:
           useritemstwo = _context6.sent;
