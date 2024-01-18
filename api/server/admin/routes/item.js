@@ -201,7 +201,7 @@ item.post('/item/createnotification', authenticateToken, async (req, res) => {
 
         //console.log(success);
 
-        getIO().emit('notification', { userid: success.content.user });
+        //getIO().emit('notification', { userid: success.content.user });
 
         res.status(200).send({ success });
     } catch (error) {
