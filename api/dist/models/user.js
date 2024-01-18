@@ -74,6 +74,11 @@ var userSchema = new Schema({
     "default": false
   }
 });
+userSchema.index({
+  firstname: 'text',
+  lastname: 'text',
+  email: 'text'
+});
 function dateOneYearFromNow() {
   // Get the current date
   var currentDate = new Date();

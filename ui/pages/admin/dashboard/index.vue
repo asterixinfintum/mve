@@ -118,7 +118,7 @@ import global from "@/mixins/global";
 export default {
   mounted() {
     const { currentPage } = this;
-    this.getusers(currentPage);
+    this.getusers({ currentPage, searchquery: this.searchterm });
   },
   computed: {
     ...mapState({
@@ -130,12 +130,11 @@ export default {
   mixins: [global],
   methods: {
     deleteuser(id) {
-      this.removeuser(id).then(this.getusers());
+      this.removeuser(id).then(this.getusers({ currentPage: this.currentPage, searchquery: this.searchterm }));
     },
     getuserbatch(batch) {
       this.currentPage = batch;
-      this.searchterm = "";
-      this.getusers(this.currentPage);
+      this.getusers({ currentPage: this.currentPage, searchquery: this.searchterm });
     },
   },
   data() {
@@ -150,9 +149,11 @@ export default {
       this.userslist = newval;
     },
     searchterm(newval, oldval) {
-      const { users } = this;
+      this.currentPage = 1;
+      this.getusers({ currentPage: this.currentPage, searchquery: newval });
+      //const { users } = this;
 
-      if (users.length) {
+      /*if (users.length) {
         const searchTerm = this.searchterm.trim().toLowerCase();
         const filtered = users.filter(
           (user) =>
@@ -162,7 +163,7 @@ export default {
         );
 
         this.userslist = filtered;
-      }
+      }*/
     },
   },
 };

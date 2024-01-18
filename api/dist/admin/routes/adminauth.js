@@ -183,44 +183,50 @@ adminauth.post('/admin/signin', /*#__PURE__*/function () {
   };
 }());
 adminauth.get('/admin/getusers', _authenticateToken["default"], /*#__PURE__*/function () {
-  var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(req, res) {
-    var administrator, currentPageQuery, totalItems, itemsPerPage, totalPages, currentPage, skip, remainingItems, pageNumbers, useritems, users;
-    return _regeneratorRuntime().wrap(function _callee5$(_context5) {
-      while (1) switch (_context5.prev = _context5.next) {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(req, res) {
+    var administrator, _req$query, currentPageQuery, searchquery, useritems, totalItems, itemsPerPage, totalPages, currentPage, skip, remainingItems, pageNumbers, useritemstwo, users, _totalItems, _itemsPerPage, _totalPages, _currentPage, _skip, _remainingItems, _pageNumbers, _useritems, _users;
+    return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+      while (1) switch (_context6.prev = _context6.next) {
         case 0:
           if (!(!req.user || !req.user._id)) {
-            _context5.next = 2;
+            _context6.next = 2;
             break;
           }
-          return _context5.abrupt("return", res.status(401).send({
+          return _context6.abrupt("return", res.status(401).send({
             error: 'Unauthorized'
           }));
         case 2:
-          _context5.prev = 2;
-          _context5.next = 5;
+          _context6.prev = 2;
+          _context6.next = 5;
           return _admin["default"].findOne({
             _id: req.user._id
           });
         case 5:
-          administrator = _context5.sent;
+          administrator = _context6.sent;
           if (!(!administrator || !administrator.admin)) {
-            _context5.next = 8;
+            _context6.next = 8;
             break;
           }
-          return _context5.abrupt("return", res.status(403).send({
+          return _context6.abrupt("return", res.status(403).send({
             error: 'Forbidden: Insufficient privileges'
           }));
         case 8:
-          currentPageQuery = req.query.currentPageQuery;
-          if (!currentPageQuery) {
-            _context5.next = 27;
+          _req$query = req.query, currentPageQuery = _req$query.currentPageQuery, searchquery = _req$query.searchquery;
+          if (!searchquery.length) {
+            _context6.next = 29;
             break;
           }
-          _context5.next = 12;
-          return _user["default"].countDocuments();
+          _context6.next = 12;
+          return _user["default"].find({
+            firstname: {
+              $regex: searchquery,
+              $options: 'i'
+            }
+          }).select('_id firstname lastname email phonenumber account');
         case 12:
-          totalItems = _context5.sent;
-          itemsPerPage = 10;
+          useritems = _context6.sent;
+          totalItems = useritems.length;
+          itemsPerPage = 30;
           totalPages = Math.ceil(totalItems / itemsPerPage);
           currentPage = Math.max(currentPageQuery, 1);
           if (totalPages > 0) {
@@ -231,12 +237,17 @@ adminauth.get('/admin/getusers', _authenticateToken["default"], /*#__PURE__*/fun
           pageNumbers = _toConsumableArray(Array(totalPages).keys()).map(function (i) {
             return i + 1;
           });
-          _context5.next = 22;
-          return _user["default"].find().select('_id firstname lastname email phonenumber account').skip(skip).limit(itemsPerPage);
-        case 22:
-          useritems = _context5.sent;
-          _context5.next = 25;
-          return Promise.all(useritems.map( /*#__PURE__*/function () {
+          _context6.next = 23;
+          return _user["default"].find({
+            firstname: {
+              $regex: searchquery,
+              $options: 'i'
+            }
+          }).select('_id firstname lastname email phonenumber account').skip(skip).limit(itemsPerPage);
+        case 23:
+          useritemstwo = _context6.sent;
+          _context6.next = 26;
+          return Promise.all(useritemstwo.map( /*#__PURE__*/function () {
             var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(user) {
               var _yield$Promise$all, _yield$Promise$all2, account, cards;
               return _regeneratorRuntime().wrap(function _callee4$(_context4) {
@@ -268,8 +279,8 @@ adminauth.get('/admin/getusers', _authenticateToken["default"], /*#__PURE__*/fun
               return _ref5.apply(this, arguments);
             };
           }()));
-        case 25:
-          users = _context5.sent;
+        case 26:
+          users = _context6.sent;
           res.status(200).send({
             success: {
               message: 'success',
@@ -281,123 +292,100 @@ adminauth.get('/admin/getusers', _authenticateToken["default"], /*#__PURE__*/fun
               totalItems: totalItems
             }
           });
-        case 27:
-          _context5.next = 33;
-          break;
+          return _context6.abrupt("return");
         case 29:
-          _context5.prev = 29;
-          _context5.t0 = _context5["catch"](2);
-          console.error('Error fetching users:', _context5.t0);
+          if (!currentPageQuery) {
+            _context6.next = 47;
+            break;
+          }
+          _context6.next = 32;
+          return _user["default"].countDocuments();
+        case 32:
+          _totalItems = _context6.sent;
+          _itemsPerPage = 30;
+          _totalPages = Math.ceil(_totalItems / _itemsPerPage);
+          _currentPage = Math.max(currentPageQuery, 1);
+          if (_totalPages > 0) {
+            _currentPage = Math.min(_currentPage, _totalPages);
+          }
+          _skip = (_currentPage - 1) * _itemsPerPage;
+          _remainingItems = Math.max(_totalItems - _currentPage * _itemsPerPage, 0);
+          _pageNumbers = _toConsumableArray(Array(_totalPages).keys()).map(function (i) {
+            return i + 1;
+          });
+          _context6.next = 42;
+          return _user["default"].find().select('_id firstname lastname email phonenumber account').skip(_skip).limit(_itemsPerPage);
+        case 42:
+          _useritems = _context6.sent;
+          _context6.next = 45;
+          return Promise.all(_useritems.map( /*#__PURE__*/function () {
+            var _ref6 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(user) {
+              var _yield$Promise$all3, _yield$Promise$all4, account, cards;
+              return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+                while (1) switch (_context5.prev = _context5.next) {
+                  case 0:
+                    _context5.next = 2;
+                    return Promise.all([_account["default"].findOne({
+                      _id: user.account
+                    }), _card["default"].find({
+                      user: user._id
+                    })]);
+                  case 2:
+                    _yield$Promise$all3 = _context5.sent;
+                    _yield$Promise$all4 = _slicedToArray(_yield$Promise$all3, 2);
+                    account = _yield$Promise$all4[0];
+                    cards = _yield$Promise$all4[1];
+                    return _context5.abrupt("return", {
+                      details: user,
+                      account: account,
+                      cards: cards
+                    });
+                  case 7:
+                  case "end":
+                    return _context5.stop();
+                }
+              }, _callee5);
+            }));
+            return function (_x10) {
+              return _ref6.apply(this, arguments);
+            };
+          }()));
+        case 45:
+          _users = _context6.sent;
+          res.status(200).send({
+            success: {
+              message: 'success',
+              type: 'platform users',
+              content: _users,
+              totalPages: _totalPages,
+              remainingItems: _remainingItems,
+              pageNumbers: _pageNumbers,
+              totalItems: _totalItems
+            }
+          });
+        case 47:
+          _context6.next = 53;
+          break;
+        case 49:
+          _context6.prev = 49;
+          _context6.t0 = _context6["catch"](2);
+          console.error('Error fetching users:', _context6.t0);
           res.status(500).send({
             error: 'Internal Server Error'
           });
-        case 33:
+        case 53:
         case "end":
-          return _context5.stop();
+          return _context6.stop();
       }
-    }, _callee5, null, [[2, 29]]);
+    }, _callee6, null, [[2, 49]]);
   }));
   return function (_x7, _x8) {
     return _ref4.apply(this, arguments);
   };
 }());
 adminauth.get('/admin/getuser', _authenticateToken["default"], /*#__PURE__*/function () {
-  var _ref6 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(req, res) {
-    var administrator, userid, user, _yield$Promise$all3, _yield$Promise$all4, account, cards, result;
-    return _regeneratorRuntime().wrap(function _callee6$(_context6) {
-      while (1) switch (_context6.prev = _context6.next) {
-        case 0:
-          if (!(!req.user || !req.user._id)) {
-            _context6.next = 2;
-            break;
-          }
-          return _context6.abrupt("return", res.status(401).send({
-            error: 'Unauthorized'
-          }));
-        case 2:
-          _context6.prev = 2;
-          _context6.next = 5;
-          return _admin["default"].findOne({
-            _id: req.user._id
-          });
-        case 5:
-          administrator = _context6.sent;
-          if (!(!administrator || !administrator.admin)) {
-            _context6.next = 8;
-            break;
-          }
-          return _context6.abrupt("return", res.status(403).send({
-            error: 'Forbidden: Insufficient privileges'
-          }));
-        case 8:
-          userid = req.query.userid;
-          if (userid) {
-            _context6.next = 11;
-            break;
-          }
-          return _context6.abrupt("return", res.status(400).send({
-            error: 'User ID is required'
-          }));
-        case 11:
-          _context6.next = 13;
-          return _user["default"].findOne({
-            _id: userid
-          });
-        case 13:
-          user = _context6.sent;
-          if (user) {
-            _context6.next = 16;
-            break;
-          }
-          return _context6.abrupt("return", res.status(404).send({
-            error: 'User not found'
-          }));
-        case 16:
-          _context6.next = 18;
-          return Promise.all([_account["default"].findOne({
-            _id: user.account
-          }), _card["default"].find({
-            user: user._id
-          })]);
-        case 18:
-          _yield$Promise$all3 = _context6.sent;
-          _yield$Promise$all4 = _slicedToArray(_yield$Promise$all3, 2);
-          account = _yield$Promise$all4[0];
-          cards = _yield$Promise$all4[1];
-          result = {
-            details: user,
-            account: account,
-            cards: cards
-          };
-          res.status(200).send({
-            success: {
-              message: 'success',
-              type: 'platform user',
-              content: result
-            }
-          });
-          _context6.next = 30;
-          break;
-        case 26:
-          _context6.prev = 26;
-          _context6.t0 = _context6["catch"](2);
-          console.error('Error fetching user:', _context6.t0);
-          res.status(500).send({
-            error: 'Internal Server Error'
-          });
-        case 30:
-        case "end":
-          return _context6.stop();
-      }
-    }, _callee6, null, [[2, 26]]);
-  }));
-  return function (_x10, _x11) {
-    return _ref6.apply(this, arguments);
-  };
-}());
-adminauth.get('/admin/getusertxns', _authenticateToken["default"], /*#__PURE__*/function () {
   var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(req, res) {
-    var administrator, userid, transactions;
+    var administrator, userid, user, _yield$Promise$all5, _yield$Promise$all6, account, cards, result;
     return _regeneratorRuntime().wrap(function _callee7$(_context7) {
       while (1) switch (_context7.prev = _context7.next) {
         case 0:
@@ -434,29 +422,137 @@ adminauth.get('/admin/getusertxns', _authenticateToken["default"], /*#__PURE__*/
           }));
         case 11:
           _context7.next = 13;
+          return _user["default"].findOne({
+            _id: userid
+          });
+        case 13:
+          user = _context7.sent;
+          if (user) {
+            _context7.next = 16;
+            break;
+          }
+          return _context7.abrupt("return", res.status(404).send({
+            error: 'User not found'
+          }));
+        case 16:
+          _context7.next = 18;
+          return Promise.all([_account["default"].findOne({
+            _id: user.account
+          }), _card["default"].find({
+            user: user._id
+          })]);
+        case 18:
+          _yield$Promise$all5 = _context7.sent;
+          _yield$Promise$all6 = _slicedToArray(_yield$Promise$all5, 2);
+          account = _yield$Promise$all6[0];
+          cards = _yield$Promise$all6[1];
+          result = {
+            details: user,
+            account: account,
+            cards: cards
+          };
+          res.status(200).send({
+            success: {
+              message: 'success',
+              type: 'platform user',
+              content: result
+            }
+          });
+          _context7.next = 30;
+          break;
+        case 26:
+          _context7.prev = 26;
+          _context7.t0 = _context7["catch"](2);
+          console.error('Error fetching user:', _context7.t0);
+          res.status(500).send({
+            error: 'Internal Server Error'
+          });
+        case 30:
+        case "end":
+          return _context7.stop();
+      }
+    }, _callee7, null, [[2, 26]]);
+  }));
+  return function (_x11, _x12) {
+    return _ref7.apply(this, arguments);
+  };
+}());
+adminauth.get('/admin/getusertxns', _authenticateToken["default"], /*#__PURE__*/function () {
+  var _ref8 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(req, res) {
+    var administrator, userid, transactions;
+    return _regeneratorRuntime().wrap(function _callee8$(_context8) {
+      while (1) switch (_context8.prev = _context8.next) {
+        case 0:
+          if (!(!req.user || !req.user._id)) {
+            _context8.next = 2;
+            break;
+          }
+          return _context8.abrupt("return", res.status(401).send({
+            error: 'Unauthorized'
+          }));
+        case 2:
+          _context8.prev = 2;
+          _context8.next = 5;
+          return _admin["default"].findOne({
+            _id: req.user._id
+          });
+        case 5:
+          administrator = _context8.sent;
+          if (!(!administrator || !administrator.admin)) {
+            _context8.next = 8;
+            break;
+          }
+          return _context8.abrupt("return", res.status(403).send({
+            error: 'Forbidden: Insufficient privileges'
+          }));
+        case 8:
+          userid = req.query.userid;
+          if (userid) {
+            _context8.next = 11;
+            break;
+          }
+          return _context8.abrupt("return", res.status(400).send({
+            error: 'User ID is required'
+          }));
+        case 11:
+          _context8.next = 13;
           return _user["default"].getTransactions(userid);
         case 13:
-          transactions = _context7.sent;
+          transactions = _context8.sent;
           res.status(200).send({
             success: transactions
           });
-          _context7.next = 21;
+          _context8.next = 21;
           break;
         case 17:
-          _context7.prev = 17;
-          _context7.t0 = _context7["catch"](2);
-          console.error('Error fetching transactions:', _context7.t0);
+          _context8.prev = 17;
+          _context8.t0 = _context8["catch"](2);
+          console.error('Error fetching transactions:', _context8.t0);
           res.status(500).send({
             error: 'Internal Server Error'
           });
         case 21:
         case "end":
-          return _context7.stop();
+          return _context8.stop();
       }
-    }, _callee7, null, [[2, 17]]);
+    }, _callee8, null, [[2, 17]]);
   }));
-  return function (_x12, _x13) {
-    return _ref7.apply(this, arguments);
+  return function (_x13, _x14) {
+    return _ref8.apply(this, arguments);
+  };
+}());
+adminauth.get('/search', _authenticateToken["default"], /*#__PURE__*/function () {
+  var _ref9 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(req, res) {
+    return _regeneratorRuntime().wrap(function _callee9$(_context9) {
+      while (1) switch (_context9.prev = _context9.next) {
+        case 0:
+        case "end":
+          return _context9.stop();
+      }
+    }, _callee9);
+  }));
+  return function (_x15, _x16) {
+    return _ref9.apply(this, arguments);
   };
 }());
 var _default = exports["default"] = adminauth;

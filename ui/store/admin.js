@@ -117,12 +117,12 @@ export const actions = {
             }
         });
     },
-    getusers({ commit }, currentPage) {
+    getusers({ commit }, { currentPage, searchquery }) {
         return new Promise(async (resolve, reject) => {
             const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
 
             if (admintoken) {
-                const data = await getfromserver({ token: admintoken, path: `admin/getusers?currentPageQuery=${currentPage}` });
+                const data = await getfromserver({ token: admintoken, path: `admin/getusers?currentPageQuery=${currentPage}&searchquery=${searchquery}` });
 
                 if (data.success) {
                     const users = data.success.content;
