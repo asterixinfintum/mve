@@ -475,26 +475,25 @@ item.post('/item/createnotification', _authenticateToken["default"], /*#__PURE__
           success = _context10.sent;
           //console.log(success);
 
-          (0, _socket.getIO)().emit('notification', {
-            userid: success.content.user
-          });
+          //getIO().emit('notification', { userid: success.content.user });
+
           res.status(200).send({
             success: success
           });
-          _context10.next = 14;
+          _context10.next = 13;
           break;
-        case 10:
-          _context10.prev = 10;
+        case 9:
+          _context10.prev = 9;
           _context10.t0 = _context10["catch"](2);
           console.error('Error creating notification:', _context10.t0);
           res.status(500).send({
             error: 'Internal Server Error'
           });
-        case 14:
+        case 13:
         case "end":
           return _context10.stop();
       }
-    }, _callee10, null, [[2, 10]]);
+    }, _callee10, null, [[2, 9]]);
   }));
   return function (_x19, _x20) {
     return _ref10.apply(this, arguments);

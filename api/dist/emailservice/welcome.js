@@ -39,7 +39,7 @@ var welcome = function welcome(_ref) {
               _context.prev = 1;
               _context.next = 4;
               return _user["default"].findByIdAndUpdate(userid, {
-                emailcofirmed: false
+                emailconfirmed: false
               }, {
                 "new": true
               });

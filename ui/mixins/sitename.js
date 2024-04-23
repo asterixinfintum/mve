@@ -13,7 +13,7 @@ export default {
             if (BASE.includes('mung')) {
                 return 'Munger Capital'
             } else {
-                return 'Ivcstandard'
+                return 'Slauscapital'
             }
         }
     }
