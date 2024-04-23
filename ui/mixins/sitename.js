@@ -3,7 +3,7 @@ import requester from "@/store/requester";
 export default {
     head() {
         return {
-            title: requester.BASE.includes('mung') ? 'Munger Capital' : 'Ivcstandard'
+            title: requester.BASE.includes('mung') ? 'Munger Capital' : 'Slauscapital'
         }
     },
     computed: {
