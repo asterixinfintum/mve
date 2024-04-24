@@ -16,6 +16,7 @@ console.log(BASE, 'check for the name here');
 
 if (BASE.includes('localhost')) {
     BASE = `http://localhost:8081`
+    //BASE = 'https://api.slauscapital.com'
 } else {
     BASE = getCurrentPageDomain();
 }

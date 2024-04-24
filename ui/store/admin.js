@@ -118,6 +118,7 @@ export const actions = {
         });
     },
     getusers({ commit }, { currentPage, searchquery }) {
+        console.log(currentPage, searchquery, 'check')
         return new Promise(async (resolve, reject) => {
             const admintoken = localStorage.getItem('873__jh6bdjklkjhghn');
 
@@ -126,7 +127,7 @@ export const actions = {
 
                 if (data.success) {
                     const users = data.success.content;
-                    //console.log(users);
+                    //console.log(data.success);
                     commit('SET_USERS', users);
                     commit('SET_TOTAL_USERS', data.success.totalItems);
                     commit('SET_REMAINING_ITEMS', data.success.remainingItems);

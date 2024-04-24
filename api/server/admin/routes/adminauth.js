@@ -72,6 +72,84 @@ adminauth.post('/admin/signin', async (req, res) => {
 
 adminauth.get('/admin/getusers', authenticateToken, async (req, res) => {
     if (!req.user || !req.user._id) {
+        return res.status(401).send({
+            error: 'Unauthorized'
+        });
+    }
+
+    try {
+        const administrator = await Admin.findOne({ _id: req.user._id });
+
+        if (!administrator || !administrator.admin) {
+            return res.status(403).send({
+                error: 'Forbidden: Insufficient privileges'
+            });
+        }
+
+        const { currentPageQuery, searchquery } = req.query;
+
+        if (searchquery.length) {
+            const useritems = await User.find({
+                $or: [
+                    { firstname: { $regex: searchquery, $options: 'i' } },
+                    { lastname: { $regex: searchquery, $options: 'i' } },
+                    { email: { $regex: searchquery, $options: 'i' } }
+                ]
+            }).select('_id firstname lastname email phonenumber account');
+
+            const totalItems = useritems.length;
+            const itemsPerPage = 30;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            let currentPage = Math.max(currentPageQuery, 1);
+            if (totalPages > 0) {
+                currentPage = Math.min(currentPage, totalPages);
+            }
+            const skip = (currentPage - 1) * itemsPerPage;
+            const remainingItems = Math.max(totalItems - (currentPage * itemsPerPage), 0);
+            const pageNumbers = [...Array(totalPages).keys()].map(i => i + 1);
+
+            const useritemstwo = await User.find({
+                $or: [
+                    { firstname: { $regex: searchquery, $options: 'i' } },
+                    { lastname: { $regex: searchquery, $options: 'i' } },
+                    { email: { $regex: searchquery, $options: 'i' } }
+                ]
+            }).select('_id firstname lastname email phonenumber account').skip(skip).limit(itemsPerPage);
+
+            const users = await Promise.all(useritemstwo.map(async user => {
+                //console.log(user, 'here')
+                const [account, cards] = await Promise.all([
+                    Account.findOne({ _id: user.account }),
+                    Card.find({ user: user._id })
+                ]);
+                return { details: user, account, cards };
+            }));
+
+           // console.log(users, totalPages, currentPage, remainingItems, pageNumbers )
+
+           // res.send({ users, totalPages, currentPage, remainingItems, pageNumbers });
+
+            res.status(200).send({
+                success: {
+                    message: 'success',
+                    type: 'platform users',
+                    content: users,
+                    totalPages,
+                    remainingItems,
+                    pageNumbers,
+                    currentPage,
+                    totalItems
+                }
+            });
+        }
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({ error: 'Internal server error' });
+    }
+});
+
+/*adminauth.get('/admin/getusers', authenticateToken, async (req, res) => {
+    if (!req.user || !req.user._id) {
         return res.status(401).send({ error: 'Unauthorized' });
     }
 
@@ -130,7 +208,7 @@ adminauth.get('/admin/getusers', authenticateToken, async (req, res) => {
         console.error('Error fetching users:', error);
         res.status(500).send({ error: 'Internal Server Error' });
     }
-});
+});*/
 
 adminauth.get('/admin/getuser', authenticateToken, async (req, res) => {
     if (!req.user || !req.user._id) {

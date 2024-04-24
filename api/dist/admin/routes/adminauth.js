@@ -184,7 +184,7 @@ adminauth.post('/admin/signin', /*#__PURE__*/function () {
 }());
 adminauth.get('/admin/getusers', _authenticateToken["default"], /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(req, res) {
-    var administrator, currentPageQuery, totalItems, itemsPerPage, totalPages, currentPage, skip, remainingItems, pageNumbers, useritems, users;
+    var administrator, _req$query, currentPageQuery, searchquery, useritems, totalItems, itemsPerPage, totalPages, currentPage, skip, remainingItems, pageNumbers, useritemstwo, users;
     return _regeneratorRuntime().wrap(function _callee5$(_context5) {
       while (1) switch (_context5.prev = _context5.next) {
         case 0:
@@ -211,16 +211,34 @@ adminauth.get('/admin/getusers', _authenticateToken["default"], /*#__PURE__*/fun
             error: 'Forbidden: Insufficient privileges'
           }));
         case 8:
-          currentPageQuery = req.query.currentPageQuery;
-          if (!currentPageQuery) {
-            _context5.next = 27;
+          _req$query = req.query, currentPageQuery = _req$query.currentPageQuery, searchquery = _req$query.searchquery;
+          if (!searchquery.length) {
+            _context5.next = 28;
             break;
           }
           _context5.next = 12;
-          return _user["default"].countDocuments();
+          return _user["default"].find({
+            $or: [{
+              firstname: {
+                $regex: searchquery,
+                $options: 'i'
+              }
+            }, {
+              lastname: {
+                $regex: searchquery,
+                $options: 'i'
+              }
+            }, {
+              email: {
+                $regex: searchquery,
+                $options: 'i'
+              }
+            }]
+          }).select('_id firstname lastname email phonenumber account');
         case 12:
-          totalItems = _context5.sent;
-          itemsPerPage = 10;
+          useritems = _context5.sent;
+          totalItems = useritems.length;
+          itemsPerPage = 30;
           totalPages = Math.ceil(totalItems / itemsPerPage);
           currentPage = Math.max(currentPageQuery, 1);
           if (totalPages > 0) {
@@ -231,12 +249,29 @@ adminauth.get('/admin/getusers', _authenticateToken["default"], /*#__PURE__*/fun
           pageNumbers = _toConsumableArray(Array(totalPages).keys()).map(function (i) {
             return i + 1;
           });
-          _context5.next = 22;
-          return _user["default"].find().select('_id firstname lastname email phonenumber account').skip(skip).limit(itemsPerPage);
-        case 22:
-          useritems = _context5.sent;
-          _context5.next = 25;
-          return Promise.all(useritems.map( /*#__PURE__*/function () {
+          _context5.next = 23;
+          return _user["default"].find({
+            $or: [{
+              firstname: {
+                $regex: searchquery,
+                $options: 'i'
+              }
+            }, {
+              lastname: {
+                $regex: searchquery,
+                $options: 'i'
+              }
+            }, {
+              email: {
+                $regex: searchquery,
+                $options: 'i'
+              }
+            }]
+          }).select('_id firstname lastname email phonenumber account').skip(skip).limit(itemsPerPage);
+        case 23:
+          useritemstwo = _context5.sent;
+          _context5.next = 26;
+          return Promise.all(useritemstwo.map( /*#__PURE__*/function () {
             var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(user) {
               var _yield$Promise$all, _yield$Promise$all2, account, cards;
               return _regeneratorRuntime().wrap(function _callee4$(_context4) {
@@ -268,8 +303,12 @@ adminauth.get('/admin/getusers', _authenticateToken["default"], /*#__PURE__*/fun
               return _ref5.apply(this, arguments);
             };
           }()));
-        case 25:
+        case 26:
           users = _context5.sent;
+          // console.log(users, totalPages, currentPage, remainingItems, pageNumbers )
+
+          // res.send({ users, totalPages, currentPage, remainingItems, pageNumbers });
+
           res.status(200).send({
             success: {
               message: 'success',
@@ -278,29 +317,93 @@ adminauth.get('/admin/getusers', _authenticateToken["default"], /*#__PURE__*/fun
               totalPages: totalPages,
               remainingItems: remainingItems,
               pageNumbers: pageNumbers,
+              currentPage: currentPage,
               totalItems: totalItems
             }
           });
-        case 27:
-          _context5.next = 33;
+        case 28:
+          _context5.next = 34;
           break;
-        case 29:
-          _context5.prev = 29;
+        case 30:
+          _context5.prev = 30;
           _context5.t0 = _context5["catch"](2);
-          console.error('Error fetching users:', _context5.t0);
+          console.log(_context5.t0);
           res.status(500).send({
-            error: 'Internal Server Error'
+            error: 'Internal server error'
           });
-        case 33:
+        case 34:
         case "end":
           return _context5.stop();
       }
-    }, _callee5, null, [[2, 29]]);
+    }, _callee5, null, [[2, 30]]);
   }));
   return function (_x7, _x8) {
     return _ref4.apply(this, arguments);
   };
 }());
+
+/*adminauth.get('/admin/getusers', authenticateToken, async (req, res) => {
+    if (!req.user || !req.user._id) {
+        return res.status(401).send({ error: 'Unauthorized' });
+    }
+
+    try {
+        const administrator = await Admin.findOne({ _id: req.user._id });
+
+        if (!administrator || !administrator.admin) {
+            return res.status(403).send({ error: 'Forbidden: Insufficient privileges' });
+        }
+
+        const { currentPageQuery } = req.query;
+
+        if (currentPageQuery) {
+            const totalItems = await User.countDocuments();
+            const itemsPerPage = 10;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            let currentPage = Math.max(currentPageQuery, 1);
+
+            if (totalPages > 0) {
+                currentPage = Math.min(currentPage, totalPages);
+            }
+
+            const skip = (currentPage - 1) * itemsPerPage;
+            const remainingItems = Math.max(totalItems - (currentPage * itemsPerPage), 0);
+
+            const pageNumbers = [...Array(totalPages).keys()].map(i => i + 1);
+
+            const useritems = await User.find().select('_id firstname lastname email phonenumber account').skip(skip).limit(itemsPerPage);
+
+            const users = await Promise.all(useritems.map(async user => {
+                const [account, cards] = await Promise.all([
+                    Account.findOne({ _id: user.account }),
+                    Card.find({ user: user._id })
+                ]);
+
+                return {
+                    details: user,
+                    account,
+                    cards
+                };
+            }));
+
+            res.status(200).send({
+                success: {
+                    message: 'success',
+                    type: 'platform users',
+                    content: users,
+                    totalPages,
+                    remainingItems,
+                    pageNumbers,
+                    totalItems
+                }
+            });
+        }
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        res.status(500).send({ error: 'Internal Server Error' });
+    }
+});*/
+
 adminauth.get('/admin/getuser', _authenticateToken["default"], /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(req, res) {
     var administrator, userid, user, _yield$Promise$all3, _yield$Promise$all4, account, cards, result;
