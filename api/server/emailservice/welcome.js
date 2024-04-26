@@ -4,12 +4,12 @@ import User from '.././models/user';
 
 import send from './send';
 
-const platformname = process.env.PLATFORM === 'MUNG' ? 'Munger Capital' : 'Ivc Standard'
+const platformname = process.env.PLATFORM === 'MUNG' ? 'Munger Capital' : 'Domitia Capital'
 
 const welcome = ({ email, firstname, userid }) => {
     try {
         const template = {
-            giver: process.env.PLATFORM === 'MUNG' ? `${platformname} <management@mungercapital.com>` : `${platformname} <management@ivcstandard.com>`,
+            giver: process.env.PLATFORM === 'MUNG' ? `${platformname} <management@mungercapital.com>` : `${platformname} <management@domitiacapital.com>`,
             receiver: `${email}`,
             subject: `Welcome to ${platformname}`,
             message: `

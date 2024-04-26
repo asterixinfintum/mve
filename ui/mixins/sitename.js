@@ -3,7 +3,7 @@ import requester from "@/store/requester";
 export default {
     head() {
         return {
-            title: requester.BASE.includes('mung') ? 'Munger Capital' : 'Slauscapital'
+            title: requester.BASE.includes('mung') ? 'Munger Capital' : 'DomitiaCapital'
         }
     },
     computed: {
@@ -13,7 +13,7 @@ export default {
             if (BASE.includes('mung')) {
                 return 'Munger Capital'
             } else {
-                return 'Slauscapital'
+                return 'DomitiaCapital'
             }
         }
     }
