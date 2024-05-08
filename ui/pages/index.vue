@@ -392,7 +392,7 @@
                 What people say about are saying about us
               </h3>
             </div>
-            <div class="curvedoffer__reviewsgrid">
+           <!-- <div class="curvedoffer__reviewsgrid">
               <figure>
                 <img src="@/assets/imgs/mungreview/reviewone.png" />
               </figure>
@@ -415,37 +415,37 @@
               <figure>
                 <img src="@/assets/imgs/mungreview/reviewsix.png" />
               </figure>
-            </div>
-
-            <!--<div class="curvedoffer__reviewsgrid">
-              <figure>
-                <img src="@/assets/imgs/ivcsreview/reviewone.png" />
-              </figure>
-
-              <figure>
-                <img src="@/assets/imgs/ivcsreview/reviewtwo.png" />
-              </figure>
-
-              <figure>
-                <img src="@/assets/imgs/ivcsreview/reviewthree.png" />
-              </figure>
-
-              <figure>
-                <img src="@/assets/imgs/ivcsreview/reviewfour.png" />
-              </figure>
-
-              <figure>
-                <img src="@/assets/imgs/ivcsreview/reviewfive.png" />
-              </figure>
-              <figure>
-                <img src="@/assets/imgs/ivcsreview/reviewsix.png" />
-              </figure>
             </div>-->
+
+            <div class="curvedoffer__reviewsgrid">
+              <figure>
+                <img src="@/assets/imgs/dominreview/Screenshot (2).png" />
+              </figure>
+
+              <figure>
+                <img src="@/assets/imgs/dominreview/Screenshot (3).png" />
+              </figure>
+
+              <figure>
+                <img src="@/assets/imgs/dominreview/Screenshot (4).png" />
+              </figure>
+
+              <figure>
+                <img src="@/assets/imgs/dominreview/Screenshot (5).png" />
+              </figure>
+
+              <figure>
+                <img src="@/assets/imgs/dominreview/Screenshot (6).png" />
+              </figure>
+              <figure>
+                <img src="@/assets/imgs/dominreview/Screenshot (7).png" />
+              </figure>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="curvedoffer">
+      <!--<div class="curvedoffer">
         <div class="curvedoffer__body">
           <div class="curvedoffer__quality">
             <h3 class="curvedoffer__copy--h3">Great Britain</h3>
@@ -460,7 +460,7 @@
             </figure>
           </div>
         </div>
-      </div>
+      </div>-->
 
       <footer class="footer">
         <!-- <div class="footer__header">
