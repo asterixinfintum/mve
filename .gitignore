@@ -1,4 +1,4 @@
 node_modules/
 .env
 default.conf
-dist/
+api/dist/
