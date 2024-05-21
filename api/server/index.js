@@ -102,6 +102,8 @@ app.use(item);
 app.use(client);
 app.use(clientedit);
 
+app.use('/uploads', express.static('uploads'))
+
 const PORT = process.env.PORT || 8081;
 
 function getIO() {

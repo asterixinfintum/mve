@@ -17,6 +17,7 @@ var _notification = _interopRequireDefault(require("../../models/notification"))
 var _message = _interopRequireDefault(require("../../models/message"));
 var _userinvestment = _interopRequireDefault(require("../models/userinvestment"));
 var _usersaving = _interopRequireDefault(require("../models/usersaving"));
+var _files = _interopRequireDefault(require("../../models/files"));
 var _authenticateToken = _interopRequireDefault(require("../../utils/authenticateToken"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -665,17 +666,86 @@ client.post('/client/deposittosavingsitem', _authenticateToken["default"], /*#__
     return _ref16.apply(this, arguments);
   };
 }());
-client.post('/client/upload/verification', _authenticateToken["default"], upload.single('file'), function (req, res) {
-  if (req.user && req.user._id) {
-    if (req.file) {
-      res.status(200).send({
-        success: 'file uploaded successfully'
-      });
-    }
-    return;
-  }
-  res.status(405).send({
-    error: 'not alowed'
-  });
-});
+client.post('/client/upload/verification', _authenticateToken["default"], upload.single('file'), /*#__PURE__*/function () {
+  var _ref17 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee17(req, res) {
+    var newfileitem;
+    return _regeneratorRuntime().wrap(function _callee17$(_context17) {
+      while (1) switch (_context17.prev = _context17.next) {
+        case 0:
+          if (!(req.user && req.user._id)) {
+            _context17.next = 7;
+            break;
+          }
+          if (!req.file) {
+            _context17.next = 6;
+            break;
+          }
+          newfileitem = new _files["default"]({
+            user: req.user._id,
+            path: req.file.path
+          });
+          _context17.next = 5;
+          return newfileitem.save();
+        case 5:
+          res.status(200).send({
+            success: 'success'
+          });
+        case 6:
+          return _context17.abrupt("return");
+        case 7:
+          res.status(405).send({
+            error: 'not alowed'
+          });
+        case 8:
+        case "end":
+          return _context17.stop();
+      }
+    }, _callee17);
+  }));
+  return function (_x33, _x34) {
+    return _ref17.apply(this, arguments);
+  };
+}());
+client.get('/client/upload/verification', _authenticateToken["default"], /*#__PURE__*/function () {
+  var _ref18 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee18(req, res) {
+    var userid, files;
+    return _regeneratorRuntime().wrap(function _callee18$(_context18) {
+      while (1) switch (_context18.prev = _context18.next) {
+        case 0:
+          _context18.prev = 0;
+          if (!(req.user && req.user._id)) {
+            _context18.next = 7;
+            break;
+          }
+          userid = req.query.userid;
+          _context18.next = 5;
+          return _files["default"].find({
+            user: userid
+          });
+        case 5:
+          files = _context18.sent;
+          res.status(200).send({
+            success: 'success',
+            files: files
+          });
+        case 7:
+          _context18.next = 13;
+          break;
+        case 9:
+          _context18.prev = 9;
+          _context18.t0 = _context18["catch"](0);
+          console.log(_context18.t0);
+          res.status(405).send({
+            error: _context18.t0
+          });
+        case 13:
+        case "end":
+          return _context18.stop();
+      }
+    }, _callee18, null, [[0, 9]]);
+  }));
+  return function (_x35, _x36) {
+    return _ref18.apply(this, arguments);
+  };
+}());
 var _default = exports["default"] = client;

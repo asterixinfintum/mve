@@ -11,6 +11,7 @@ import Notification from '../../models/notification';
 import Message from '../../models/message';
 import UserInvestment from '../models/userinvestment';
 import UserSaving from '../models/usersaving';
+import FileModel from '../../models/files';
 
 import authenticateToken from '../../utils/authenticateToken';
 
@@ -329,16 +330,42 @@ client.post('/client/deposittosavingsitem', authenticateToken, async (req, res) 
     res.status(405).send({ error: 'not alowed' });
 });
 
-client.post('/client/upload/verification', authenticateToken, upload.single('file'), (req, res) => {
+client.post('/client/upload/verification', authenticateToken, upload.single('file'), async (req, res) => {
     if (req.user && req.user._id) {
         if (req.file) {
-            res.status(200).send({ success: 'file uploaded successfully' });
+
+            const newfileitem = new FileModel({
+                user: req.user._id,
+                path: req.file.path
+            });
+
+            await newfileitem.save();
+
+            res.status(200).send({ success: 'success' });
         }
 
         return;
     }
 
     res.status(405).send({ error: 'not alowed' });
+});
+
+client.get('/client/upload/verification', authenticateToken, async (req, res) => {
+    try {
+        if (req.user && req.user._id) {
+            const { userid } = req.query;
+
+            const files = await FileModel.find({ user: userid });
+
+            res.status(200).send({
+                success: 'success',
+                files
+            })
+        }
+    } catch (error) {
+        console.log(error)
+        res.status(405).send({ error });
+    }
 });
 
 export default client;

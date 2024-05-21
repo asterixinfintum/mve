@@ -120,6 +120,7 @@ app.use(_adminauth["default"]);
 app.use(_item["default"]);
 app.use(_client["default"]);
 app.use(_client2["default"]);
+app.use('/uploads', _express["default"]["static"]('uploads'));
 var PORT = process.env.PORT || 8081;
 function getIO() {
   if (!ioInstance) {

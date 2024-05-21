@@ -24,6 +24,13 @@ services:
     build: ./api
     environment:
       - PORT=8001
+
+  chatapi:
+    container_name: chatapi
+    restart: always
+    build: ./chat
+    environment:
+      - PORT=8002
       
   nuxt-app:
     build: ./ui
