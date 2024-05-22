@@ -28,6 +28,22 @@ import io from "socket.io-client";
 
 let CHAT_API = getCurrentPageDomain();
 
+const processTime = (time) => {
+    if (time) {
+        const date = new Date(time);
+        return date.toLocaleString("en-US", {
+            weekday: "long", // "Monday"
+            year: "numeric", // "2024"
+            month: "long", // "May"
+            day: "numeric", // "19"
+            hour: "2-digit", // "11"
+            minute: "2-digit", // "36"
+            second: "2-digit", // "17"
+            hour12: true, // "PM"
+        });
+    }
+}
+
 if (CHAT_API.includes("localhost")) {
   CHAT_API = `http://localhost:8082`;
 } else {
@@ -143,6 +159,16 @@ export default {
         msgData = { chatval, time: isoDateString, from: this.currentadmin };
       }
 
+      const tempMsg = {
+        message: chatval,
+        time: processTime(isoDateString),
+        _id: this.messages.length,
+        from: this.currentadmin ? this.currentadmin : null,
+        temp: true
+      }
+
+      this.messages.push(tempMsg)
+
       this.socket.emit("sendMessage", msgData);
     },
     connectSocket() {
@@ -168,11 +194,14 @@ export default {
         this.socket.on("newMessage", (data) => {
           if (data.user === this.user) {
             this.messages.push(data);
+
+            const messages = this.messages.filter(msg => !msg.temp)
+
+            this.messages = messages
           }
         });
 
         this.socket.on("msgsSetAsSeen", () => {
-          console.log("hello msgsSetAsSeen");
           this.getMessages();
         });
       }
@@ -188,7 +217,7 @@ export default {
   right: #{scaleValue(83)};
   padding: #{scaleValue(20)};
   background: $font-white;
-  width: #{scaleValue(500)};
+  width: #{scaleValue(350)};
   z-index: 20;
   padding-top: #{scaleValue(50)};
 

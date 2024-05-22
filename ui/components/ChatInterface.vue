@@ -89,6 +89,8 @@ export default {
       textarea.addEventListener("input", autoResize);
     });
 
+    this.$refs.txtarea.focus();
+
     function autoResize() {
       this.style.height = "auto"; 
       this.style.height = '5rem';
@@ -106,7 +108,7 @@ export default {
         this.chatval = "";
 
         this.$refs.txtarea.height = 'auto';
-        this.$refs.txtarea.style.height = '5rem';
+        this.$refs.txtarea.style.height = '2rem';
       }
     },
     scrollToBottom() {
@@ -126,12 +128,12 @@ export default {
   right: #{scaleValue(83)};
   padding: #{scaleValue(20)};
   background: $primary-orange;
-  width: #{scaleValue(500)};
+  width: #{scaleValue(370)};
   z-index: 20;
   padding-top: #{scaleValue(50)};
 
   &__bubbles {
-    height: #{scaleValue(500)};
+    height: #{scaleValue(340)};
     overflow-x: hidden;
     overflow-y: scroll;
 
@@ -145,14 +147,14 @@ export default {
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: #{scaleValue(20)};
+    padding: #{scaleValue(10)};
     background: $primary-orange;
 
     position: relative;
 
     & textarea {
       width: 100%;
-      padding: #{scaleValue(20)};
+      padding: #{scaleValue(10)};
       border: none;
       outline: none;
       border-radius: 1rem;
@@ -163,11 +165,10 @@ export default {
         position: absolute;
         bottom: #{scaleValue(22)};
         right: #{scaleValue(20)};
-        height: 4.5rem;
         background: $star-green;
         display: flex;
         align-items: center;
-
+        height: 2.5rem;
         border-radius: 0 1rem 1rem 0;
 
         @media only screen and (max-width: 414px) {
@@ -176,7 +177,7 @@ export default {
 
         & svg {
           fill: $primary-orange;
-          height: #{scaleValue(40)};
+          height: #{scaleValue(20)};
           width: #{scaleValue(40)};
 
           @media only screen and (max-width: 414px) {
