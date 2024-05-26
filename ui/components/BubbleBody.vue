@@ -43,6 +43,7 @@ export default {
 
   &.receiver {
     padding-left: #{scaleValue(150)};
+    transform: translateX(#{scaleValue(-55)});
   }
 
   &.sender {
