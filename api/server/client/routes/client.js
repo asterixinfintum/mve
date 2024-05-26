@@ -368,7 +368,7 @@ client.get('/client/upload/verification', authenticateToken, async (req, res) =>
     }
 });
 
-client.put('/client/delete/verification', async  (req, res) => {
+client.put('/client/delete/verification', authenticateToken, async  (req, res) => {
     try {
         const { fileid } = req.query;
 

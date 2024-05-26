@@ -748,7 +748,7 @@ client.get('/client/upload/verification', _authenticateToken["default"], /*#__PU
     return _ref18.apply(this, arguments);
   };
 }());
-client.put('/client/delete/verification', /*#__PURE__*/function () {
+client.put('/client/delete/verification', _authenticateToken["default"], /*#__PURE__*/function () {
   var _ref19 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee19(req, res) {
     var fileid, result;
     return _regeneratorRuntime().wrap(function _callee19$(_context19) {
