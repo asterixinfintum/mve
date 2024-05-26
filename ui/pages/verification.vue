@@ -7,10 +7,19 @@
       :profilebod="profilebody"
     />
 
+    <div v-if="docsopen">
+        <DocumentDisplay :userid="userid" :closedocs="closedocs"/>
+    </div>
+
     <div class="overview__content white-background content-body">
       <div class="overview__transaction--header">
-        <div class="overview__transaction--h2 header-label">
+        <div class="overview__transaction--h2 header-label margin-bottom-20">
           Upload documents for verifications here
+        </div>
+
+        <div></div>
+        <div>
+          <button class="button curved loanbtn" @click="opendocs">View your documents and files</button>
         </div>
       </div>
 
@@ -66,10 +75,52 @@ export default {
       file: null,
       displaytext: "Click to Choose a document",
       loadinglocal: false,
+      files: [],
+      docsopen: false
     };
   },
   mixins: [global],
+  mounted() {
+    this.getDocuments();
+  },
+  computed: {
+    userid() {
+      return this.$route.query.user;
+    }
+  },
   methods: {
+    closedocs() {
+      this.docsopen = false;
+    },
+    opendocs() {
+      this.docsopen = true;
+    },
+    returnURL() {
+      function getCurrentPageDomain() {
+        if (process.client) {
+          // Check if the code is running on the client side
+          const currentURL = window.location.href;
+          const url = new URL(currentURL);
+          return url.protocol + "//" + "api." + url.hostname;
+        } else {
+          // Handle server-side rendering (optional)
+          return ""; // You can return a default value or handle it differently for SSR
+        }
+      }
+
+      let BASE = getCurrentPageDomain();
+
+      if (BASE.includes("localhost")) {
+        BASE = `http://localhost:8081`;
+      } else {
+        BASE = getCurrentPageDomain();
+      }
+
+      return BASE;
+    },
+    async getDocuments() {
+      this.files = await this.getuserdocs(this.userid);
+    },
     callFileUpload() {
       this.loadinglocal = true;
       this.uploadfile(this.file)

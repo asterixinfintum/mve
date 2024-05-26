@@ -1,13 +1,16 @@
 <template>
   <div class="documentdisplay" @click.stop="closedocs">
-    <div class="documentdisplay__body">
+    <div class="documentdisplay__body equal-padding-40" v-if="!files.length">
+      <p>No files or photos to display yet</p>
+    </div>
+    <div class="documentdisplay__body" v-if="files.length">
       <div
         @click.stop="opendoc"
         class="documentdisplay__body--opendoc"
         v-for="file in files"
         :key="file._id"
       >
-      <a :href="`${returnURL()}/${file.path}`" target="_blank"  rel="noopener noreferrer">{{ `${returnURL()}/${file.path}` }}</a>
+      <a :href="`${returnURL()}/${file.path}`" target="_blank"  rel="noopener noreferrer">{{ `${file.path}` }}</a>
       </div>
     </div>
   </div>
@@ -60,35 +63,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.documentdisplay {
-  position: fixed;
-  margin: 0 auto;
-  background: #fff;
-  border: 1px solid #000;
-  padding: 10rem;
-  padding-top: 3rem;
 
-  width: 100vw;
-  height: 100vh;
-
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 10;
-
-  display: flex;
-  justify-content: center;
-
-  &__body {
-    background: #fff;
-
-    min-height: #{scaleValue(100)};
-    width: #{scaleValue(900)};
-
-    &--opendoc {
-      color: $primary-orange;
-      padding: #{scaleValue(20)};
-      margin-bottom: #{scaleValue(20)};
-      cursor: pointer;
-    }
-  }
-}
 </style>

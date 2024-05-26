@@ -228,6 +228,7 @@ a {
     margin-left: #{scaleValue(20)} !important;
 }
 
+
 .cursorpointer {
     cursor: pointer;
 }
@@ -638,4 +639,12 @@ a.orange {
 
 .offline {
     background: $error-color;
+}
+
+.margin-bottom-20 {
+    margin-bottom: #{scaleValue(40)};
+}
+
+.equal-padding-40 {
+    padding: #{scaleValue(40)};
 }

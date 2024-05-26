@@ -54,6 +54,10 @@ export default {
     padding: #{scaleValue(20)} #{scaleValue(10)};
     padding-bottom: #{scaleValue(10)};
 
+    width: #{scaleValue(195)};
+    overflow: hidden;
+    text-overflow: clip;
+
     @media only screen and (max-width: 414px) {
       padding: #{scaleValue(30)} #{scaleValue(100)};
       border-radius: 1.5rem;

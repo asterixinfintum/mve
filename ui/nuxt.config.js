@@ -83,6 +83,7 @@ export default {
       '~/assets/scss/cardlist.scss',
       '~/assets/scss/displaycard.scss',
       '~/assets/scss/investmentcard.scss',
+      '~/assets/scss/documentdisplay.scss',
     ],
     hoistUseStatements: true
   },
