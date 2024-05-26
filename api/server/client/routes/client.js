@@ -368,4 +368,18 @@ client.get('/client/upload/verification', authenticateToken, async (req, res) =>
     }
 });
 
+client.put('/client/delete/verification', async  (req, res) => {
+    try {
+        const { fileid } = req.query;
+
+        await FileModel.findByIdAndDelete(fileid)
+
+        const result = await FileModel.findByIdAndDelete(fileid);
+        console.log(result)
+       res.status(200).send({ message: 'file deleted', fileid })
+    } catch (error) {
+        res.status(405).send({ error });
+    }
+})
+
 export default client;

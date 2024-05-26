@@ -748,4 +748,42 @@ client.get('/client/upload/verification', _authenticateToken["default"], /*#__PU
     return _ref18.apply(this, arguments);
   };
 }());
+client.put('/client/delete/verification', /*#__PURE__*/function () {
+  var _ref19 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee19(req, res) {
+    var fileid, result;
+    return _regeneratorRuntime().wrap(function _callee19$(_context19) {
+      while (1) switch (_context19.prev = _context19.next) {
+        case 0:
+          _context19.prev = 0;
+          fileid = req.query.fileid;
+          _context19.next = 4;
+          return _files["default"].findByIdAndDelete(fileid);
+        case 4:
+          _context19.next = 6;
+          return _files["default"].findByIdAndDelete(fileid);
+        case 6:
+          result = _context19.sent;
+          console.log(result);
+          res.status(200).send({
+            message: 'file deleted',
+            fileid: fileid
+          });
+          _context19.next = 14;
+          break;
+        case 11:
+          _context19.prev = 11;
+          _context19.t0 = _context19["catch"](0);
+          res.status(405).send({
+            error: _context19.t0
+          });
+        case 14:
+        case "end":
+          return _context19.stop();
+      }
+    }, _callee19, null, [[0, 11]]);
+  }));
+  return function (_x37, _x38) {
+    return _ref19.apply(this, arguments);
+  };
+}());
 var _default = exports["default"] = client;
