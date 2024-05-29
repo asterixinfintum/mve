@@ -59,9 +59,17 @@ export default {
     overflow: hidden;
     text-overflow: clip;
 
+    &--content {
+      width: 100%;
+      word-wrap: break-word;
+      word-break: break-word;
+      white-space: normal;
+    }
+
     @media only screen and (max-width: 414px) {
       padding: #{scaleValue(30)} #{scaleValue(100)};
       border-radius: 1.5rem;
+      width: #{scaleValue(2000)};
     }
 
     &--time {
