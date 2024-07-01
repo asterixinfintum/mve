@@ -16,7 +16,7 @@ services:
     container_name: db
     image: asterixinfintum/data-xcv:latest
     volumes:
-      - mongodb_data:/data/db
+      - mve_mongodb_data:/data/db
 
   api:
     container_name: api
@@ -41,4 +41,5 @@ services:
     command: 'npm run start'
 
 volumes:
-  mongodb_data:
+  mve_mongodb_data:
+    external: true
