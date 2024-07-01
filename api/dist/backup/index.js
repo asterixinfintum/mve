@@ -151,9 +151,8 @@ function runbackup(targetPath, Model) {
           return _ref2.apply(this, arguments);
         };
       }());
-      res.status(200).send({
-        success: success
-      });
+
+      //res.status(200).send({ success })
     } catch (parseError) {
       console.error('Error parsing JSON:', parseError);
       res.status(405).send({

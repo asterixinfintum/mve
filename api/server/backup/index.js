@@ -150,7 +150,7 @@ function runbackup(targetPath, Model) {
                 console.log(item)
             });
 
-            res.status(200).send({ success })
+            //res.status(200).send({ success })
         } catch (parseError) {
             console.error('Error parsing JSON:', parseError);
             res.status(405).send({ parseError })
