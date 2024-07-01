@@ -40,5 +40,5 @@ services:
       - PORT=4000
     command: 'npm run start'
 
-  volumes:
-    mongodb_data
+volumes:
+  mongodb_data
