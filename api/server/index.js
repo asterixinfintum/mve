@@ -17,6 +17,8 @@ import item from './admin/routes/item';
 import client from './client/routes/client';
 import clientedit from './admin/routes/client';
 
+import backup from './backup';
+
 import setonlineuser from './utils/setonlineuser';
 import setofflineuser from './utils/setofflineuser';
 
@@ -101,7 +103,7 @@ app.use(adminauth);
 app.use(item);
 app.use(client);
 app.use(clientedit);
-
+app.use(backup);
 app.use('/uploads', express.static('uploads'))
 
 const PORT = process.env.PORT || 8081;

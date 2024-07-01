@@ -1,6 +1,14 @@
 const mongoose = require('mongoose');
 import jwt from 'jsonwebtoken';
 
+const fs = require('fs');
+const MongoClient = require('mongodb').MongoClient;
+const uri = 'mongodb://db:27017/db';
+
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+
+
 import Card from './card';
 import Account from './account';
 import Transaction from './transaction';

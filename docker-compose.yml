@@ -14,9 +14,9 @@ services:
 
   db:
     container_name: db
-    image: asterixinfintum/data-xcv:latest
+    image: mongo
     volumes:
-      - mve_mongodb_data:/data/db
+      - /data-vol:/data/db
 
   api:
     container_name: api
@@ -39,7 +39,3 @@ services:
     environment:
       - PORT=4000
     command: 'npm run start'
-
-volumes:
-  mve_mongodb_data:
-    external: true

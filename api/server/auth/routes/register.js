@@ -42,6 +42,6 @@ register.post('/confirmemail', async (req, res) => {
     await user.save();
 
     res.status(201).send({ success: 'verified' })
-})
+});
 
 export default register;

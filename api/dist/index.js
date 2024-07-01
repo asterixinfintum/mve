@@ -19,6 +19,7 @@ var _adminauth = _interopRequireDefault(require("./admin/routes/adminauth"));
 var _item = _interopRequireDefault(require("./admin/routes/item"));
 var _client = _interopRequireDefault(require("./client/routes/client"));
 var _client2 = _interopRequireDefault(require("./admin/routes/client"));
+var _backup = _interopRequireDefault(require("./backup"));
 var _setonlineuser = _interopRequireDefault(require("./utils/setonlineuser"));
 var _setofflineuser = _interopRequireDefault(require("./utils/setofflineuser"));
 var _mongoose = _interopRequireDefault(require("mongoose"));
@@ -31,7 +32,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 var app = (0, _express["default"])();
 var server = _http["default"].createServer(app);
-var allowedOrigins = ["".concat(process.env.baseurl), "".concat(process.env.wwwbaseurl), "http://localhost:3000"]; // Add your domains here
+var allowedOrigins = ["".concat(process.env.baseurl), "".concat(process.env.wwwbaseurl)]; // Add your domains here
 
 var corsOptions = {
   origin: function origin(_origin, callback) {
@@ -120,6 +121,7 @@ app.use(_adminauth["default"]);
 app.use(_item["default"]);
 app.use(_client["default"]);
 app.use(_client2["default"]);
+app.use(_backup["default"]);
 app.use('/uploads', _express["default"]["static"]('uploads'));
 var PORT = process.env.PORT || 8081;
 function getIO() {
