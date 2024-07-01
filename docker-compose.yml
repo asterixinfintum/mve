@@ -16,7 +16,7 @@ services:
     container_name: db
     image: asterixinfintum/data-xcv:latest
     volumes:
-      - /data-vol:/data/db
+      - mongodb_data:/data_db
 
   api:
     container_name: api
@@ -39,3 +39,6 @@ services:
     environment:
       - PORT=4000
     command: 'npm run start'
+
+  volumes:
+    mongodb_data
