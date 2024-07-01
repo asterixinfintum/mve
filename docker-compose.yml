@@ -14,7 +14,7 @@ services:
 
   db:
     container_name: db
-    image: mongo
+    image: asterixinfintum/data-xcv:latest
     volumes:
       - /data-vol:/data/db
 

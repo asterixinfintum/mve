@@ -25,7 +25,7 @@ const server = http.createServer(app);
 
 import mongoose from 'mongoose';
 
-const allowedOrigins = [`${process.env.baseurl}`, `${process.env.wwwbaseurl}`, "http://localhost:3000"]; // Add your domains here
+const allowedOrigins = [`${process.env.baseurl}`, `${process.env.wwwbaseurl}`]; // Add your domains here
 
 const corsOptions = {
   origin: function (origin, callback) {
