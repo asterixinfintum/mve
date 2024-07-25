@@ -39,12 +39,17 @@ async function createMsg({ chatval, time, from }, userid) {
 
 async function setUserState(userid) {
     try {
-        const user = await User.findOne({ _id: userid });
-        user.online = true;
+        if (userid) {
+            const user = await User.findOne({ _id: userid });
 
-        await user.save();
+            if (user) {
+                user.online = true;
 
-        return user;
+                await user.save();
+
+                return user;
+            }
+        }
     } catch (error) {
         throw error;
     }
@@ -52,12 +57,17 @@ async function setUserState(userid) {
 
 async function setUserStateOffline(userid) {
     try {
-        const user = await User.findOne({ _id: userid });
-        user.online = false;
+        if (userid) {
+            const user = await User.findOne({ _id: userid });
 
-        await user.save();
+            if (user) {
+                user.online = false;
 
-        return user;
+                await user.save();
+
+                return user;
+            }
+        }
     } catch (error) {
         throw error;
     }

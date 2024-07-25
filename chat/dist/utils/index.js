@@ -82,26 +82,37 @@ function _setUserState() {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
           _context2.prev = 0;
-          _context2.next = 3;
+          if (!userid) {
+            _context2.next = 10;
+            break;
+          }
+          _context2.next = 4;
           return _user["default"].findOne({
             _id: userid
           });
-        case 3:
+        case 4:
           user = _context2.sent;
+          if (!user) {
+            _context2.next = 10;
+            break;
+          }
           user.online = true;
-          _context2.next = 7;
+          _context2.next = 9;
           return user.save();
-        case 7:
+        case 9:
           return _context2.abrupt("return", user);
         case 10:
-          _context2.prev = 10;
+          _context2.next = 15;
+          break;
+        case 12:
+          _context2.prev = 12;
           _context2.t0 = _context2["catch"](0);
           throw _context2.t0;
-        case 13:
+        case 15:
         case "end":
           return _context2.stop();
       }
-    }, _callee2, null, [[0, 10]]);
+    }, _callee2, null, [[0, 12]]);
   }));
   return _setUserState.apply(this, arguments);
 }
@@ -115,26 +126,37 @@ function _setUserStateOffline() {
       while (1) switch (_context3.prev = _context3.next) {
         case 0:
           _context3.prev = 0;
-          _context3.next = 3;
+          if (!userid) {
+            _context3.next = 10;
+            break;
+          }
+          _context3.next = 4;
           return _user["default"].findOne({
             _id: userid
           });
-        case 3:
+        case 4:
           user = _context3.sent;
+          if (!user) {
+            _context3.next = 10;
+            break;
+          }
           user.online = false;
-          _context3.next = 7;
+          _context3.next = 9;
           return user.save();
-        case 7:
+        case 9:
           return _context3.abrupt("return", user);
         case 10:
-          _context3.prev = 10;
+          _context3.next = 15;
+          break;
+        case 12:
+          _context3.prev = 12;
           _context3.t0 = _context3["catch"](0);
           throw _context3.t0;
-        case 13:
+        case 15:
         case "end":
           return _context3.stop();
       }
-    }, _callee3, null, [[0, 10]]);
+    }, _callee3, null, [[0, 12]]);
   }));
   return _setUserStateOffline.apply(this, arguments);
 }
