@@ -392,7 +392,7 @@
                 What people say about are saying about us
               </h3>
             </div>
-           <!-- <div class="curvedoffer__reviewsgrid">
+           <div class="curvedoffer__reviewsgrid">
               <figure>
                 <img src="@/assets/imgs/mungreview/reviewone.png" />
               </figure>
@@ -415,9 +415,9 @@
               <figure>
                 <img src="@/assets/imgs/mungreview/reviewsix.png" />
               </figure>
-            </div>-->
+            </div>
 
-            <div class="curvedoffer__reviewsgrid">
+            <!--<div class="curvedoffer__reviewsgrid">
               <figure>
                 <img src="@/assets/imgs/dominreview/Screenshot (2).png" />
               </figure>
@@ -440,7 +440,7 @@
               <figure>
                 <img src="@/assets/imgs/dominreview/Screenshot (7).png" />
               </figure>
-            </div>
+            </div>-->
           </div>
         </div>
       </div>

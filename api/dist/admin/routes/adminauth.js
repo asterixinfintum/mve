@@ -212,11 +212,12 @@ adminauth.get('/admin/getusers', _authenticateToken["default"], /*#__PURE__*/fun
           }));
         case 8:
           _req$query = req.query, currentPageQuery = _req$query.currentPageQuery, searchquery = _req$query.searchquery;
+          console.log(currentPageQuery, searchquery, 'checker');
           if (!searchquery.length) {
-            _context5.next = 28;
+            _context5.next = 29;
             break;
           }
-          _context5.next = 12;
+          _context5.next = 13;
           return _user["default"].find({
             $or: [{
               firstname: {
@@ -235,7 +236,7 @@ adminauth.get('/admin/getusers', _authenticateToken["default"], /*#__PURE__*/fun
               }
             }]
           }).select('_id firstname lastname email phonenumber account');
-        case 12:
+        case 13:
           useritems = _context5.sent;
           totalItems = useritems.length;
           itemsPerPage = 30;
@@ -249,7 +250,7 @@ adminauth.get('/admin/getusers', _authenticateToken["default"], /*#__PURE__*/fun
           pageNumbers = _toConsumableArray(Array(totalPages).keys()).map(function (i) {
             return i + 1;
           });
-          _context5.next = 23;
+          _context5.next = 24;
           return _user["default"].find({
             $or: [{
               firstname: {
@@ -268,9 +269,9 @@ adminauth.get('/admin/getusers', _authenticateToken["default"], /*#__PURE__*/fun
               }
             }]
           }).select('_id firstname lastname email phonenumber account').skip(skip).limit(itemsPerPage);
-        case 23:
+        case 24:
           useritemstwo = _context5.sent;
-          _context5.next = 26;
+          _context5.next = 27;
           return Promise.all(useritemstwo.map( /*#__PURE__*/function () {
             var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(user) {
               var _yield$Promise$all, _yield$Promise$all2, account, cards;
@@ -303,7 +304,7 @@ adminauth.get('/admin/getusers', _authenticateToken["default"], /*#__PURE__*/fun
               return _ref5.apply(this, arguments);
             };
           }()));
-        case 26:
+        case 27:
           users = _context5.sent;
           // console.log(users, totalPages, currentPage, remainingItems, pageNumbers )
 
@@ -321,21 +322,21 @@ adminauth.get('/admin/getusers', _authenticateToken["default"], /*#__PURE__*/fun
               totalItems: totalItems
             }
           });
-        case 28:
-          _context5.next = 34;
+        case 29:
+          _context5.next = 35;
           break;
-        case 30:
-          _context5.prev = 30;
+        case 31:
+          _context5.prev = 31;
           _context5.t0 = _context5["catch"](2);
           console.log(_context5.t0);
           res.status(500).send({
             error: 'Internal server error'
           });
-        case 34:
+        case 35:
         case "end":
           return _context5.stop();
       }
-    }, _callee5, null, [[2, 30]]);
+    }, _callee5, null, [[2, 31]]);
   }));
   return function (_x7, _x8) {
     return _ref4.apply(this, arguments);

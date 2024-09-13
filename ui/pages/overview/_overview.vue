@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="overview" @click="closedrops">
-      <Chat :user="user"/>
+      <Chat :user="user" />
 
       <UserHeader
         :notifsbodstate="opennotificationsbody"
@@ -9,6 +9,14 @@
         :openprofilebod="openprofiledrop"
         :profilebod="profilebody"
       />
+
+      <div v-if="addMoneyOpen">
+        <AddMoney :toggleAddMoney="toggleAddMoney" />
+      </div>
+
+      <div v-if="interacTransfer">
+        <InteracTransfer :toggleInteracTransfer="toggleInteracTransfer" />
+      </div>
 
       <div v-if="createcontactformopen">
         <CreateContactForm
@@ -166,13 +174,24 @@
               </div>
 
               <div class="overview__orangebox--area">
-                <button class="button curved white overview__orangebox--button">
+                <button
+                  class="button curved white overview__orangebox--button"
+                  @click="toggleAddMoney"
+                >
                   <span class="svg">
                     <svg>
                       <use xlink:href="@/assets/imgs/sprite.svg#icon-plus"></use>
                     </svg>
                   </span>
                   <span>Add money</span>
+                </button>
+
+                <button
+                  class="button curved white overview__orangebox--button"
+                  @click="toggleInteracTransfer"
+                >
+                  <span class="img"><img src="@/assets/imgs/interaclogo.jpg" /></span>
+                  <span>Interac Transfer</span>
                 </button>
 
                 <figure class="overview__orangebox--eye" @click="toggledetailshide">
@@ -508,6 +527,8 @@ export default {
       createcontactformopen: false,
       detailshide: true,
       currentslide: 1,
+      interacTransfer: false,
+      addMoneyOpen: false,
     };
   },
   mixins: [global],
@@ -558,14 +579,14 @@ export default {
     client(newval, oldval) {
       if (newval) {
         if (this.$route.query.confirm) {
-          this.confirmemail(this.client._id).then(() => {
-            if (!this.client.emailcofirmed) {
-              this.getcurrentclient(this.client._id);
-              //this.$router.push(`/overview/${client._id}`)
-            }
-          }).catch(() => {
-
-          })
+          this.confirmemail(this.client._id)
+            .then(() => {
+              if (!this.client.emailcofirmed) {
+                this.getcurrentclient(this.client._id);
+                //this.$router.push(`/overview/${client._id}`)
+              }
+            })
+            .catch(() => {});
         }
       }
     },
@@ -582,6 +603,12 @@ export default {
     },
   },
   methods: {
+    toggleAddMoney() {
+      this.addMoneyOpen = !this.addMoneyOpen;
+    },
+    toggleInteracTransfer() {
+      this.interacTransfer = !this.interacTransfer;
+    },
     sliderrun() {
       setInterval(() => {
         if (this.currentslide === 3) {

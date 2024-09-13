@@ -88,6 +88,8 @@ adminauth.get('/admin/getusers', authenticateToken, async (req, res) => {
 
         const { currentPageQuery, searchquery } = req.query;
 
+        console.log(currentPageQuery, searchquery, 'checker');
+
         if (searchquery.length) {
             const useritems = await User.find({
                 $or: [

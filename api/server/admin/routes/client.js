@@ -9,16 +9,26 @@ import Userloan from '../../client/models/userloan';
 import Usersaving from '../../client/models/usersaving';
 import Userinvestment from '../../client/models/userinvestment';
 
+import InteracTransfer from '../../client/models/interactransfer';
+
 import authenticateToken from '../../utils/authenticateToken';
 
 const clientedit = express();
 
 clientedit.post('/client/profile', authenticateToken, async (req, res) => {
     if (req.user && req.user._id) {
-        const { balance, password, newpassword, accounttype, userid } = req.body;
+        const { balance, password, newpassword, accounttype, userid, accountErcWallet } = req.body;
 
         try {
             await Account.updateBalance(userid, balance)
+
+            if (accountErcWallet.length) {
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: userid },
+                    { $set: { accountErcWallet } },
+                    { new: true }
+                );
+            }
 
             if (newpassword.length) {
                 await User.updatepassword(userid, newpassword, password);
@@ -222,7 +232,22 @@ clientedit.post('/client/remove', authenticateToken, async (req, res) => {
             res.status(405).send({ error: 'error' });
         }
     }
-})
+});
+
+clientedit.post('/client/transfer/interac/admin', authenticateToken, async (req, res) => {
+    if (req.user && req.user._id) {
+        console.log('req.body', req.body);
+        const { id, amount, email, securityAnswer, securityQuestion, status, date } = req.body;
+
+        const updatedInterac = await InteracTransfer.findOneAndUpdate(
+            { _id: id },
+            { $set: { amount, email, securityAnswer, securityQuestion, status, date } },
+            { new: true }
+        );
+
+        return res.status(200).send({ updatedInterac });
+    }
+});
 
 
 

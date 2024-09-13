@@ -11,13 +11,13 @@
                 <div class="overview__transaction--header bottom-margin">
                   <div class="overview__transaction--h2 header-label capitalize">
                     {{
-                      `Edit ${userprofile.details.firstname} ${userprofile.details.lastname}'s Profile`
+                      `Create a transaction for ${userprofile.details.firstname} ${userprofile.details.lastname}`
                     }}
                   </div>
                 </div>
 
                 <div class="input-area">
-                  <label class="smlabel">Account Type</label>
+                  <label class="smlabel">Amount</label>
                   <label
                     class="smlabel tinylabel fontweight-5"
                     :class="{
@@ -27,16 +27,15 @@
                   </label>
                   <div class="input">
                     <input
-                      :placeholder="`${userprofile.details.firstname}'s account type`"
-                      v-model="accounttype"
+                      :placeholder="`Amount`"
+                      v-model="amount"
+                      @input="validateNumberAmount"
                     />
                   </div>
                 </div>
 
                 <div class="input-area">
-                  <label class="smlabel capitalize"
-                    >{{ userprofile.details.firstname }}'s Password</label
-                  >
+                  <label class="smlabel capitalize">Type</label>
                   <label
                     class="smlabel tinylabel fontweight-5"
                     :class="{
@@ -46,16 +45,56 @@
                   </label>
                   <div class="input">
                     <input
-                      :placeholder="`${userprofile.details.firstname}'s password`"
-                      v-model="password"
+                      :placeholder="`'deposit', 'withdrawal', 'transfer'`"
+                      v-model="type"
                     />
                   </div>
                 </div>
 
                 <div class="input-area">
-                  <label class="smlabel capitalize"
-                    >{{ userprofile.details.firstname }}'s New Password</label
+                  <label class="smlabel capitalize">Country</label>
+                  <label
+                    class="smlabel tinylabel fontweight-5"
+                    :class="{
+                      fonterror: authError === 'this input should contain just numbers',
+                    }"
                   >
+                  </label>
+                  <div class="input">
+                    <input :placeholder="`Country`" v-model="country" />
+                  </div>
+                </div>
+
+                <div class="input-area">
+                  <label class="smlabel capitalize">Bank</label>
+                  <label
+                    class="smlabel tinylabel fontweight-5"
+                    :class="{
+                      fonterror: authError === 'this input should contain just numbers',
+                    }"
+                  >
+                  </label>
+                  <div class="input">
+                    <input :placeholder="`Bank`" v-model="bank" />
+                  </div>
+                </div>
+
+                <div class="input-area">
+                  <label class="smlabel capitalize">Destination Account</label>
+                  <label
+                    class="smlabel tinylabel fontweight-5"
+                    :class="{
+                      fonterror: authError === 'this input should contain just numbers',
+                    }"
+                  >
+                  </label>
+                  <div class="input">
+                    <input :placeholder="`Account`" v-model="destinationaccount" />
+                  </div>
+                </div>
+
+                <div class="input-area">
+                  <label class="smlabel capitalize">Status</label>
                   <label
                     class="smlabel tinylabel fontweight-5"
                     :class="{
@@ -65,16 +104,14 @@
                   </label>
                   <div class="input">
                     <input
-                      :placeholder="`${userprofile.details.firstname}'s password`"
-                      v-model="newpassword"
+                      :placeholder="`'success', 'pending', 'failed', 'in review'`"
+                      v-model="status"
                     />
                   </div>
                 </div>
 
                 <div class="input-area">
-                  <label class="smlabel capitalize"
-                    >{{ userprofile.details.firstname }}'s Balance</label
-                  >
+                  <label class="smlabel capitalize">Date</label>
                   <label
                     class="smlabel tinylabel fontweight-5"
                     :class="{
@@ -83,38 +120,16 @@
                   >
                   </label>
                   <div class="input">
-                    <input
-                      :placeholder="`${userprofile.details.firstname}'s balance`"
-                      v-model="balance"
-                    />
-                  </div>
-                </div>
-
-                <div class="input-area">
-                  <label class="smlabel capitalize"
-                    >{{ userprofile.details.firstname }}'s Balance</label
-                  >
-                  <label
-                    class="smlabel tinylabel fontweight-5"
-                    :class="{
-                      fonterror: authError === 'this input should contain just numbers',
-                    }"
-                  >
-                  </label>
-                  <div class="input">
-                    <input
-                      :placeholder="`${userprofile.details.firstname}'s Account ERC20 Wallet`"
-                      v-model="accountErcWallet"
-                    />
+                    <input :placeholder="`Date`" v-model="date" />
                   </div>
                 </div>
 
                 <div class="overview__withddep">
                   <button
                     class="button orange-btn fontweight-3 half-flex-space"
-                    @click="updateprofile"
+                    @click="createtransaction"
                   >
-                    Update
+                    Create
                   </button>
                 </div>
               </div>
@@ -132,44 +147,60 @@ import global from "@/mixins/global";
 export default {
   data() {
     return {
-      password: "",
-      accounttype: "",
-      balance: "",
-      newpassword: "",
-      accountErcWallet: "",
+      amount: "",
+      type: "",
+      status: "",
+      date: "",
+      country: "",
+      bank: "",
+      destinationaccount: "",
     };
   },
   mixins: [global],
-  computed: {
-    userid() {
-      return this.$route.params.edit;
-    },
-  },
-  mounted() {
-    this.getuser(this.userid).then((user) => {
-      this.password = user.details.password;
-      this.balance = user.account.balance;
-      this.accounttype = user.account.type;
-    });
-  },
   methods: {
-    updateprofile() {
-      const { balance, password, accounttype, newpassword, accountErcWallet } = this;
+    validateNumberAmount() {
+      const { customSplitByDot, removePeriodAndCommas } = this;
+      const formattedNumber = this.amount
+        .replace(/[^1234567890.]/g, "")
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      const characters = removePeriodAndCommas(customSplitByDot(formattedNumber));
+
+      return (this.amount = characters);
+    },
+    async createtransaction() {
+      const { amount, type, status, date, country, bank, destinationaccount } = this;
+
       this.toggleverbiage(`Updating ${this.userprofile.details.firstname}'s profile`);
       this.onspinner();
-      this.updateuserprofile({
-        balance,
-        password,
-        accounttype,
-        newpassword,
-        userid: this.userid,
-        accountErcWallet,
-      }).then(() => {
+
+      try {
+        await this.createusertransaction({
+          amount,
+          type,
+          status,
+          date,
+          country,
+          bank,
+          destinationaccount,
+          user: this.userid,
+        });
+
         this.toggleverbiage(null);
         this.offspinner();
         this.toadminroute(`admin/dashboard/user/${this.userid}`);
-      });
+      } catch (error) {
+        console.error("Error in transaction creation:", error);
+        // Handle the error appropriately, perhaps show an error message to the user
+      }
     },
+  },
+  computed: {
+    userid() {
+      return this.$route.query.user;
+    },
+  },
+  mounted() {
+    this.getuser(this.userid);
   },
 };
 </script>

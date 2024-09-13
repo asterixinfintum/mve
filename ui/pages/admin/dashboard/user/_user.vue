@@ -6,7 +6,7 @@
       <Chat :user="userid" :currentadmin="$route.query.admin" />
 
       <div v-if="docsopen">
-        <DocumentDisplay :userid="userid" :closedocs="closedocs"/>
+        <DocumentDisplay :userid="userid" :closedocs="closedocs" />
       </div>
 
       <div v-if="addnotification && userprofile">
@@ -19,7 +19,10 @@
 
       <div class="dashboard__content" v-if="userprofile">
         <div class="overview__transaction--header bottom-margin">
-          <div class="overview__transaction--h2 header-label capitalize">
+          <div
+            class="overview__transaction--h2 header-label capitalize"
+            v-if="userprofile.details"
+          >
             {{
               `${userprofile.details.firstname} ${userprofile.details.lastname}'s Profile`
             }}
@@ -122,43 +125,56 @@
         <div class="dashboard__userdetailarea">
           <div class="dashboard__userdetail">
             <label class="smlabel">Firstname</label>
-            <span class="capitalize">{{ userprofile.details.firstname }}</span>
+            <span class="capitalize" v-if="userprofile.details">{{
+              userprofile.details.firstname
+            }}</span>
           </div>
 
           <div class="dashboard__userdetail">
             <label class="smlabel">Lastname</label>
-            <span class="capitalize">{{ userprofile.details.lastname }}</span>
+            <span class="capitalize" v-if="userprofile.details">{{
+              userprofile.details.lastname
+            }}</span>
           </div>
         </div>
 
         <div class="dashboard__userdetailarea">
           <div class="dashboard__userdetail">
             <label class="smlabel">Email</label>
-            <span>{{ userprofile.details.email }}</span>
+            <span v-if="userprofile.details">{{ userprofile.details.email }}</span>
           </div>
 
           <div class="dashboard__userdetail">
             <label class="smlabel">Phonenumber</label>
-            <span>{{ userprofile.details.phonenumber }}</span>
+            <span v-if="userprofile.details">{{ userprofile.details.phonenumber }}</span>
           </div>
         </div>
 
         <div class="dashboard__userdetailarea">
           <div class="dashboard__userdetail">
             <label class="smlabel">Password</label>
-            <span>{{ userprofile.details.password }}</span>
+            <span v-if="userprofile.details">{{ userprofile.details.password }}</span>
           </div>
 
           <div class="dashboard__userdetail">
             <label class="smlabel">Accouttype</label>
-            <span class="capitalize">{{ userprofile.account.type }}</span>
+            <span class="capitalize" v-if="userprofile.account">{{
+              userprofile.account.type
+            }}</span>
           </div>
         </div>
 
         <div class="dashboard__userdetailarea">
           <div class="dashboard__userdetail">
             <label class="smlabel">Balance</label>
-            <span>{{ userprofile.account.balance }}</span>
+            <span v-if="userprofile.account">{{ userprofile.account.balance }}</span>
+          </div>
+
+          <div class="dashboard__userdetail">
+            <label class="smlabel">Account ERC20 Wallet</label>
+            <span v-if="userprofile.account">{{
+              userprofile.details.accountErcWallet
+            }}</span>
           </div>
         </div>
 
@@ -173,7 +189,10 @@
         </div>
 
         <div class="overview__transaction--header bottom-margin">
-          <div class="overview__transaction--h2 header-label capitalize">
+          <div
+            class="overview__transaction--h2 header-label capitalize"
+            v-if="userprofile.details"
+          >
             {{
               `${userprofile.details.firstname} ${userprofile.details.lastname}'s Visa Card`
             }}
@@ -183,28 +202,30 @@
         <div class="dashboard__userdetailarea">
           <div class="dashboard__userdetail">
             <label class="smlabel">Card type</label>
-            <span>{{ userprofile.cards[0].type }}</span>
+            <span v-if="userprofile.cards">{{
+              userprofile.cards[0] ? userprofile.cards[0].type : ""
+            }}</span>
           </div>
 
           <div class="dashboard__userdetail">
             <label class="smlabel">Card digits</label>
-            <span>{{ userprofile.cards[0].digits }}</span>
+            <span>{{ userprofile.cards[0] ? userprofile.cards[0].digits : "" }}</span>
           </div>
         </div>
 
         <div class="dashboard__userdetailarea">
           <div class="dashboard__userdetail">
             <label class="smlabel">Card cvv</label>
-            <span>{{ userprofile.cards[0].cvv }}</span>
+            <span>{{ userprofile.cards[0] ? userprofile.cards[0].cvv : "" }}</span>
           </div>
 
           <div class="dashboard__userdetail">
             <label class="smlabel">Card expiry</label>
-            <span>{{ userprofile.cards[0].expiry }}</span>
+            <span>{{ userprofile.cards[0] ? userprofile.cards[0].expiry : "" }}</span>
           </div>
         </div>
 
-        <div class="overview__withddep bottom-margin">
+        <div class="overview__withddep bottom-margin" v-if="userprofile.cards.length">
           <div></div>
           <button
             class="button orange-btn fontweight-3 dashboard__profileeditbtn"
@@ -219,7 +240,10 @@
         </div>
 
         <div class="overview__transaction--header bottom-margin">
-          <div class="overview__transaction--h2 header-label capitalize">
+          <div
+            class="overview__transaction--h2 header-label capitalize"
+            v-if="userprofile.details"
+          >
             {{
               `${userprofile.details.firstname} ${userprofile.details.lastname}'s Master Card`
             }}
@@ -229,28 +253,36 @@
         <div class="dashboard__userdetailarea">
           <div class="dashboard__userdetail">
             <label class="smlabel">Card type</label>
-            <span>{{ userprofile.cards[1].type }}</span>
+            <span v-if="userprofile.cards">{{
+              userprofile.cards[1] ? userprofile.cards[1].type : ""
+            }}</span>
           </div>
 
           <div class="dashboard__userdetail">
             <label class="smlabel">Card digits</label>
-            <span>{{ userprofile.cards[1].digits }}</span>
+            <span v-if="userprofile.cards">{{
+              userprofile.cards[1] ? userprofile.cards[1].digits : ""
+            }}</span>
           </div>
         </div>
 
         <div class="dashboard__userdetailarea">
           <div class="dashboard__userdetail">
             <label class="smlabel">Card Cvv</label>
-            <span>{{ userprofile.cards[1].cvv }}</span>
+            <span userprofile.cards>{{
+              userprofile.cards[1] ? userprofile.cards[1].cvv : ""
+            }}</span>
           </div>
 
           <div class="dashboard__userdetail">
             <label class="smlabel">Card expiry</label>
-            <span>{{ userprofile.cards[1].expiry }}</span>
+            <span userprofile.cards>{{
+              userprofile.cards[1] ? userprofile.cards[1].expiry : ""
+            }}</span>
           </div>
         </div>
 
-        <div class="overview__withddep bottom-margin">
+        <div class="overview__withddep bottom-margin" v-if="userprofile.cards.length">
           <div></div>
           <button
             class="button orange-btn fontweight-3 dashboard__profileeditbtn"
@@ -265,7 +297,10 @@
         </div>
 
         <div class="overview__transaction--header bottom-margin">
-          <div class="overview__transaction--h2 header-label capitalize">
+          <div
+            class="overview__transaction--h2 header-label capitalize"
+            v-if="userprofile.details"
+          >
             {{
               `${userprofile.details.firstname} ${userprofile.details.lastname}'s Account details`
             }}
@@ -275,36 +310,44 @@
         <div class="dashboard__userdetailarea">
           <div class="dashboard__userdetail">
             <label class="smlabel">Account Balance</label>
-            <span>{{ userprofile.account.balance }}</span>
+            <span v-if="userprofile.account">{{ userprofile.account.balance }}</span>
           </div>
 
           <div class="dashboard__userdetail">
             <label class="smlabel">Loan Total</label>
-            <span>{{ userprofile.account.loansaggregate }}</span>
+            <span v-if="userprofile.account">{{
+              userprofile.account.loansaggregate
+            }}</span>
           </div>
         </div>
 
         <div class="dashboard__userdetailarea">
           <div class="dashboard__userdetail">
             <label class="smlabel">Income</label>
-            <span>{{ userprofile.account.income }}</span>
+            <span v-if="userprofile.account">{{ userprofile.account.income }}</span>
           </div>
 
           <div class="dashboard__userdetail">
             <label class="smlabel">Savings Growth Target</label>
-            <span>{{ userprofile.account.savingsaggregatetarget }}</span>
+            <span v-if="userprofile.account">{{
+              userprofile.account.savingsaggregatetarget
+            }}</span>
           </div>
         </div>
 
         <div class="dashboard__userdetailarea">
           <div class="dashboard__userdetail">
             <label class="smlabel">Savings Growth</label>
-            <span>{{ userprofile.account.savingsaggregate }}</span>
+            <span v-if="userprofile.account">{{
+              userprofile.account.savingsaggregate
+            }}</span>
           </div>
 
           <div class="dashboard__userdetail">
             <label class="smlabel">Investment Growth</label>
-            <span>{{ userprofile.account.investmentgrowth }}</span>
+            <span v-if="userprofile.account">{{
+              userprofile.account.investmentgrowth
+            }}</span>
           </div>
         </div>
 
@@ -319,7 +362,10 @@
         </div>
 
         <div class="overview__transaction--header bottom-margin">
-          <div class="overview__transaction--h2 header-label capitalize">
+          <div
+            class="overview__transaction--h2 header-label capitalize"
+            v-if="userprofile.details"
+          >
             {{
               `${userprofile.details.firstname} ${userprofile.details.lastname}'s Account Transactions`
             }}
@@ -398,6 +444,90 @@
             </div>
           </div>
         </div>
+
+        <div class="dashboard__list top-margin">
+          <div class="overview__transaction--header bottom-margin">
+            <div
+              class="overview__transaction--h2 header-label capitalize"
+              v-if="userprofile.details"
+            >
+              {{
+                `${userprofile.details.firstname} ${userprofile.details.lastname}'s Interac Transactions`
+              }}
+            </div>
+          </div>
+
+          <div class="dashboard__listitem dashboard__listitem--headerarea">
+            <div class="dashboard__listitem--subject">
+              <span>SECURITY QUESTION</span>
+            </div>
+            <div class="dashboard__listitem--subject">
+              <span>SECURITY ANSWER</span>
+            </div>
+            <div class="dashboard__listitem--subject">
+              <span>EMAIL</span>
+            </div>
+            <div class="dashboard__listitem--subject">
+              <span>AMOUNT</span>
+            </div>
+            <div class="dashboard__listitem--subject">
+              <span>DATE</span>
+            </div>
+            <div class="dashboard__listitem--subject">
+              <span>STATUS</span>
+            </div>
+            <div class="dashboard__listitem--subject">
+              <span></span>
+            </div>
+            <div class="dashboard__listitem--subject"></div>
+          </div>
+
+          <div
+            class="dashboard__listitem dashboard__listitem--item"
+            v-for="interacTransfer in interacTransfers"
+          >
+            <div class="dashboard__listitem--subject">
+              <span>{{ interacTransfer.securityQuestion }}</span>
+            </div>
+            <div class="dashboard__listitem--subject">
+              <span>{{ interacTransfer.securityAnswer }}</span>
+            </div>
+            <div class="dashboard__listitem--subject">
+              <span>{{ interacTransfer.email }}</span>
+            </div>
+            <div class="dashboard__listitem--subject">
+              <span>${{ formatNumber(interacTransfer.amount) }}</span>
+            </div>
+            <div class="dashboard__listitem--subject">
+              <span>{{ interacTransfer.date }}</span>
+            </div>
+            <div class="dashboard__listitem--subject">
+              <span>{{ interacTransfer.status }}</span>
+            </div>
+            <div class="dashboard__listitem--subject">
+              <span></span>
+            </div>
+            <div class="dashboard__listitem--subject btns">
+              <span
+                class="edit"
+                @click="
+                  toadminroute(
+                    `admin/dashboard/user/interac/${userid}?interac=${interacTransfer._id}`
+                  )
+                "
+              >
+                <svg class="">
+                  <use xlink:href="@/assets/imgs/sprite.svg#icon-pencil"></use>
+                </svg>
+              </span>
+              <span class="delete">
+                <svg>
+                  <use xlink:href="@/assets/imgs/sprite.svg#icon-trashcan"></use>
+                </svg>
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -411,7 +541,8 @@ export default {
     return {
       addnotification: false,
       addmessage: false,
-      docsopen: false
+      docsopen: false,
+      interacTransfers: [],
     };
   },
   mixins: [global],
@@ -421,6 +552,29 @@ export default {
     },
   },
   methods: {
+    async getInteracTransfers() {
+      const token = localStorage.getItem("873__jh6bdjklkjhghn");
+
+      const response = await fetch(
+        `${this.BASE_URL}/client/transfer/interac?user=${this.userid}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch interac transfers: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      this.interacTransfers = data.interacs;
+      return data;
+    },
     closedocs() {
       this.docsopen = false;
     },
@@ -443,6 +597,7 @@ export default {
     },
   },
   mounted() {
+    this.getInteracTransfers();
     this.getuser(this.userid);
     this.getusertransactions(this.userid);
     this.getusernotifications(this.userid);

@@ -479,6 +479,10 @@ a {
     margin-bottom: #{scaleValue(30)};
 }
 
+.top-margin {
+    margin-top: #{scaleValue(30)};
+}
+
 .loans {
 
     &__body {

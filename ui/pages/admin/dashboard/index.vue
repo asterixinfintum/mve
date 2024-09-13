@@ -64,22 +64,22 @@
               ></span>
             </div>
             <div class="dashboard__listitem--subject">
-              <span>{{ limitTextLength(user.details.email, 17) }}</span>
+              <span v-if="user.details">{{ limitTextLength(user.details.email, 17) }}</span>
             </div>
             <div class="dashboard__listitem--subject">
-              <span>{{ user.details.phonenumber }}</span>
+              <span v-if="user.details">{{ user.details.phonenumber }}</span>
             </div>
             <div class="dashboard__listitem--subject">
-              <span>{{ user.account.type }}</span>
+              <span v-if="user.account">{{ user.account.type }}</span>
             </div>
             <div class="dashboard__listitem--subject">
-              <span>${{ user.account.balance }}</span>
+              <span v-if="user.account">${{ user.account.balance }}</span>
             </div>
             <div class="dashboard__listitem--subject">
-              <span>${{ user.account.savingsaggregate }}</span>
+              <span v-if="user.account">${{ user.account.savingsaggregate }}</span>
             </div>
             <div class="dashboard__listitem--subject">
-              <span>${{ user.account.loansaggregate }}</span>
+              <span v-if="user.account">${{ user.account.loansaggregate }}</span>
             </div>
             <div class="dashboard__listitem--subject">
               <span></span>

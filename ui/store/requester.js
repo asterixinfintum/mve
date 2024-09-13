@@ -12,7 +12,6 @@ function getCurrentPageDomain() {
 
 let BASE = getCurrentPageDomain();
 
-console.log(BASE, 'check for the name here');
 
 if (BASE.includes('localhost')) {
     BASE = `http://localhost:8081`

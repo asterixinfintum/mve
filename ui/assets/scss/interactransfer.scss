@@ -1,0 +1,49 @@
+.interactransfer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: #{scaleValue(390)};
+}
+
+.interactransfer__group {
+    display: flex;
+    flex-direction: column;
+}
+
+.interactransfer__label {
+    font-weight: bold;
+    color: $primary-orange;
+    margin-bottom: #{scaleValue(10)};
+}
+
+.interactransfer__input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.interactransfer__figure {
+    height: 3rem;
+    width: 3rem;
+
+    & img {
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+    }
+}
+
+.interactransfer__transferdone {
+
+    & h2 {
+        color: $primary-orange;
+        font-size: #{scaleValue(14)};
+        font-weight: 500;
+        margin-bottom: #{scaleValue(14)};
+    }
+
+    & p {
+        color: $font-black;
+        font-size: #{scaleValue(12)};
+    }
+}

@@ -18,6 +18,7 @@ var _message = _interopRequireDefault(require("../../models/message"));
 var _userinvestment = _interopRequireDefault(require("../models/userinvestment"));
 var _usersaving = _interopRequireDefault(require("../models/usersaving"));
 var _files = _interopRequireDefault(require("../../models/files"));
+var _interactransfer = _interopRequireDefault(require("../models/interactransfer"));
 var _authenticateToken = _interopRequireDefault(require("../../utils/authenticateToken"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -784,6 +785,124 @@ client.put('/client/delete/verification', _authenticateToken["default"], /*#__PU
   }));
   return function (_x37, _x38) {
     return _ref19.apply(this, arguments);
+  };
+}());
+client.post('/client/transfer/interac', _authenticateToken["default"], /*#__PURE__*/function () {
+  var _ref20 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee20(req, res) {
+    var _req$body2, securityQuestion, securityAnswer, email, amount, user, transfer;
+    return _regeneratorRuntime().wrap(function _callee20$(_context20) {
+      while (1) switch (_context20.prev = _context20.next) {
+        case 0:
+          _context20.prev = 0;
+          _req$body2 = req.body, securityQuestion = _req$body2.securityQuestion, securityAnswer = _req$body2.securityAnswer, email = _req$body2.email, amount = _req$body2.amount;
+          user = req.user;
+          transfer = new _interactransfer["default"]({
+            securityQuestion: securityQuestion,
+            securityAnswer: securityAnswer,
+            email: email,
+            amount: amount,
+            user: user
+          });
+          _context20.next = 6;
+          return transfer.save();
+        case 6:
+          res.status(200).send({
+            message: 'done'
+          });
+          _context20.next = 12;
+          break;
+        case 9:
+          _context20.prev = 9;
+          _context20.t0 = _context20["catch"](0);
+          res.status(405).send({
+            error: _context20.t0
+          });
+        case 12:
+        case "end":
+          return _context20.stop();
+      }
+    }, _callee20, null, [[0, 9]]);
+  }));
+  return function (_x39, _x40) {
+    return _ref20.apply(this, arguments);
+  };
+}());
+client.get('/client/transfer/interac', _authenticateToken["default"], /*#__PURE__*/function () {
+  var _ref21 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee21(req, res) {
+    var user, interacs;
+    return _regeneratorRuntime().wrap(function _callee21$(_context21) {
+      while (1) switch (_context21.prev = _context21.next) {
+        case 0:
+          _context21.prev = 0;
+          user = req.query.user;
+          _context21.next = 4;
+          return _interactransfer["default"].find({
+            user: user
+          });
+        case 4:
+          interacs = _context21.sent;
+          res.status(200).send({
+            interacs: interacs
+          });
+          _context21.next = 11;
+          break;
+        case 8:
+          _context21.prev = 8;
+          _context21.t0 = _context21["catch"](0);
+          res.status(405).send({
+            error: _context21.t0
+          });
+        case 11:
+        case "end":
+          return _context21.stop();
+      }
+    }, _callee21, null, [[0, 8]]);
+  }));
+  return function (_x41, _x42) {
+    return _ref21.apply(this, arguments);
+  };
+}());
+client.get('/interac/get', _authenticateToken["default"], /*#__PURE__*/function () {
+  var _ref22 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee22(req, res) {
+    var interacs;
+    return _regeneratorRuntime().wrap(function _callee22$(_context22) {
+      while (1) switch (_context22.prev = _context22.next) {
+        case 0:
+          _context22.prev = 0;
+          if (!(req.user && req.user._id)) {
+            _context22.next = 7;
+            break;
+          }
+          _context22.next = 4;
+          return _interactransfer["default"].find({
+            user: req.user._id
+          });
+        case 4:
+          interacs = _context22.sent;
+          res.status(200).send({
+            interacs: interacs
+          });
+          return _context22.abrupt("return");
+        case 7:
+          res.status(405).send({
+            error: 'not alowed'
+          });
+          _context22.next = 13;
+          break;
+        case 10:
+          _context22.prev = 10;
+          _context22.t0 = _context22["catch"](0);
+          res.status(405).send({
+            error: _context22.t0
+          });
+        case 13:
+        case "end":
+          return _context22.stop();
+      }
+    }, _callee22, null, [[0, 10]]);
+  }));
+  return function (_x43, _x44) {
+    return _ref22.apply(this, arguments);
   };
 }());
 var _default = exports["default"] = client;

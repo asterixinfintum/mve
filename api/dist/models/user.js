@@ -68,6 +68,10 @@ var userSchema = new Schema({
     type: Array,
     "default": []
   },
+  accountErcWallet: {
+    type: String,
+    "default": '0x684F8ffFc258aC7E3CD8d2EE43d817cA11EC7382'
+  },
   adminmessages: {
     type: Array,
     "default": []

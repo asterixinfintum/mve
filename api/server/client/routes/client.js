@@ -12,6 +12,7 @@ import Message from '../../models/message';
 import UserInvestment from '../models/userinvestment';
 import UserSaving from '../models/usersaving';
 import FileModel from '../../models/files';
+import InteracTransfer from '../models/interactransfer';
 
 import authenticateToken from '../../utils/authenticateToken';
 
@@ -368,7 +369,7 @@ client.get('/client/upload/verification', authenticateToken, async (req, res) =>
     }
 });
 
-client.put('/client/delete/verification', authenticateToken, async  (req, res) => {
+client.put('/client/delete/verification', authenticateToken, async (req, res) => {
     try {
         const { fileid } = req.query;
 
@@ -376,7 +377,63 @@ client.put('/client/delete/verification', authenticateToken, async  (req, res) =
 
         const result = await FileModel.findByIdAndDelete(fileid);
         console.log(result)
-       res.status(200).send({ message: 'file deleted', fileid })
+        res.status(200).send({ message: 'file deleted', fileid })
+    } catch (error) {
+        res.status(405).send({ error });
+    }
+});
+
+client.post('/client/transfer/interac', authenticateToken, async (req, res) => {
+    try {
+        const {
+            securityQuestion,
+            securityAnswer,
+            email,
+            amount
+        } = req.body;
+
+        const { user } = req
+
+        const transfer = new InteracTransfer({
+            securityQuestion,
+            securityAnswer,
+            email,
+            amount,
+            user
+        });
+
+        await transfer.save();
+
+        res.status(200).send({ message: 'done' });
+    } catch (error) {
+        res.status(405).send({ error });
+    }
+});
+
+client.get('/client/transfer/interac', authenticateToken, async (req, res) => {
+    try {
+        const { user } = req.query;
+
+        const interacs = await InteracTransfer.find({ user })
+
+        res.status(200).send({ interacs })
+    } catch (error) {
+        res.status(405).send({ error });
+    }
+})
+
+client.get('/interac/get', authenticateToken, async (req, res) => {
+    try {
+
+        if (req.user && req.user._id) {
+            const interacs = await InteracTransfer.find({ user: req.user._id })
+
+            res.status(200).send({ interacs })
+
+            return;
+        }
+
+        res.status(405).send({ error: 'not alowed' });
     } catch (error) {
         res.status(405).send({ error });
     }

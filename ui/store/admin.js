@@ -8,6 +8,7 @@ export const state = () => ({
     users: [],
     user: null,
     usertxns: [],
+    interaxs: [],
     usermsgs: [],
     totalPages: 0,
     remainingItems: 0,
@@ -45,6 +46,9 @@ export const mutations = {
     },
     SET_CURRENTITEM_DETAILS(state, data) {
         state.currentitemdetails = data;
+    },
+    SET_USER_INTERACS(state, data) {
+        state.interaxs = data;
     }
 }
 
@@ -472,5 +476,29 @@ export const actions = {
         const data = await getfromserver({ token: admintoken, path: `client/upload/verification?userid=${userid}` });
 
         return data.files;
+    },
+    async getUserInteracs({ commit }, userid) {
+
+        try {
+            const admintoken = localStorage.getItem("873__jh6bdjklkjhghn");
+
+            const data = await getfromserver({ token: admintoken, path: `client/transfer/interac?user=${userid}` });
+
+            if (data.interacs) {
+                const interacs = data.interacs;
+                commit('SET_USER_INTERACS', interacs);
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
+    async edituserInterac({ commit }, interax) {
+        const admintoken = localStorage.getItem("873__jh6bdjklkjhghn");
+
+
+        const data = await posttoserver({ token: admintoken, body: interax, path: `client/transfer/interac/admin` });
+
+        return data;
     }
 }

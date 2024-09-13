@@ -725,6 +725,7 @@ $overview-area-padding: #{scaleValue(30)};
         color: $font-white;
 
         width: #{scaleValue(390)};
+        
 
         @media only screen and (max-width: 768px) {
             height: #{scaleValue(1900)};
@@ -860,6 +861,22 @@ $overview-area-padding: #{scaleValue(30)};
                             height: #{scaleValue(60)} !important;
                             width: #{scaleValue(60)} !important;
                         }
+                    }
+                }
+
+                &.img {
+                    border-radius: 100%;
+                    width: #{scaleValue(20)};
+                    height: #{scaleValue(20)};
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    overflow: hidden;
+
+                    & img {
+                        height: 100%;
+                        object-fit: cover;
+                        width: 100%;
                     }
                 }
             }

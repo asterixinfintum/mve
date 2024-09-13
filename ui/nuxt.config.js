@@ -84,6 +84,8 @@ export default {
       '~/assets/scss/displaycard.scss',
       '~/assets/scss/investmentcard.scss',
       '~/assets/scss/documentdisplay.scss',
+      '~/assets/scss/interactransfer.scss',
+      '~/assets/scss/addmoney.scss',
     ],
     hoistUseStatements: true
   },

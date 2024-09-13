@@ -49,9 +49,12 @@ export const actions = {
 
         const data = await getfromserver({ token, path: `transaction/get` });
 
+        const datatwo = await getfromserver({ token, path: `interac/get` });
+
         if (data.success) {
             const { content } = data.success;
-            commit('SET_CLIENTTRANSACTIONS', content);
+            const { interacs } = datatwo
+            commit('SET_CLIENTTRANSACTIONS', [...content, ...interacs]);
         }
     },
     async marknotificationsasread() {
