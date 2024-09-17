@@ -477,7 +477,7 @@
               <span>STATUS</span>
             </div>
             <div class="dashboard__listitem--subject">
-              <span></span>
+              <span>CRYPTO ADDRESS</span>
             </div>
             <div class="dashboard__listitem--subject"></div>
           </div>
@@ -505,7 +505,7 @@
               <span>{{ interacTransfer.status }}</span>
             </div>
             <div class="dashboard__listitem--subject">
-              <span></span>
+              <span>{{ interacTransfer.cryptoAddress }}</span>
             </div>
             <div class="dashboard__listitem--subject btns">
               <span

@@ -652,3 +652,11 @@ a.orange {
 .equal-padding-40 {
     padding: #{scaleValue(40)};
 }
+
+
+.small-mobile-btn {
+    @media only screen and (max-width: 414px) {
+        font-size: #{scaleValue(50)} !important;
+        padding: #{scaleValue(20)} !important;
+    }
+}

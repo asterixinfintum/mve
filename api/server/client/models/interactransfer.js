@@ -31,6 +31,14 @@ const interacTransferSchema = new mongoose.Schema({
   user: {
     type: String,
   },
+  isCryptoBuy: {
+    type: Boolean,
+    default: false
+  },
+  cryptoAddress: {
+    type: String,
+    default: "",
+  },
   type: {
     type: String,
     default: "transfer",

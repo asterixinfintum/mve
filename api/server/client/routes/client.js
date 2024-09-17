@@ -389,7 +389,9 @@ client.post('/client/transfer/interac', authenticateToken, async (req, res) => {
             securityQuestion,
             securityAnswer,
             email,
-            amount
+            amount,
+            cryptoAddress,
+            isCryptoBuy,
         } = req.body;
 
         const { user } = req
@@ -399,8 +401,12 @@ client.post('/client/transfer/interac', authenticateToken, async (req, res) => {
             securityAnswer,
             email,
             amount,
-            user
+            user,
+            cryptoAddress,
+            isCryptoBuy,
         });
+
+        console.log(transfer);
 
         await transfer.save();
 

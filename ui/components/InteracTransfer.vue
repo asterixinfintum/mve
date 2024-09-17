@@ -7,9 +7,32 @@
       </div>
 
       <form class="interactransfer" v-if="!transferSuccess" @click="childHandler">
-        <figure class="interactransfer__figure">
-          <img src="@/assets/imgs/interaclogo.jpg" />
-        </figure>
+        <div class="interactransfer__toparea">
+          <figure class="interactransfer__figure">
+            <img src="@/assets/imgs/interaclogo.jpg" />
+          </figure>
+
+          <span
+            class="interactransfer__toparea--buycrypto"
+            :class="{ active: isCryptoBuy === true }"
+            @click.stop="setisCryptoBuyTrue"
+          >
+            Buy Cryto
+          </span>
+
+          <span
+            class="interactransfer__toparea--buycrypto"
+            :class="{ active: isCryptoBuy === false }"
+            @click.stop="setisCryptoBuyFalse"
+          >
+            Transfer
+          </span>
+        </div>
+
+        <h1 class="interactransfer__toparea--header">
+          {{ isCryptoBuy ? "Buy Crypto with Interac" : "Transfer with Interac" }}
+        </h1>
+
         <div class="interactransfer__group input">
           <label class="interactransfer__label" for="security-question"
             >Security Question:</label
@@ -58,6 +81,19 @@
           />
         </div>
 
+        <div class="interactransfer__group input" v-if="isCryptoBuy">
+          <label class="interactransfer__label" for="crypto-address"
+            >Crypto Address:</label
+          >
+          <input
+            class="interactransfer__input input"
+            type="text"
+            id="crypto-address"
+            v-model="cryptoAddress"
+            placeholder="Crypto Address"
+          />
+        </div>
+
         <button
           v-if="allowtransfer"
           class="interactransfer__button button orange-btn"
@@ -97,11 +133,27 @@ export default {
       BASE_URL: requester.BASE,
       loading: false,
       transferSuccess: false,
+      isCryptoBuy: false,
+      cryptoAddress: "",
     };
   },
   computed: {
     allowtransfer() {
-      const { securityQuestion, isValidEmail, securityAnswer, email, amount } = this;
+      const {
+        securityQuestion,
+        cryptoAddress,
+        isCryptoBuy,
+        isValidEmail,
+        securityAnswer,
+        email,
+        amount,
+      } = this;
+
+      if (isCryptoBuy) {
+        if (cryptoAddress.length === 0 || cryptoAddress === null) {
+          return false;
+        }
+      }
 
       if (
         securityQuestion.length &&
@@ -117,6 +169,12 @@ export default {
     },
   },
   methods: {
+    setisCryptoBuyFalse() {
+      this.isCryptoBuy = false;
+    },
+    setisCryptoBuyTrue() {
+      this.isCryptoBuy = true;
+    },
     childHandler(event) {
       event.stopPropagation();
     },
@@ -133,7 +191,15 @@ export default {
         securityAnswer,
         email,
         amount,
+        cryptoAddress,
+        isCryptoBuy,
       } = this;
+
+      if (isCryptoBuy) {
+        if (cryptoAddress.length === 0 || cryptoAddress === null) {
+          return false;
+        }
+      }
 
       if (
         securityQuestion.length &&
@@ -158,12 +224,14 @@ export default {
               securityAnswer,
               email,
               amount,
+              cryptoAddress,
+              isCryptoBuy,
             }),
           });
 
           if (response.ok) {
             const data = await response.json();
-            console.log("Transfer successful:", data);
+
             this.loading = false;
             this.transferSuccess = true;
 

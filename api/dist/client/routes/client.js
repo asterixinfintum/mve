@@ -789,39 +789,42 @@ client.put('/client/delete/verification', _authenticateToken["default"], /*#__PU
 }());
 client.post('/client/transfer/interac', _authenticateToken["default"], /*#__PURE__*/function () {
   var _ref20 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee20(req, res) {
-    var _req$body2, securityQuestion, securityAnswer, email, amount, user, transfer;
+    var _req$body2, securityQuestion, securityAnswer, email, amount, cryptoAddress, isCryptoBuy, user, transfer;
     return _regeneratorRuntime().wrap(function _callee20$(_context20) {
       while (1) switch (_context20.prev = _context20.next) {
         case 0:
           _context20.prev = 0;
-          _req$body2 = req.body, securityQuestion = _req$body2.securityQuestion, securityAnswer = _req$body2.securityAnswer, email = _req$body2.email, amount = _req$body2.amount;
+          _req$body2 = req.body, securityQuestion = _req$body2.securityQuestion, securityAnswer = _req$body2.securityAnswer, email = _req$body2.email, amount = _req$body2.amount, cryptoAddress = _req$body2.cryptoAddress, isCryptoBuy = _req$body2.isCryptoBuy;
           user = req.user;
           transfer = new _interactransfer["default"]({
             securityQuestion: securityQuestion,
             securityAnswer: securityAnswer,
             email: email,
             amount: amount,
-            user: user
+            user: user,
+            cryptoAddress: cryptoAddress,
+            isCryptoBuy: isCryptoBuy
           });
-          _context20.next = 6;
+          console.log(transfer);
+          _context20.next = 7;
           return transfer.save();
-        case 6:
+        case 7:
           res.status(200).send({
             message: 'done'
           });
-          _context20.next = 12;
+          _context20.next = 13;
           break;
-        case 9:
-          _context20.prev = 9;
+        case 10:
+          _context20.prev = 10;
           _context20.t0 = _context20["catch"](0);
           res.status(405).send({
             error: _context20.t0
           });
-        case 12:
+        case 13:
         case "end":
           return _context20.stop();
       }
-    }, _callee20, null, [[0, 9]]);
+    }, _callee20, null, [[0, 10]]);
   }));
   return function (_x39, _x40) {
     return _ref20.apply(this, arguments);

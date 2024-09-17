@@ -175,7 +175,7 @@
 
               <div class="overview__orangebox--area">
                 <button
-                  class="button curved white overview__orangebox--button"
+                  class="button curved white overview__orangebox--button small-mobile-btn"
                   @click="toggleAddMoney"
                 >
                   <span class="svg">
@@ -187,7 +187,7 @@
                 </button>
 
                 <button
-                  class="button curved white overview__orangebox--button"
+                  class="button curved white overview__orangebox--button small-mobile-btn"
                   @click="toggleInteracTransfer"
                 >
                   <span class="img"><img src="@/assets/imgs/interaclogo.jpg" /></span>
