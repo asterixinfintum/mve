@@ -59,8 +59,21 @@
           />
         </div>
 
-        <div class="interactransfer__group input">
+        <div class="interactransfer__group input" v-if="!isCryptoBuy">
           <label class="interactransfer__label" for="email">Email Address:</label>
+          <input
+            class="interactransfer__input input"
+            type="email"
+            id="email"
+            v-model="email"
+            placeholder="Email Address"
+          />
+        </div>
+
+        <div class="interactransfer__group input" v-if="isCryptoBuy">
+          <label class="interactransfer__label" for="email"
+            >Email Address: {{ interacEmail }}</label
+          >
           <input
             class="interactransfer__input input"
             type="email"
@@ -123,7 +136,7 @@
 import requester from "@/store/requester";
 
 export default {
-  props: ["toggleInteracTransfer"],
+  props: ["toggleInteracTransfer", "interacEmail"],
   data() {
     return {
       securityQuestion: "",
@@ -136,6 +149,15 @@ export default {
       isCryptoBuy: false,
       cryptoAddress: "",
     };
+  },
+  watch: {
+    isCryptoBuy(newval, oldval) {
+      if (newval) {
+        this.email = this.interacEmail;
+      } else {
+        this.email = "";
+      }
+    },
   },
   computed: {
     allowtransfer() {

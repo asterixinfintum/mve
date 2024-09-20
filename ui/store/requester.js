@@ -47,7 +47,7 @@ async function posttoserver({ body, token, path }) {
 
         return data;
     } catch (error) {
-        console.log(error, 'error here')
+       // console.log(error, 'error here')
         return error;
     }
 }
@@ -59,7 +59,7 @@ async function getfromserver({ token, path }) {
 
         const url = `${BASE}/${pth}`;
 
-        console.log(url)
+       // console.log(url)
 
         const response = await fetch(`${url}`, {
             method: 'GET',

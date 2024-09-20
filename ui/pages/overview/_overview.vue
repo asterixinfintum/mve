@@ -15,7 +15,10 @@
       </div>
 
       <div v-if="interacTransfer">
-        <InteracTransfer :toggleInteracTransfer="toggleInteracTransfer" />
+        <InteracTransfer
+          :toggleInteracTransfer="toggleInteracTransfer"
+          :interacEmail="client.accountInteracCryptoEmail"
+        />
       </div>
 
       <div v-if="createcontactformopen">

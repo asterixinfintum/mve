@@ -88,7 +88,7 @@ adminauth.get('/admin/getusers', authenticateToken, async (req, res) => {
 
         const { currentPageQuery, searchquery } = req.query;
 
-        console.log(currentPageQuery, searchquery, 'checker');
+        //console.log(currentPageQuery, searchquery, 'checker');
 
         if (searchquery.length) {
             const useritems = await User.find({
@@ -116,7 +116,7 @@ adminauth.get('/admin/getusers', authenticateToken, async (req, res) => {
                     { lastname: { $regex: searchquery, $options: 'i' } },
                     { email: { $regex: searchquery, $options: 'i' } }
                 ]
-            }).select('_id firstname lastname email phonenumber account').skip(skip).limit(itemsPerPage);
+            }).select('_id firstname lastname email phonenumber account, online').skip(skip).limit(itemsPerPage);
 
             const users = await Promise.all(useritemstwo.map(async user => {
                 //console.log(user, 'here')

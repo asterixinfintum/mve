@@ -12,6 +12,8 @@ async function setonlineuser(userid) {
 
         await user.save();
 
+        console.log(user);
+
         return user._id;
     } catch (error) {
         console.log(error);

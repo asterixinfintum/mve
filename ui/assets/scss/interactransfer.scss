@@ -18,10 +18,11 @@
 .interactransfer__label {
     font-weight: bold;
     color: $primary-orange;
-    margin-bottom: #{scaleValue(10)};
+    margin-bottom: #{scaleValue(8)};
+    font-size: #{scaleValue(10)};
 
     @media only screen and (max-width: 414px) {
-        font-size: #{scaleValue(60)};
+        font-size: #{scaleValue(50)};
     }
 }
 

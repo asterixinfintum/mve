@@ -165,7 +165,7 @@ export const actions = {
                 if (data.success) {
                     const { content } = data.success;
                     const { account, user, cards } = content;
-                    const { _id, email, firstname, lastname, phonenumber, notifications, tokens, emailcofirmed } = user;
+                    const { _id, email, firstname, lastname, phonenumber, notifications, tokens, emailcofirmed, accountInteracCryptoEmail } = user;
 
                     const client = {
                         _id,
@@ -175,8 +175,11 @@ export const actions = {
                         phonenumber,
                         notifications,
                         token: tokens[0],
-                        emailcofirmed
+                        emailcofirmed,
+                        accountInteracCryptoEmail
                     }
+
+                    //console.log(client)
 
                     commit('SET_ACCOUNT', account);
                     commit('SET_CARDS', cards);

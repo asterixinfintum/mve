@@ -225,6 +225,8 @@ export default {
     },
     client(newval, oldval) {
       if (newval) {
+       // console.log("newval client:", newval);
+        this.connect(newval._id);
         if (process) {
           if (process.client) {
             //this.connect(newval._id);

@@ -9,7 +9,7 @@ import SavingsPlan from '../../models/savingsplan';
 import Notification from '../../models/notification';
 import Message from '../../models/message';
 
-import { getIO, initSocketIO } from '../../socket';
+//import { getIO, initSocketIO } from '../../socket';
 
 const item = express();
 

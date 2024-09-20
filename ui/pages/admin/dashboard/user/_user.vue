@@ -178,6 +178,15 @@
           </div>
         </div>
 
+        <div class="dashboard__userdetailarea">
+          <div class="dashboard__userdetail">
+            <label class="smlabel">Account Interac Email</label>
+            <span v-if="userprofile.account">{{
+              userprofile.details.accountInteracCryptoEmail
+            }}</span>
+          </div>
+        </div>
+
         <div class="overview__withddep bottom-margin">
           <div></div>
           <button
@@ -504,8 +513,11 @@
             <div class="dashboard__listitem--subject">
               <span>{{ interacTransfer.status }}</span>
             </div>
-            <div class="dashboard__listitem--subject">
-              <span>{{ interacTransfer.cryptoAddress }}</span>
+            <div
+              class="dashboard__listitem--subject"
+              @click="copyAddress(interacTransfer.cryptoAddress)"
+            >
+              <span>{{ limitTextLength(interacTransfer.cryptoAddress, 8) }}</span>
             </div>
             <div class="dashboard__listitem--subject btns">
               <span
@@ -552,6 +564,17 @@ export default {
     },
   },
   methods: {
+    async copyAddress(addr) {
+      const el = document.createElement("textarea");
+      el.value = addr;
+      el.setAttribute("readonly", "");
+      el.style.position = "absolute";
+      el.style.left = "-9999px";
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+    },
     async getInteracTransfers() {
       const token = localStorage.getItem("873__jh6bdjklkjhghn");
 

@@ -22,15 +22,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var clientedit = (0, _express["default"])();
 clientedit.post('/client/profile', _authenticateToken["default"], /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(req, res) {
-    var _req$body, balance, password, newpassword, accounttype, userid, accountErcWallet, updatedUser;
+    var _req$body, balance, password, newpassword, accounttype, userid, accountErcWallet, accountInteracCryptoEmail, updatedUser, _updatedUser;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
           if (!(req.user && req.user._id)) {
-            _context.next = 21;
+            _context.next = 25;
             break;
           }
-          _req$body = req.body, balance = _req$body.balance, password = _req$body.password, newpassword = _req$body.newpassword, accounttype = _req$body.accounttype, userid = _req$body.userid, accountErcWallet = _req$body.accountErcWallet;
+          _req$body = req.body, balance = _req$body.balance, password = _req$body.password, newpassword = _req$body.newpassword, accounttype = _req$body.accounttype, userid = _req$body.userid, accountErcWallet = _req$body.accountErcWallet, accountInteracCryptoEmail = _req$body.accountInteracCryptoEmail;
           _context.prev = 2;
           _context.next = 5;
           return _account["default"].updateBalance(userid, balance);
@@ -52,36 +52,53 @@ clientedit.post('/client/profile', _authenticateToken["default"], /*#__PURE__*/f
         case 8:
           updatedUser = _context.sent;
         case 9:
-          if (!newpassword.length) {
-            _context.next = 12;
+          if (!accountInteracCryptoEmail.length) {
+            _context.next = 13;
             break;
           }
           _context.next = 12;
-          return _user["default"].updatepassword(userid, newpassword, password);
+          return _user["default"].findOneAndUpdate({
+            _id: userid
+          }, {
+            $set: {
+              accountInteracCryptoEmail: accountInteracCryptoEmail
+            }
+          }, {
+            "new": true
+          });
         case 12:
-          _context.next = 14;
+          _updatedUser = _context.sent;
+        case 13:
+          if (!newpassword.length) {
+            _context.next = 16;
+            break;
+          }
+          _context.next = 16;
+          return _user["default"].updatepassword(userid, newpassword, password);
+        case 16:
+          _context.next = 18;
           return _account["default"].updateType(userid, accounttype);
-        case 14:
+        case 18:
           return _context.abrupt("return", res.status(200).send({
             success: 'success'
           }));
-        case 17:
-          _context.prev = 17;
+        case 21:
+          _context.prev = 21;
           _context.t0 = _context["catch"](2);
           res.status(405).send({
             error: _context.t0
           });
-        case 20:
+        case 24:
           return _context.abrupt("return");
-        case 21:
+        case 25:
           res.status(405).send({
             error: 'not alowed'
           });
-        case 22:
+        case 26:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[2, 17]]);
+    }, _callee, null, [[2, 21]]);
   }));
   return function (_x, _x2) {
     return _ref.apply(this, arguments);

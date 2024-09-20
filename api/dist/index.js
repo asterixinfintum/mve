@@ -1,11 +1,6 @@
 "use strict";
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getIO = getIO;
-exports.initSocketIO = initSocketIO;
 require("regenerator-runtime/runtime.js");
 var _express = _interopRequireDefault(require("express"));
 var _http = _interopRequireDefault(require("http"));
@@ -66,49 +61,52 @@ var io = (0, _socket["default"])(server, {
 });
 var ioInstance;
 function initSocketIO() {
-  io.on('connection', /*#__PURE__*/function () {
-    var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(socket) {
-      var userid, onlineuser;
-      return _regeneratorRuntime().wrap(function _callee$(_context) {
-        while (1) switch (_context.prev = _context.next) {
-          case 0:
-            userid = socket.handshake.query.userid;
-            if (!userid) {
-              _context.next = 8;
-              break;
-            }
-            _context.next = 4;
-            return (0, _setonlineuser["default"])(userid);
-          case 4:
-            onlineuser = _context.sent;
-            if (onlineuser) {
-              socket.user = onlineuser;
-              console.log(socket.user, 'connected');
-              io.emit('useractivity');
-            }
-            _context.next = 9;
-            break;
-          case 8:
-            console.log('admin connected');
-          case 9:
-            socket.on('disconnect', function () {
-              if (socket.user) {
-                console.log(socket.user, 'disconnected');
-                (0, _setofflineuser["default"])(socket.user);
-                io.emit('useractivity');
-              }
-            });
-          case 10:
-          case "end":
-            return _context.stop();
-        }
-      }, _callee);
-    }));
-    return function (_x) {
-      return _ref.apply(this, arguments);
-    };
-  }());
-  ioInstance = io;
+  return _initSocketIO.apply(this, arguments);
+}
+function _initSocketIO() {
+  _initSocketIO = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+    return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+      while (1) switch (_context5.prev = _context5.next) {
+        case 0:
+          io.on('connection', /*#__PURE__*/function () {
+            var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(socket) {
+              var userid;
+              return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+                while (1) switch (_context4.prev = _context4.next) {
+                  case 0:
+                    userid = socket.handshake.query.userid;
+                    socket.user = userid;
+                    (0, _setonlineuser["default"])(userid);
+                    //console.log('connected:', userid);
+
+                    socket.on('disconnect', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+                      return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+                        while (1) switch (_context3.prev = _context3.next) {
+                          case 0:
+                            (0, _setofflineuser["default"])(socket.user);
+                          case 1:
+                          case "end":
+                            return _context3.stop();
+                        }
+                      }, _callee3);
+                    })));
+                  case 4:
+                  case "end":
+                    return _context4.stop();
+                }
+              }, _callee4);
+            }));
+            return function (_x2) {
+              return _ref3.apply(this, arguments);
+            };
+          }());
+        case 1:
+        case "end":
+          return _context5.stop();
+      }
+    }, _callee5);
+  }));
+  return _initSocketIO.apply(this, arguments);
 }
 app.use(_express["default"].json());
 app.use(_bodyParser["default"].urlencoded({
@@ -124,49 +122,54 @@ app.use(_client2["default"]);
 app.use(_backup["default"]);
 app.use('/uploads', _express["default"]["static"]('uploads'));
 var PORT = process.env.PORT || 8081;
-function getIO() {
+
+/*function getIO() {
   if (!ioInstance) {
     throw new Error("IO not initialized");
   }
+
   return ioInstance;
-}
-;
+};*/
+
 _mongoose["default"].connect("".concat(process.env.DB), {
   //mongodb://db:27017/traderapiv2 =====> production
   //mongodb://127.0.0.1:27017/traderapiv2 ===> development
 
   useNewUrlParser: true,
   useUnifiedTopology: true
-}).then( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
-  return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-    while (1) switch (_context3.prev = _context3.next) {
+}).then( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
+  return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+    while (1) switch (_context2.prev = _context2.next) {
       case 0:
         console.log('connected to database');
         server.listen(PORT, /*#__PURE__*/function () {
-          var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(error) {
-            return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-              while (1) switch (_context2.prev = _context2.next) {
+          var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(error) {
+            return _regeneratorRuntime().wrap(function _callee$(_context) {
+              while (1) switch (_context.prev = _context.next) {
                 case 0:
                   if (!error) {
-                    _context2.next = 2;
+                    _context.next = 2;
                     break;
                   }
-                  return _context2.abrupt("return", error);
+                  return _context.abrupt("return", error);
                 case 2:
-                  return _context2.abrupt("return", console.log("server started on port here now ".concat(PORT)));
-                case 3:
+                  initSocketIO();
+                  return _context.abrupt("return", console.log("server started on port here now ".concat(PORT)));
+                case 4:
                 case "end":
-                  return _context2.stop();
+                  return _context.stop();
               }
-            }, _callee2);
+            }, _callee);
           }));
-          return function (_x2) {
-            return _ref3.apply(this, arguments);
+          return function (_x) {
+            return _ref2.apply(this, arguments);
           };
         }());
       case 2:
       case "end":
-        return _context3.stop();
+        return _context2.stop();
     }
-  }, _callee3);
+  }, _callee2);
 })));
+
+//export { getIO, initSocketIO };

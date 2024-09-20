@@ -63,34 +63,19 @@ const io = socket(server, {
 
 let ioInstance;
 
-function initSocketIO() {
+async function initSocketIO() {
   io.on('connection', async (socket) => {
+    
     const userid = socket.handshake.query.userid;
+    socket.user = userid;
 
-    if (userid) {
-      const onlineuser = await setonlineuser(userid);
+    setonlineuser(userid);
+    //console.log('connected:', userid);
 
-      if (onlineuser) {
-        socket.user = onlineuser;
-
-        console.log(socket.user, 'connected');
-        io.emit('useractivity');
-      }
-    } else {
-      console.log('admin connected');
-    }
-
-    socket.on('disconnect', () => {
-      if (socket.user) {
-        console.log(socket.user, 'disconnected');
-        setofflineuser(socket.user)
-
-        io.emit('useractivity');
-      }
+    socket.on('disconnect', async () => {
+      setofflineuser(socket.user);
     })
   });
-
-  ioInstance = io;
 }
 
 app.use(express.json());
@@ -108,13 +93,13 @@ app.use('/uploads', express.static('uploads'))
 
 const PORT = process.env.PORT || 8081;
 
-function getIO() {
+/*function getIO() {
   if (!ioInstance) {
     throw new Error("IO not initialized");
   }
 
   return ioInstance;
-};
+};*/
 
 mongoose.connect(`${process.env.DB}`, {
   //mongodb://db:27017/traderapiv2 =====> production
@@ -130,10 +115,10 @@ mongoose.connect(`${process.env.DB}`, {
       return error;
     }
 
-    //initSocketIO();
+    initSocketIO();
 
     return console.log(`server started on port here now ${PORT}`);
   });
 });
 
-export { getIO, initSocketIO };
+//export { getIO, initSocketIO };

@@ -109,6 +109,25 @@
                   </div>
                 </div>
 
+                <div class="input-area">
+                  <label class="smlabel capitalize"
+                    >{{ userprofile.details.firstname }}'s Account Interac Email</label
+                  >
+                  <label
+                    class="smlabel tinylabel fontweight-5"
+                    :class="{
+                      fonterror: authError === '',
+                    }"
+                  >
+                  </label>
+                  <div class="input">
+                    <input
+                      :placeholder="`${userprofile.details.firstname}'s Account Interac Email`"
+                      v-model="accountInteracCryptoEmail"
+                    />
+                  </div>
+                </div>
+
                 <div class="overview__withddep">
                   <button
                     class="button orange-btn fontweight-3 half-flex-space"
@@ -137,6 +156,7 @@ export default {
       balance: "",
       newpassword: "",
       accountErcWallet: "",
+      accountInteracCryptoEmail: ""
     };
   },
   mixins: [global],
@@ -154,7 +174,7 @@ export default {
   },
   methods: {
     updateprofile() {
-      const { balance, password, accounttype, newpassword, accountErcWallet } = this;
+      const { balance, password, accounttype, newpassword, accountErcWallet, accountInteracCryptoEmail } = this;
       this.toggleverbiage(`Updating ${this.userprofile.details.firstname}'s profile`);
       this.onspinner();
       this.updateuserprofile({
@@ -164,6 +184,7 @@ export default {
         newpassword,
         userid: this.userid,
         accountErcWallet,
+        accountInteracCryptoEmail
       }).then(() => {
         this.toggleverbiage(null);
         this.offspinner();

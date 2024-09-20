@@ -135,7 +135,7 @@ export const actions = {
 
         if (data.success) {
             const final = data.success.content;
-            console.log(final)
+           // console.log(final)
             commit('SET_QUICKCONTACTS', final)
         }
     },
