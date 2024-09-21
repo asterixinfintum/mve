@@ -241,11 +241,6 @@ adminauth.get('/admin/getuser', authenticateToken, async (req, res) => {
             Card.find({ user: user._id })
         ]);
 
-        const details = {
-            ...user,
-            lastOnline: formatDistanceToNow(new Date(user.lastSeen), { addSuffix: true })
-        }
-
         const result = {
             details: user,
             account,

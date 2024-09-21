@@ -84,7 +84,8 @@ const userSchema = new Schema({
         default: ""
     },
     lastSeen: {
-        type: Date
+        type: Date,
+        default: Date.now
     }
 });
 

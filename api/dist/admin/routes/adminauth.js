@@ -13,11 +13,6 @@ var _card = _interopRequireDefault(require("../../models/card"));
 var _transaction = _interopRequireDefault(require("../../models/transaction"));
 var _authenticateToken = _interopRequireDefault(require("../../utils/authenticateToken"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
@@ -413,7 +408,7 @@ adminauth.get('/admin/getusers', _authenticateToken["default"], /*#__PURE__*/fun
 
 adminauth.get('/admin/getuser', _authenticateToken["default"], /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(req, res) {
-    var administrator, userid, user, _yield$Promise$all3, _yield$Promise$all4, account, cards, details, result;
+    var administrator, userid, user, _yield$Promise$all3, _yield$Promise$all4, account, cards, result;
     return _regeneratorRuntime().wrap(function _callee6$(_context6) {
       while (1) switch (_context6.prev = _context6.next) {
         case 0:
@@ -474,11 +469,6 @@ adminauth.get('/admin/getuser', _authenticateToken["default"], /*#__PURE__*/func
           _yield$Promise$all4 = _slicedToArray(_yield$Promise$all3, 2);
           account = _yield$Promise$all4[0];
           cards = _yield$Promise$all4[1];
-          details = _objectSpread(_objectSpread({}, user), {}, {
-            lastOnline: formatDistanceToNow(new Date(user.lastSeen), {
-              addSuffix: true
-            })
-          });
           result = {
             details: user,
             account: account,
@@ -494,20 +484,20 @@ adminauth.get('/admin/getuser', _authenticateToken["default"], /*#__PURE__*/func
               content: result
             }
           });
-          _context6.next = 31;
+          _context6.next = 30;
           break;
-        case 27:
-          _context6.prev = 27;
+        case 26:
+          _context6.prev = 26;
           _context6.t0 = _context6["catch"](2);
           console.error('Error fetching user:', _context6.t0);
           res.status(500).send({
             error: 'Internal Server Error'
           });
-        case 31:
+        case 30:
         case "end":
           return _context6.stop();
       }
-    }, _callee6, null, [[2, 27]]);
+    }, _callee6, null, [[2, 26]]);
   }));
   return function (_x10, _x11) {
     return _ref6.apply(this, arguments);
