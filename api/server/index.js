@@ -70,9 +70,11 @@ async function initSocketIO() {
     socket.user = userid;
 
     setonlineuser(userid);
-    //console.log('connected:', userid);
+    
+    
 
     socket.on('disconnect', async () => {
+      console.log(socket.user);
       setofflineuser(socket.user);
     })
   });

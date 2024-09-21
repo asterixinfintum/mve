@@ -185,6 +185,17 @@
               userprofile.details.accountInteracCryptoEmail
             }}</span>
           </div>
+
+          <div class="dashboard__userdetail">
+            <label class="smlabel">Online Status</label>
+            <span v-if="userprofile.account && !userprofile.details.online">{{
+              userprofile.lastOnline
+            }}</span>
+
+            <span v-if="userprofile.account && userprofile.details.online">{{
+              "Currently Online"
+            }}</span>
+          </div>
         </div>
 
         <div class="overview__withddep bottom-margin">

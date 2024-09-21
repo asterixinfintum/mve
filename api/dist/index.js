@@ -77,14 +77,13 @@ function _initSocketIO() {
                     userid = socket.handshake.query.userid;
                     socket.user = userid;
                     (0, _setonlineuser["default"])(userid);
-                    //console.log('connected:', userid);
-
                     socket.on('disconnect', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
                       return _regeneratorRuntime().wrap(function _callee3$(_context3) {
                         while (1) switch (_context3.prev = _context3.next) {
                           case 0:
+                            console.log(socket.user);
                             (0, _setofflineuser["default"])(socket.user);
-                          case 1:
+                          case 2:
                           case "end":
                             return _context3.stop();
                         }

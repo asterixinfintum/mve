@@ -87,6 +87,13 @@ var userSchema = new Schema({
   online: {
     type: Boolean,
     "default": false
+  },
+  lastOnline: {
+    type: String,
+    "default": ""
+  },
+  lastSeen: {
+    type: Date
   }
 });
 function dateOneYearFromNow() {

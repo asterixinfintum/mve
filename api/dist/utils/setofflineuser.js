@@ -15,7 +15,7 @@ function setofflineuser(_x) {
 }
 function _setofflineuser() {
   _setofflineuser = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(userid) {
-    var user;
+    var user, currentTime, lastSeen;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
@@ -33,19 +33,22 @@ function _setofflineuser() {
         case 5:
           user = _context.sent;
           user.online = false;
-          _context.next = 9;
+          currentTime = Date.now();
+          lastSeen = currentTime;
+          user.lastSeen = lastSeen;
+          _context.next = 12;
           return user.save();
-        case 9:
-          return _context.abrupt("return", user._id);
         case 12:
-          _context.prev = 12;
+          return _context.abrupt("return", user._id);
+        case 15:
+          _context.prev = 15;
           _context.t0 = _context["catch"](2);
           console.log(_context.t0);
-        case 15:
+        case 18:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[2, 12]]);
+    }, _callee, null, [[2, 15]]);
   }));
   return _setofflineuser.apply(this, arguments);
 }

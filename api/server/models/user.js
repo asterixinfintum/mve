@@ -79,6 +79,13 @@ const userSchema = new Schema({
         type: Boolean,
         default: false
     },
+    lastOnline: {
+        type: String,
+        default: ""
+    },
+    lastSeen: {
+        type: Date
+    }
 });
 
 function dateOneYearFromNow() {

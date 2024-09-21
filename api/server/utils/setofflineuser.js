@@ -10,6 +10,12 @@ async function setofflineuser(userid) {
 
         user.online = false;
 
+        const currentTime = Date.now();
+
+        const lastSeen = currentTime;
+
+        user.lastSeen = lastSeen;
+
         await user.save();
 
         return user._id;
