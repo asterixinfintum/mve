@@ -83,7 +83,7 @@ function _setUserState() {
         case 0:
           _context2.prev = 0;
           if (!userid) {
-            _context2.next = 10;
+            _context2.next = 7;
             break;
           }
           _context2.next = 4;
@@ -93,26 +93,22 @@ function _setUserState() {
         case 4:
           user = _context2.sent;
           if (!user) {
-            _context2.next = 10;
+            _context2.next = 7;
             break;
           }
-          user.online = true;
-          _context2.next = 9;
-          return user.save();
-        case 9:
           return _context2.abrupt("return", user);
-        case 10:
-          _context2.next = 15;
+        case 7:
+          _context2.next = 12;
           break;
-        case 12:
-          _context2.prev = 12;
+        case 9:
+          _context2.prev = 9;
           _context2.t0 = _context2["catch"](0);
           throw _context2.t0;
-        case 15:
+        case 12:
         case "end":
           return _context2.stop();
       }
-    }, _callee2, null, [[0, 12]]);
+    }, _callee2, null, [[0, 9]]);
   }));
   return _setUserState.apply(this, arguments);
 }

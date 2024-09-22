@@ -63,7 +63,7 @@ const io = socket(server, {
 
 let ioInstance;
 
-async function initSocketIO() {
+async function initSocketIO () {
   io.on('connection', async (socket) => {
     
     const userid = socket.handshake.query.userid;
@@ -108,7 +108,8 @@ mongoose.connect(`${process.env.DB}`, {
   //mongodb://127.0.0.1:27017/traderapiv2 ===> development
 
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  readPreference: 'primary'
 }).then(async () => {
   console.log('connected to database');
 

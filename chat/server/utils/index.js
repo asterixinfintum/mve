@@ -43,10 +43,6 @@ async function setUserState(userid) {
             const user = await User.findOne({ _id: userid });
 
             if (user) {
-                user.online = true;
-
-                await user.save();
-
                 return user;
             }
         }

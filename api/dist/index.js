@@ -136,7 +136,8 @@ _mongoose["default"].connect("".concat(process.env.DB), {
   //mongodb://127.0.0.1:27017/traderapiv2 ===> development
 
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  readPreference: 'primary'
 }).then( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
   return _regeneratorRuntime().wrap(function _callee2$(_context2) {
     while (1) switch (_context2.prev = _context2.next) {

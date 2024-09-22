@@ -232,6 +232,7 @@ adminauth.get('/admin/getuser', authenticateToken, async (req, res) => {
         }
 
         const user = await User.findOne({ _id: userid });
+        
         if (!user) {
             return res.status(404).send({ error: 'User not found' });
         }
@@ -240,6 +241,8 @@ adminauth.get('/admin/getuser', authenticateToken, async (req, res) => {
             Account.findOne({ _id: user.account }),
             Card.find({ user: user._id })
         ]);
+
+        console.log(user, 'user')
 
         const result = {
             details: user,

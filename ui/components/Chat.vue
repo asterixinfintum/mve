@@ -81,6 +81,7 @@ export default {
   },
   watch: {
     user(newval, oldval) {
+      console.log('user:', user)
       if (newval) {
         this.connectSocket();
       }

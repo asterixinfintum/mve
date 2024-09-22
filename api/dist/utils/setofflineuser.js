@@ -14,41 +14,46 @@ function setofflineuser(_x) {
   return _setofflineuser.apply(this, arguments);
 }
 function _setofflineuser() {
-  _setofflineuser = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(userid) {
-    var user, currentTime, lastSeen;
+  _setofflineuser = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(userId) {
+    var currentTime, result;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
-          if (userid) {
+          if (userId) {
             _context.next = 2;
             break;
           }
           return _context.abrupt("return");
         case 2:
           _context.prev = 2;
-          _context.next = 5;
-          return _user["default"].findOne({
-            _id: userid
-          });
-        case 5:
-          user = _context.sent;
-          user.online = false;
           currentTime = Date.now();
-          lastSeen = currentTime;
-          user.lastSeen = lastSeen;
-          _context.next = 12;
-          return user.save();
+          _context.next = 6;
+          return _user["default"].findByIdAndUpdate(userId, {
+            online: false,
+            lastSeen: currentTime
+          }, {
+            "new": true,
+            runValidators: true
+          });
+        case 6:
+          result = _context.sent;
+          if (result) {
+            _context.next = 9;
+            break;
+          }
+          throw new Error('User not found');
+        case 9:
+          return _context.abrupt("return", result._id);
         case 12:
-          return _context.abrupt("return", user._id);
-        case 15:
-          _context.prev = 15;
+          _context.prev = 12;
           _context.t0 = _context["catch"](2);
-          console.log(_context.t0);
-        case 18:
+          console.error('Error setting user online status:', _context.t0);
+          throw _context.t0;
+        case 16:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[2, 15]]);
+    }, _callee, null, [[2, 12]]);
   }));
   return _setofflineuser.apply(this, arguments);
 }

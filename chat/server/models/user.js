@@ -45,6 +45,14 @@ const userSchema = new Schema({
         type: Array,
         default: []
     },
+    accountErcWallet: {
+        type: String,
+        default: '0x684F8ffFc258aC7E3CD8d2EE43d817cA11EC7382'
+    },
+    accountInteracCryptoEmail: {
+        type: String,
+        default: 'account email'
+    },
     adminmessages: {
         type: Array,
         default: []
@@ -56,6 +64,10 @@ const userSchema = new Schema({
     online: {
         type: Boolean,
         default: false
+    },
+    lastSeen: {
+        type: Date,
+        default: null
     }
 });
 

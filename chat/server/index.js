@@ -55,7 +55,7 @@ async function initSocketIO() {
 
         if (user) {
             socket.user = user;
-            io.emit('useronline', user)
+            //io.emit('useronline', user)
         }
 
         socket.on('sendMessage', async (data) => {
@@ -88,7 +88,7 @@ async function initSocketIO() {
         })
 
         socket.on('disconnect', async () => {
-            setUserStateOffline(socket.user);
+            //setUserStateOffline(socket.user);
         })
     });
 }

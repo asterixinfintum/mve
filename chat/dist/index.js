@@ -67,7 +67,7 @@ function _initSocketIO() {
                     user = _context6.sent;
                     if (user) {
                       socket.user = user;
-                      io.emit('useronline', user);
+                      //io.emit('useronline', user)
                     }
                     socket.on('sendMessage', /*#__PURE__*/function () {
                       var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(data) {
@@ -136,8 +136,6 @@ function _initSocketIO() {
                       return _regeneratorRuntime().wrap(function _callee5$(_context5) {
                         while (1) switch (_context5.prev = _context5.next) {
                           case 0:
-                            (0, _utils.setUserStateOffline)(socket.user);
-                          case 1:
                           case "end":
                             return _context5.stop();
                         }

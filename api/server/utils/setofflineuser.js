@@ -1,26 +1,27 @@
 import User from '../models/user';
 
-async function setofflineuser(userid) {
-    if (!userid) {
+async function setofflineuser(userId) {
+    if (!userId) {
         return;
     }
 
     try {
-        const user = await User.findOne({ _id: userid });
-
-        user.online = false;
-
         const currentTime = Date.now();
 
-        const lastSeen = currentTime;
+        const result = await User.findByIdAndUpdate(
+            userId,
+            { online: false, lastSeen: currentTime },
+            { new: true, runValidators: true }
+        );
 
-        user.lastSeen = lastSeen;
+        if (!result) {
+            throw new Error('User not found');
+        }
 
-        await user.save();
-
-        return user._id;
+        return result._id;
     } catch (error) {
-        console.log(error);
+        console.error('Error setting user online status:', error);
+        throw error;
     }
 }
 

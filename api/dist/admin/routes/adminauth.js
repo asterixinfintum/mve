@@ -469,6 +469,7 @@ adminauth.get('/admin/getuser', _authenticateToken["default"], /*#__PURE__*/func
           _yield$Promise$all4 = _slicedToArray(_yield$Promise$all3, 2);
           account = _yield$Promise$all4[0];
           cards = _yield$Promise$all4[1];
+          console.log(user, 'user');
           result = {
             details: user,
             account: account,
@@ -484,20 +485,20 @@ adminauth.get('/admin/getuser', _authenticateToken["default"], /*#__PURE__*/func
               content: result
             }
           });
-          _context6.next = 30;
+          _context6.next = 31;
           break;
-        case 26:
-          _context6.prev = 26;
+        case 27:
+          _context6.prev = 27;
           _context6.t0 = _context6["catch"](2);
           console.error('Error fetching user:', _context6.t0);
           res.status(500).send({
             error: 'Internal Server Error'
           });
-        case 30:
+        case 31:
         case "end":
           return _context6.stop();
       }
-    }, _callee6, null, [[2, 26]]);
+    }, _callee6, null, [[2, 27]]);
   }));
   return function (_x10, _x11) {
     return _ref6.apply(this, arguments);

@@ -14,34 +14,41 @@ function setonlineuser(_x) {
   return _setonlineuser.apply(this, arguments);
 }
 function _setonlineuser() {
-  _setonlineuser = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(userid) {
-    var user;
+  _setonlineuser = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(userId) {
+    var result;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
-          if (userid) {
+          if (userId) {
             _context.next = 2;
             break;
           }
-          return _context.abrupt("return");
+          throw new Error('userId is required');
         case 2:
           _context.prev = 2;
           _context.next = 5;
-          return _user["default"].findOne({
-            _id: userid
+          return _user["default"].findByIdAndUpdate(userId, {
+            online: true
+          }, {
+            "new": true,
+            runValidators: true
           });
         case 5:
-          user = _context.sent;
-          user.online = true;
-          _context.next = 9;
-          return user.save();
-        case 9:
-          return _context.abrupt("return", user._id);
+          result = _context.sent;
+          if (result) {
+            _context.next = 8;
+            break;
+          }
+          throw new Error('User not found');
+        case 8:
+          console.log('result:', result);
+          return _context.abrupt("return", result._id);
         case 12:
           _context.prev = 12;
           _context.t0 = _context["catch"](2);
-          console.log(_context.t0);
-        case 15:
+          console.error('Error setting user online status:', _context.t0);
+          throw _context.t0;
+        case 16:
         case "end":
           return _context.stop();
       }

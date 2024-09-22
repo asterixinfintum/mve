@@ -1,22 +1,27 @@
 import User from '../models/user';
 
-async function setonlineuser(userid) {
-    if (!userid) {
-        return;
+async function setonlineuser(userId) {
+    if (!userId) {
+        throw new Error('userId is required');
     }
 
     try {
-        const user = await User.findOne({ _id: userid });
+        const result = await User.findByIdAndUpdate(
+            userId,
+            { online: true },
+            { new: true, runValidators: true }
+        );
 
-        user.online = true;
+        if (!result) {
+            throw new Error('User not found');
+        }
 
-        await user.save();
+        console.log('result:', result)
 
-       // console.log(user);
-
-        return user._id;
+        return result._id;
     } catch (error) {
-        console.log(error);
+        console.error('Error setting user online status:', error);
+        throw error;
     }
 }
 
