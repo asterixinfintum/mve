@@ -473,7 +473,7 @@ adminauth.get('/admin/getuser', _authenticateToken["default"], /*#__PURE__*/func
             details: user,
             account: account,
             cards: cards,
-            lastOnline: formatDistanceToNow(new Date(user.lastSeen), {
+            lastOnline: user.lastSeen === null ? 'not available yet' : formatDistanceToNow(new Date(user.lastSeen), {
               addSuffix: true
             })
           };

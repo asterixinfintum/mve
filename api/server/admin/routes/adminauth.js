@@ -129,9 +129,9 @@ adminauth.get('/admin/getusers', authenticateToken, async (req, res) => {
                 return { details: user, account, cards };
             }));
 
-           // console.log(users, totalPages, currentPage, remainingItems, pageNumbers )
+            // console.log(users, totalPages, currentPage, remainingItems, pageNumbers )
 
-           // res.send({ users, totalPages, currentPage, remainingItems, pageNumbers });
+            // res.send({ users, totalPages, currentPage, remainingItems, pageNumbers });
 
             res.status(200).send({
                 success: {
@@ -245,7 +245,7 @@ adminauth.get('/admin/getuser', authenticateToken, async (req, res) => {
             details: user,
             account,
             cards,
-            lastOnline: formatDistanceToNow(new Date(user.lastSeen), { addSuffix: true })
+            lastOnline: user.lastSeen === null ? 'not available yet' : formatDistanceToNow(new Date(user.lastSeen), { addSuffix: true })
         };
 
         res.status(200).send({
