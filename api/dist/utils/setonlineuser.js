@@ -36,17 +36,16 @@ function _setonlineuser() {
           _context.next = 9;
           return user.save();
         case 9:
-          console.log(user);
           return _context.abrupt("return", user._id);
-        case 13:
-          _context.prev = 13;
+        case 12:
+          _context.prev = 12;
           _context.t0 = _context["catch"](2);
           console.log(_context.t0);
-        case 16:
+        case 15:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[2, 13]]);
+    }, _callee, null, [[2, 12]]);
   }));
   return _setonlineuser.apply(this, arguments);
 }

@@ -188,11 +188,11 @@
 
           <div class="dashboard__userdetail">
             <label class="smlabel">Online Status</label>
-            <span v-if="userprofile.account && !userprofile.details.online">{{
+            <span v-if="userprofile.details.online === false">{{
               userprofile.lastOnline
             }}</span>
 
-            <span v-if="userprofile.account && userprofile.details.online">{{
+            <span v-if="userprofile.details.online === true">{{
               "Currently Online"
             }}</span>
           </div>

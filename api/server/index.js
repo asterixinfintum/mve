@@ -67,14 +67,14 @@ async function initSocketIO() {
   io.on('connection', async (socket) => {
     
     const userid = socket.handshake.query.userid;
+
+    console.log('userid:', userid);
     socket.user = userid;
 
     setonlineuser(userid);
-    
-    
 
     socket.on('disconnect', async () => {
-      console.log(socket.user);
+      console.log('socket.user:', socket.user);
       setofflineuser(socket.user);
     })
   });

@@ -7,8 +7,6 @@ const uri = 'mongodb://db:27017/db';
 
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-
-
 import Card from './card';
 import Account from './account';
 import Transaction from './transaction';
@@ -79,13 +77,9 @@ const userSchema = new Schema({
         type: Boolean,
         default: false
     },
-    lastOnline: {
-        type: String,
-        default: ""
-    },
     lastSeen: {
         type: Date,
-        default: Date.now
+        default: null
     }
 });
 

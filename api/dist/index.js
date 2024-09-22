@@ -75,13 +75,14 @@ function _initSocketIO() {
                 while (1) switch (_context4.prev = _context4.next) {
                   case 0:
                     userid = socket.handshake.query.userid;
+                    console.log('userid:', userid);
                     socket.user = userid;
                     (0, _setonlineuser["default"])(userid);
                     socket.on('disconnect', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
                       return _regeneratorRuntime().wrap(function _callee3$(_context3) {
                         while (1) switch (_context3.prev = _context3.next) {
                           case 0:
-                            console.log(socket.user);
+                            console.log('socket.user:', socket.user);
                             (0, _setofflineuser["default"])(socket.user);
                           case 2:
                           case "end":
@@ -89,7 +90,7 @@ function _initSocketIO() {
                         }
                       }, _callee3);
                     })));
-                  case 4:
+                  case 5:
                   case "end":
                     return _context4.stop();
                 }

@@ -56,11 +56,11 @@
               }}</span>
               <span
                 class="onlineofflineindicator online"
-                v-if="user.details.online"
+                v-if="user.details.online === true"
               ></span
               ><span
                 class="onlineofflineindicator offline"
-                v-if="!user.details.online"
+                v-if="user.details.online === false"
               ></span>
             </div>
             <div class="dashboard__listitem--subject">
