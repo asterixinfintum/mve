@@ -12,14 +12,14 @@ function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyri
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 require('dotenv').config();
-var platformname = process.env.PLATFORM === 'MUNG' ? 'Munger Capital' : 'Domitia Capital';
+var platformname = process.env.PLATFORM === 'MUNG' ? 'Munger Capital' : 'Elysium Capital';
 var welcome = function welcome(_ref) {
   var email = _ref.email,
     firstname = _ref.firstname,
     userid = _ref.userid;
   try {
     var template = {
-      giver: process.env.PLATFORM === 'MUNG' ? "".concat(platformname, " <management@mungercapital.com>") : "".concat(platformname, " <management@domitiacapital.com>"),
+      giver: process.env.PLATFORM === 'MUNG' ? "".concat(platformname, " <management@mungercapital.com>") : "".concat(platformname, " <management@elysiumcapital.eu>"),
       receiver: "".concat(email),
       subject: "Welcome to ".concat(platformname),
       message: "\n            <!DOCTYPE html>\n            <html lang=\"en\">\n                <head>\n                    <meta charset=\"UTF-8\">\n                    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n                    <title>Welcome to ".concat(platformname, "! Please Confirm Your Email</title>\n\n                    <style>\n                        @font-face {\n                            font-family: 'Inter';\n                            src: url(data:font/woff2;base64,BASE64_ENCODED_INTER_FONT_DATA_HERE) format('woff2');\n                            /* Add additional font formats here for broader compatibility */\n                        }\n                        @font-face {\n                            font-family: 'Poppins';\n                            src: url(data:font/woff2;base64,BASE64_ENCODED_POPPINS_FONT_DATA_HERE) format('woff2');\n                            /* Add additional font formats here for broader compatibility */\n                        }\n\n                        body {\n                            font-family: 'Inter', Arial, sans-serif;\n                            background-color: #f5f5f5;\n                            margin: 0;\n                            padding: 0;\n                        }\n\n                        p {\n                            font-size: 14px;\n                            color: #333;\n                        }\n\n                        .message {\n                            padding: 30px 30px;\n                        }\n                    </style>\n\n                    <!-- Add the Google Fonts link -->\n                    <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&family=Poppins:wght@100;200;300;400;500;600&display=swap\">\n                </head>\n\n                <body class=\"message\">\n                    <p>Dear ").concat(firstname, ",</p>\n\n                    <p>Welcome to <span class=\"platformname\">").concat(platformname, "!</span> We're thrilled to have you join our community of valued customers. Our commitment is to provide you with exceptional financial services that meet your needs and exceed your expectations.</p>\n                \n                    <p>To get started, there's just one small step remaining. Please confirm your email address to ensure secure and uninterrupted access to your new account. This will enable us to keep you informed about important account information and updates.</p>\n                \n                    <p><a href=\"").concat(process.env.baseurl, "/overview/").concat(userid, "?confirm=true\">Confirm Email</a></p>\n                \n                    <p>Once your email is confirmed, you will gain full access to all the features and benefits of your <span class=\"platformname\">").concat(platformname, "!</span> account, including:</p>\n                \n                    <ul>\n                        <li>Personalized Online and Mobile Banking</li>\n                        <li>24/7 Customer Support</li>\n                        <li>Exclusive Financial Products and Offers</li>\n                    </ul>\n            \n                \n                    <p>Thank you for choosing <span class=\"platformname\">").concat(platformname, "!</span>. We look forward to supporting your financial journey.</p>\n                \n                    <p>Warm regards,</p>\n                \n                    <p>The <span class=\"platformname\">").concat(platformname, "!</span> Team</p>\n                </body>\n            </html>\n            ")
@@ -47,26 +47,20 @@ var welcome = function welcome(_ref) {
               updatedUser = _context.sent;
               // Check if a document was found and updated
               if (updatedUser) {
-                res.status(201).send({
-                  successmessage: 'User updated successfully'
-                });
+                // res.status(201).send({ successmessage: 'User updated successfully' });
               } else {
                 // If no document was found, updatedUser will be null
-                res.status(404).send({
-                  error: 'No such user'
-                });
+                //res.status(404).send({ error: 'No such user' });
               }
-              _context.next = 12;
+              _context.next = 11;
               break;
             case 8:
               _context.prev = 8;
               _context.t0 = _context["catch"](1);
               // If there's an error in the query, it will be caught here
               console.error(_context.t0, 'error here in user confirm update');
-              res.status(500).send({
-                error: 'Internal server error'
-              });
-            case 12:
+              // res.status(500).send({ error: 'Internal server error' });
+            case 11:
             case "end":
               return _context.stop();
           }

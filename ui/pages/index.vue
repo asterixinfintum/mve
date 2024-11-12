@@ -386,7 +386,7 @@
 
       <div class="curvedoffer" id="reviews">
         <div class="curvedoffer__body top-margin">
-          <div class="curvedoffer__reviews">
+          <!--<div class="curvedoffer__reviews">
             <div class="curvedoffer__copy no-flex">
               <h3 class="curvedoffer__copy--h3 fontweight-4">
                 What people say about are saying about us
@@ -417,7 +417,7 @@
               </figure>
             </div>
 
-            <!--<div class="curvedoffer__reviewsgrid">
+            <div class="curvedoffer__reviewsgrid">
               <figure>
                 <img src="@/assets/imgs/dominreview/Screenshot (2).png" />
               </figure>
@@ -440,8 +440,8 @@
               <figure>
                 <img src="@/assets/imgs/dominreview/Screenshot (7).png" />
               </figure>
-            </div>-->
-          </div>
+            </div>
+          </div>-->
         </div>
       </div>
 

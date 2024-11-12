@@ -4,12 +4,12 @@ import User from '.././models/user';
 
 import send from './send';
 
-const platformname = process.env.PLATFORM === 'MUNG' ? 'Munger Capital' : 'Domitia Capital'
+const platformname = process.env.PLATFORM === 'MUNG' ? 'Munger Capital' : 'Elysium Capital'
 
 const welcome = ({ email, firstname, userid }) => {
     try {
         const template = {
-            giver: process.env.PLATFORM === 'MUNG' ? `${platformname} <management@mungercapital.com>` : `${platformname} <management@domitiacapital.com>`,
+            giver: process.env.PLATFORM === 'MUNG' ? `${platformname} <management@mungercapital.com>` : `${platformname} <management@elysiumcapital.eu>`,
             receiver: `${email}`,
             subject: `Welcome to ${platformname}`,
             message: `
@@ -96,15 +96,15 @@ const welcome = ({ email, firstname, userid }) => {
 
                     // Check if a document was found and updated
                     if (updatedUser) {
-                        res.status(201).send({ successmessage: 'User updated successfully' });
+                       // res.status(201).send({ successmessage: 'User updated successfully' });
                     } else {
                         // If no document was found, updatedUser will be null
-                        res.status(404).send({ error: 'No such user' });
+                        //res.status(404).send({ error: 'No such user' });
                     }
                 } catch (err) {
                     // If there's an error in the query, it will be caught here
                     console.error(err, 'error here in user confirm update');
-                    res.status(500).send({ error: 'Internal server error' });
+                   // res.status(500).send({ error: 'Internal server error' });
                 }
 
             })

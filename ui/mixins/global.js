@@ -7,7 +7,7 @@ export default {
     extends: 'layouts/default',
     head() {
         return {
-            title: requester.BASE.includes('mung') ? 'Munger Capital' : 'Domitia Capital'
+            title: requester.BASE.includes('mung') ? 'Munger Capital' : 'Elysium Capital'
         }
     },
     data() {
