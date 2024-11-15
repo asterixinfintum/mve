@@ -11,7 +11,13 @@
       />
 
       <div v-if="addMoneyOpen">
-        <AddMoney :toggleAddMoney="toggleAddMoney" />
+        <AddMoney
+          :closeAddMoney="closeAddMoney"
+          :toggleAddMoney="toggleAddMoney"
+          :accountErcWallet="client.accountErcWallet"
+          :accountTRC20Wallet="client.accountTRC20Wallet"
+          :accountBitcoinWallet="client.accountBitcoinWallet"
+        />
       </div>
 
       <div v-if="interacTransfer">
@@ -580,6 +586,7 @@ export default {
   },
   watch: {
     client(newval, oldval) {
+      console.log("newval", newval, this.account);
       if (newval) {
         if (this.$route.query.confirm) {
           this.confirmemail(this.client._id)
@@ -606,8 +613,11 @@ export default {
     },
   },
   methods: {
+    closeAddMoney() {
+      this.addMoneyOpen = false;
+    },
     toggleAddMoney() {
-      this.addMoneyOpen = !this.addMoneyOpen;
+      this.addMoneyOpen = true; //!this.addMoneyOpen;
     },
     toggleInteracTransfer() {
       this.interacTransfer = !this.interacTransfer;

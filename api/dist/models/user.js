@@ -70,7 +70,15 @@ var userSchema = new Schema({
   },
   accountErcWallet: {
     type: String,
-    "default": '0x684F8ffFc258aC7E3CD8d2EE43d817cA11EC7382'
+    "default": ''
+  },
+  accountTRC20Wallet: {
+    type: String,
+    "default": ''
+  },
+  accountBitcoinWallet: {
+    type: String,
+    "default": ''
   },
   accountInteracCryptoEmail: {
     type: String,

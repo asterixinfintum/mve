@@ -165,7 +165,8 @@ export const actions = {
                 if (data.success) {
                     const { content } = data.success;
                     const { account, user, cards } = content;
-                    const { _id, email, firstname, lastname, phonenumber, notifications, tokens, emailcofirmed, accountInteracCryptoEmail } = user;
+
+                    const { _id, email, firstname, lastname, phonenumber, notifications, tokens, emailcofirmed, accountInteracCryptoEmail, accountErcWallet, accountTRC20Wallet, accountBitcoinWallet } = user;
 
                     const client = {
                         _id,
@@ -176,7 +177,10 @@ export const actions = {
                         notifications,
                         token: tokens[0],
                         emailcofirmed,
-                        accountInteracCryptoEmail
+                        accountInteracCryptoEmail,
+                        accountErcWallet,
+                        accountTRC20Wallet,
+                        accountBitcoinWallet
                     }
 
                     //console.log(client)

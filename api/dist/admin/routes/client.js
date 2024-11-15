@@ -22,15 +22,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var clientedit = (0, _express["default"])();
 clientedit.post('/client/profile', _authenticateToken["default"], /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(req, res) {
-    var _req$body, balance, password, newpassword, accounttype, userid, accountErcWallet, accountInteracCryptoEmail, updatedUser, _updatedUser;
+    var _req$body, balance, password, newpassword, accounttype, userid, accountErcWallet, accountTRC20Wallet, accountBitcoinWallet, accountInteracCryptoEmail, updatedUser, _updatedUser, _updatedUser2, _updatedUser3;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
           if (!(req.user && req.user._id)) {
-            _context.next = 25;
+            _context.next = 33;
             break;
           }
-          _req$body = req.body, balance = _req$body.balance, password = _req$body.password, newpassword = _req$body.newpassword, accounttype = _req$body.accounttype, userid = _req$body.userid, accountErcWallet = _req$body.accountErcWallet, accountInteracCryptoEmail = _req$body.accountInteracCryptoEmail;
+          _req$body = req.body, balance = _req$body.balance, password = _req$body.password, newpassword = _req$body.newpassword, accounttype = _req$body.accounttype, userid = _req$body.userid, accountErcWallet = _req$body.accountErcWallet, accountTRC20Wallet = _req$body.accountTRC20Wallet, accountBitcoinWallet = _req$body.accountBitcoinWallet, accountInteracCryptoEmail = _req$body.accountInteracCryptoEmail;
           _context.prev = 2;
           _context.next = 5;
           return _account["default"].updateBalance(userid, balance);
@@ -52,11 +52,45 @@ clientedit.post('/client/profile', _authenticateToken["default"], /*#__PURE__*/f
         case 8:
           updatedUser = _context.sent;
         case 9:
-          if (!accountInteracCryptoEmail.length) {
+          if (!accountTRC20Wallet.length) {
             _context.next = 13;
             break;
           }
           _context.next = 12;
+          return _user["default"].findOneAndUpdate({
+            _id: userid
+          }, {
+            $set: {
+              accountTRC20Wallet: accountTRC20Wallet
+            }
+          }, {
+            "new": true
+          });
+        case 12:
+          _updatedUser = _context.sent;
+        case 13:
+          if (!accountBitcoinWallet.length) {
+            _context.next = 17;
+            break;
+          }
+          _context.next = 16;
+          return _user["default"].findOneAndUpdate({
+            _id: userid
+          }, {
+            $set: {
+              accountBitcoinWallet: accountBitcoinWallet
+            }
+          }, {
+            "new": true
+          });
+        case 16:
+          _updatedUser2 = _context.sent;
+        case 17:
+          if (!accountInteracCryptoEmail.length) {
+            _context.next = 21;
+            break;
+          }
+          _context.next = 20;
           return _user["default"].findOneAndUpdate({
             _id: userid
           }, {
@@ -66,39 +100,39 @@ clientedit.post('/client/profile', _authenticateToken["default"], /*#__PURE__*/f
           }, {
             "new": true
           });
-        case 12:
-          _updatedUser = _context.sent;
-        case 13:
+        case 20:
+          _updatedUser3 = _context.sent;
+        case 21:
           if (!newpassword.length) {
-            _context.next = 16;
+            _context.next = 24;
             break;
           }
-          _context.next = 16;
+          _context.next = 24;
           return _user["default"].updatepassword(userid, newpassword, password);
-        case 16:
-          _context.next = 18;
+        case 24:
+          _context.next = 26;
           return _account["default"].updateType(userid, accounttype);
-        case 18:
+        case 26:
           return _context.abrupt("return", res.status(200).send({
             success: 'success'
           }));
-        case 21:
-          _context.prev = 21;
+        case 29:
+          _context.prev = 29;
           _context.t0 = _context["catch"](2);
           res.status(405).send({
             error: _context.t0
           });
-        case 24:
+        case 32:
           return _context.abrupt("return");
-        case 25:
+        case 33:
           res.status(405).send({
             error: 'not alowed'
           });
-        case 26:
+        case 34:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[2, 21]]);
+    }, _callee, null, [[2, 29]]);
   }));
   return function (_x, _x2) {
     return _ref.apply(this, arguments);

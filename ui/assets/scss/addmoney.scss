@@ -35,4 +35,22 @@
             }
         }
     }
+
+    &__buttons {
+        margin-bottom: #{scaleValue(30)};
+
+        & button {
+            background: $primary-orange;
+            color: $font-white;
+            cursor: pointer;
+            padding:  #{scaleValue(5)};
+            margin-right:  #{scaleValue(20)};
+            border: none;
+            opacity: 1;
+
+            &.current {
+                opacity: .4;
+            }
+        }
+    }
 }

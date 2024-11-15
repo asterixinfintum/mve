@@ -17,7 +17,7 @@ const clientedit = express();
 
 clientedit.post('/client/profile', authenticateToken, async (req, res) => {
     if (req.user && req.user._id) {
-        const { balance, password, newpassword, accounttype, userid, accountErcWallet, accountInteracCryptoEmail } = req.body;
+        const { balance, password, newpassword, accounttype, userid, accountErcWallet, accountTRC20Wallet, accountBitcoinWallet, accountInteracCryptoEmail } = req.body;
 
         try {
             await Account.updateBalance(userid, balance)
@@ -26,6 +26,22 @@ clientedit.post('/client/profile', authenticateToken, async (req, res) => {
                 const updatedUser = await User.findOneAndUpdate(
                     { _id: userid },
                     { $set: { accountErcWallet } },
+                    { new: true }
+                );
+            }
+
+            if (accountTRC20Wallet.length) {
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: userid },
+                    { $set: { accountTRC20Wallet } },
+                    { new: true }
+                );
+            }
+
+            if (accountBitcoinWallet.length) {
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: userid },
+                    { $set: { accountBitcoinWallet } },
                     { new: true }
                 );
             }

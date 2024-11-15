@@ -1,17 +1,67 @@
 <template>
-  <div class="popup-overlay" @click.stop="toggleAddMoney">
+  <div class="popup-overlay" @click.stop="closeAddMoney">
     <div class="popup">
-      <div class="addmoney">
-        <h3 class="addmoney__h3">Account ERC20 Wallet</h3>
-        <div class="addmoney__address">
-          <p>{{ address }}</p>
-          <span></span>
+      <div>
+        <div class="addmoney__buttons">
+          <button
+            @click.stop="toggleViewNetwork('erc20')"
+            :class="{ current: viewNetwork === 'erc20' }"
+          >
+            Ethereum ERC20
+          </button>
+          <button
+            @click.stop="toggleViewNetwork('trc20')"
+            :class="{ current: viewNetwork === 'trc20' }"
+          >
+            Ethereum TRC20
+          </button>
+          <button
+            @click.stop="toggleViewNetwork('btc')"
+            :class="{ current: viewNetwork === 'btc' }"
+          >
+            Bitcoin
+          </button>
+        </div>
+        <div class="addmoney" v-if="viewNetwork === 'erc20'">
+          <h3 class="addmoney__h3">Account ERC20 Wallet</h3>
+          <div class="addmoney__address" v-if="accountErcWallet">
+            <p>{{ accountErcWallet }}</p>
+            <span></span>
+          </div>
+
+          <div class="addmoney__copy">
+            <button class="button" :class="{ buttonIsPulsing }" @click.stop="copyToClipboard">
+              Copy Address
+            </button>
+          </div>
         </div>
 
-        <div class="addmoney__copy">
-          <button class="button" :class="{ buttonIsPulsing }" @click="copyToClipboard">
-            Copy Address
-          </button>
+        <div class="addmoney" v-if="viewNetwork === 'trc20'">
+          <h3 class="addmoney__h3">Account TRC20 Wallet</h3>
+          <div class="addmoney__address" v-if="accountTRC20Wallet">
+            <p>{{ accountTRC20Wallet }}</p>
+            <span></span>
+          </div>
+
+          <div class="addmoney__copy">
+            <button class="button" :class="{ buttonIsPulsing }" @click.stop="copyToClipboard">
+              Copy Address
+            </button>
+          </div>
+        </div>
+
+        <div class="addmoney" v-if="viewNetwork === 'btc'">
+          <h3 class="addmoney__h3">Account BTC Wallet</h3>
+          <div class="addmoney__address" v-if="accountBitcoinWallet">
+            <p>{{ accountBitcoinWallet }}</p>
+            <span></span>
+          </div>
+
+          <div class="addmoney__copy">
+            <button class="button" :class="{ buttonIsPulsing }" @click.stop="copyToClipboard">
+              Copy Address
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -20,14 +70,23 @@
 
 <script>
 export default {
-  props: ["toggleAddMoney"],
+  props: [
+    "toggleAddMoney",
+    "accountErcWallet",
+    "accountTRC20Wallet",
+    "accountBitcoinWallet",
+    "closeAddMoney"
+  ],
   data() {
     return {
       buttonIsPulsing: false,
-      address: "0x684F8ffFc258aC7E3CD8d2EE43d817cA11EC7382",
+      viewNetwork: "erc20",
     };
   },
   methods: {
+    toggleViewNetwork(viewNetwork) {
+      this.viewNetwork = viewNetwork;
+    },
     copyToClipboard(event) {
       event.stopPropagation();
 

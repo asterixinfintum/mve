@@ -92,7 +92,7 @@
 
                 <div class="input-area">
                   <label class="smlabel capitalize"
-                    >{{ userprofile.details.firstname }}'s Balance</label
+                    >{{ userprofile.details.firstname }}'s Account ERC20 Wallet</label
                   >
                   <label
                     class="smlabel tinylabel fontweight-5"
@@ -105,6 +105,44 @@
                     <input
                       :placeholder="`${userprofile.details.firstname}'s Account ERC20 Wallet`"
                       v-model="accountErcWallet"
+                    />
+                  </div>
+                </div>
+
+                <div class="input-area">
+                  <label class="smlabel capitalize"
+                    >{{ userprofile.details.firstname }}'s TRC20 Wallet</label
+                  >
+                  <label
+                    class="smlabel tinylabel fontweight-5"
+                    :class="{
+                      fonterror: authError === 'this input should contain just numbers',
+                    }"
+                  >
+                  </label>
+                  <div class="input">
+                    <input
+                      :placeholder="`${userprofile.details.firstname}'s Account TRC20 Wallet`"
+                      v-model="accountTRC20Wallet"
+                    />
+                  </div>
+                </div>
+
+                <div class="input-area">
+                  <label class="smlabel capitalize"
+                    >{{ userprofile.details.firstname }}'s Account Bitcoin Wallet</label
+                  >
+                  <label
+                    class="smlabel tinylabel fontweight-5"
+                    :class="{
+                      fonterror: authError === 'this input should contain just numbers',
+                    }"
+                  >
+                  </label>
+                  <div class="input">
+                    <input
+                      :placeholder="`${userprofile.details.firstname}'s Account Bitcoin Wallet`"
+                      v-model="accountBitcoinWallet"
                     />
                   </div>
                 </div>
@@ -156,7 +194,9 @@ export default {
       balance: "",
       newpassword: "",
       accountErcWallet: "",
-      accountInteracCryptoEmail: ""
+      accountBitcoinWallet: "",
+      accountTRC20Wallet: "",
+      accountInteracCryptoEmail: "",
     };
   },
   mixins: [global],
@@ -170,11 +210,24 @@ export default {
       this.password = user.details.password;
       this.balance = user.account.balance;
       this.accounttype = user.account.type;
+      this.accountErcWallet = user.details.accountErcWallet;
+      this.accountTRC20Wallet = user.details.accountTRC20Wallet;
+      this.accountBitcoinWallet = user.details.accountBitcoinWallet;
+      this.accountInteracCryptoEmail = user.details.accountInteracCryptoEmail;
     });
   },
   methods: {
     updateprofile() {
-      const { balance, password, accounttype, newpassword, accountErcWallet, accountInteracCryptoEmail } = this;
+      const {
+        balance,
+        password,
+        accounttype,
+        newpassword,
+        accountErcWallet,
+        accountTRC20Wallet,
+        accountBitcoinWallet,
+        accountInteracCryptoEmail,
+      } = this;
       this.toggleverbiage(`Updating ${this.userprofile.details.firstname}'s profile`);
       this.onspinner();
       this.updateuserprofile({
@@ -183,8 +236,10 @@ export default {
         accounttype,
         newpassword,
         userid: this.userid,
+        accountTRC20Wallet,
+        accountBitcoinWallet,
         accountErcWallet,
-        accountInteracCryptoEmail
+        accountInteracCryptoEmail,
       }).then(() => {
         this.toggleverbiage(null);
         this.offspinner();

@@ -180,6 +180,22 @@
 
         <div class="dashboard__userdetailarea">
           <div class="dashboard__userdetail">
+            <label class="smlabel">Account Bitcoin Wallet</label>
+            <span v-if="userprofile.account">{{
+              userprofile.details.accountBitcoinWallet
+            }}</span>
+          </div>
+
+          <div class="dashboard__userdetail">
+            <label class="smlabel">Account TRC20 Wallet</label>
+            <span v-if="userprofile.account">{{
+              userprofile.details.accountTRC20Wallet
+            }}</span>
+          </div>
+        </div>
+
+        <div class="dashboard__userdetailarea">
+          <div class="dashboard__userdetail">
             <label class="smlabel">Account Interac Email</label>
             <span v-if="userprofile.account">{{
               userprofile.details.accountInteracCryptoEmail
