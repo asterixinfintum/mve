@@ -7,13 +7,13 @@
             @click.stop="toggleViewNetwork('erc20')"
             :class="{ current: viewNetwork === 'erc20' }"
           >
-            Ethereum ERC20
+            Tether ERC20
           </button>
           <button
             @click.stop="toggleViewNetwork('trc20')"
             :class="{ current: viewNetwork === 'trc20' }"
           >
-            Ethereum TRC20
+            Tether TRC20
           </button>
           <button
             @click.stop="toggleViewNetwork('btc')"
@@ -30,7 +30,11 @@
           </div>
 
           <div class="addmoney__copy">
-            <button class="button" :class="{ buttonIsPulsing }" @click.stop="copyToClipboard">
+            <button
+              class="button"
+              :class="{ buttonIsPulsing }"
+              @click.stop="copyToClipboard"
+            >
               Copy Address
             </button>
           </div>
@@ -44,7 +48,11 @@
           </div>
 
           <div class="addmoney__copy">
-            <button class="button" :class="{ buttonIsPulsing }" @click.stop="copyToClipboard">
+            <button
+              class="button"
+              :class="{ buttonIsPulsing }"
+              @click.stop="copyToClipboard"
+            >
               Copy Address
             </button>
           </div>
@@ -58,7 +66,11 @@
           </div>
 
           <div class="addmoney__copy">
-            <button class="button" :class="{ buttonIsPulsing }" @click.stop="copyToClipboard">
+            <button
+              class="button"
+              :class="{ buttonIsPulsing }"
+              @click.stop="copyToClipboard"
+            >
               Copy Address
             </button>
           </div>
@@ -75,7 +87,7 @@ export default {
     "accountErcWallet",
     "accountTRC20Wallet",
     "accountBitcoinWallet",
-    "closeAddMoney"
+    "closeAddMoney",
   ],
   data() {
     return {
